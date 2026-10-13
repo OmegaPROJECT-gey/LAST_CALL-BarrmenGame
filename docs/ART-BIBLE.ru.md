@@ -1,6 +1,7 @@
 # LAST CALL — Арт-байбл
+**[English version of this file →](ART-BIBLE.md)**
 
-Вид и звук игры. Тон и столпы: [PHILOSOPHY.ru.md](PHILOSOPHY.ru.md); системы, которым служит арт: [GAME-DESIGN.ru.md](GAME-DESIGN.ru.md).
+Вид и звук игры. Тон и столпы: [PHILOSOPHY.ru.md](../PHILOSOPHY.ru.md); системы, которым служит арт: [GAME-DESIGN.ru.md](GAME-DESIGN.ru.md).
 
 **Одной строкой:** *Реализм с элементами нуара — неоновый свет, дождь за окном, дым сигарет.* Бар — тёплый и грязный; город снаружи — холодный и мокрый.
 

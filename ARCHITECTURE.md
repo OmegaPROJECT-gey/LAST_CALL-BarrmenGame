@@ -1,4 +1,5 @@
 # Architecture
+**[Русская версия этого файла →](ARCHITECTURE.ru.md)**
 
 How LAST CALL is built. [PHILOSOPHY.md](PHILOSOPHY.md) says what it is and why; where they disagree, that file wins. [ROADMAP.md](ROADMAP.md) says in what order this is built.
 

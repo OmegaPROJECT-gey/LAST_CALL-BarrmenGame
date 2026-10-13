@@ -1,4 +1,5 @@
 # Contributor Covenant Code of Conduct
+**[Русская версия этого файла →](CODE_OF_CONDUCT.ru.md)**
 
 ## Our Pledge
 

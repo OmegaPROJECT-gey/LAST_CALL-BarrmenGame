@@ -1,6 +1,7 @@
 # LAST CALL — Game Design Document
+**[Русская версия этого файла →](GAME-DESIGN.ru.md)**
 
-The authoritative design document. Where it conflicts with [PHILOSOPHY.md](PHILOSOPHY.md), philosophy wins; implementation details live in [ARCHITECTURE.md](ARCHITECTURE.md).
+The authoritative design document. Where it conflicts with [PHILOSOPHY.md](../PHILOSOPHY.md), philosophy wins; implementation details live in [ARCHITECTURE.md](../ARCHITECTURE.md).
 
 **Genre:** story-driven management sim with action and RPG elements · **Platform:** PC · **Camera:** first/third-person hybrid behind the bar, over-the-shoulder at night · **Players:** 1, co-op 2–4 · **Session:** one in-game day (30–60 min), phases skippable at day end.
 

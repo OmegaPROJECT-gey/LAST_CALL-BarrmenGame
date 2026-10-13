@@ -1,4 +1,5 @@
 # Архитектура
+**[English version of this file →](ARCHITECTURE.md)**
 
 Как устроен LAST CALL. [PHILOSOPHY.ru.md](PHILOSOPHY.ru.md) говорит, что это и почему; при расхождении побеждает он. [ROADMAP.ru.md](ROADMAP.ru.md) говорит, в каком порядке это строится.
 

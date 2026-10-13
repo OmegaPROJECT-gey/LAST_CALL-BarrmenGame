@@ -1,0 +1,3 @@
+[workspace]
+members = ["crates/lc-lint"]
+resolver = "2"

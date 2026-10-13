@@ -1,4 +1,5 @@
 # Security policy
+**[Русская версия этого файла →](SECURITY.ru.md)**
 
 ## Supported versions
 

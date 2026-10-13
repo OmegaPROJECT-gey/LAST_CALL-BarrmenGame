@@ -1,4 +1,5 @@
 # Contributing to LAST CALL
+**[Русская версия этого файла →](CONTRIBUTING.ru.md)**
 
 Read [PHILOSOPHY.md](PHILOSOPHY.md) first. A feature that goes against it will be declined, however well it is built. In short:
 

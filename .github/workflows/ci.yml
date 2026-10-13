@@ -1,0 +1,39 @@
+name: ci
+
+# LAST CALL continuous integration.
+# F0 gate (ROADMAP): design data schemas, dialogue graph + EN/RU parity,
+# bilingual documentation pairs + link integrity.
+# The Unreal build job lands with milestone F0's engine step: it needs an
+# installed UE 5.8 (self-hosted runner or Epic's build containers) and is
+# deliberately not faked here.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: tools
+
+      - name: Build linters
+        run: cargo build --manifest-path tools/Cargo.toml
+
+      - name: Validate design data against schemas
+        run: ./tools/target/debug/lc-data-lint
+
+      - name: Dialogue graph + EN/RU localization parity
+        run: ./tools/target/debug/lc-dialogue-lint
+
+      - name: Documentation pairs + link integrity
+        run: ./tools/target/debug/lc-docs-check

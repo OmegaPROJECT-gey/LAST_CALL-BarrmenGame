@@ -1,4 +1,5 @@
 # Политика безопасности
+**[English version of this file →](SECURITY.md)**
 
 ## Поддерживаемые версии
 

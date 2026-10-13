@@ -1,4 +1,5 @@
 # Documentation maintenance routine
+**[Русская версия этого файла →](MAINTENANCE.ru.md)**
 
 How LAST CALL documentation is read and updated regularly. The user-facing rule: **documentation is read at the start of every work session and updated in the same change as the thing it describes.**
 

@@ -1,4 +1,5 @@
 # Кодекс поведения участников
+**[English version of this file →](CODE_OF_CONDUCT.md)**
 
 ## Наше обязательство
 

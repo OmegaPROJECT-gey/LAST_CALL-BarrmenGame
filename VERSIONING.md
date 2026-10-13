@@ -1,4 +1,5 @@
 # Versioning
+**[Русская версия этого файла →](VERSIONING.ru.md)**
 
 LAST CALL has two release channels and one version format per channel. The scheme mirrors [FlashAgent's](https://github.com/flashback7766/FlashAgent) two-tier idea — a build counter plus SemVer — adapted for a game with an editor and content.
 

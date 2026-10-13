@@ -1,4 +1,5 @@
 # LAST CALL roadmap
+**[Русская версия этого файла →](ROADMAP.ru.md)**
 
 PC first; the campaign ships before co-op; a milestone has no date. **v1.0 ships when Track A and Track C are complete** — the day loop plays end to end with the story spine in it, on content we made ourselves.
 
@@ -8,7 +9,7 @@ A milestone is closed only when its **user path runs end to end** — a scenario
 
 ## Track F: foundations (prototype)
 
-- [ ] **F0. Project skeleton (gate).** UE5 project builds on Linux and Windows; `Source/LastCall` modules compile; `Data/` schema validation and dialogue lint run in CI; documentation pairs linked both ways.
+- [~] **F0. Project skeleton (gate).** UE5 project builds on Linux and Windows; `Source/LastCall` modules compile; `Data/` schema validation and dialogue lint run in CI; documentation pairs linked both ways. **Done (2026-10-13):** `LastCall.uproject`, runtime module with the phase clock (`ULCPhaseManager`), editor module, target files, noir renderer/input configs, design data with JSON Schemas, three linters (`lc-data-lint`, `lc-dialogue-lint`, `lc-docs-check`) green locally and wired into CI (`scripts/lint.sh`). **Open:** install UE 5.8 and compile both targets on Linux and Windows — no engine on the machine yet.
 - [ ] **F1. One pour.** The pour solver moves a bottle, a stream and a glass: tilt → flow, volume rises, overflow spills, customer reacts. This is the gate for everything else — no other milestone starts before a stranger can spill a drink on camera.
 - [ ] **F2. One day.** `ULCPhaseManager` runs Morning → Shift → Night → Summary with placeholder content and a save at each boundary.
 - [ ] **F3. One customer.** Patience, mood, one order, one story, one tell; interrupting has a recorded consequence.

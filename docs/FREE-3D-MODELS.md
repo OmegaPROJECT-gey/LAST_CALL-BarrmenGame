@@ -1,4 +1,5 @@
 # LAST CALL — Free 3D Models Catalog
+**[Русская версия этого файла →](FREE-3D-MODELS.ru.md)**
 
 Curated **free** assets for the noir bartending sim: bar interior, characters, night streets, vehicles, textures and UE5-native sources. Tone reference: [PHILOSOPHY.md](../PHILOSOPHY.md), content slots: [GAME-DESIGN.md](GAME-DESIGN.md).
 

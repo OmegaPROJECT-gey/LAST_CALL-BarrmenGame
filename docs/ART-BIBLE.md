@@ -1,6 +1,7 @@
 # LAST CALL — Art bible
+**[Русская версия этого файла →](ART-BIBLE.ru.md)**
 
-The look and sound of the game. Tone and pillars: [PHILOSOPHY.md](PHILOSOPHY.md); systems this art serves: [GAME-DESIGN.md](GAME-DESIGN.md).
+The look and sound of the game. Tone and pillars: [PHILOSOPHY.md](../PHILOSOPHY.md); systems this art serves: [GAME-DESIGN.md](GAME-DESIGN.md).
 
 **One line:** *Realism with noir elements — neon light, rain outside the window, cigarette smoke.* The bar is warm and dirty; the city outside is cold and wet.
 

@@ -4,6 +4,7 @@
 
 ## Unreleased
 
+- F0 в работе: скелет проекта UE 5.8 (`LastCall.uproject`, модули `Source/` runtime + editor, фазовые часы `ULCPhaseManager`, конфиги нуар-рендера/управления), дизайн-данные с JSON-схемами и три линтера — `lc-data-lint`, `lc-dialogue-lint` (граф + парность EN/RU), `lc-docs-check` (ссылки-двойники + целостность ссылок) — локально и в CI. Осталось: сборка движком на Linux/Windows (UE на машине ещё нет).
 - Создан набор документации: README, PHILOSOPHY, ARCHITECTURE, ROADMAP, CHANGELOG, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, VERSIONING — каждый на английском и русском, с парными ссылками.
 - Документы игры: [GAME-DESIGN](docs/GAME-DESIGN.ru.md), [NARRATIVE](docs/NARRATIVE.ru.md), [ART-BIBLE](docs/ART-BIBLE.ru.md), [LANGUAGES](docs/LANGUAGES.ru.md), [FREE-3D-MODELS](docs/FREE-3D-MODELS.ru.md), [MAINTENANCE](docs/MAINTENANCE.ru.md).
 - Выбран стек: Unreal Engine 5 (5.8) + C++ для игры, Rust (Zig допустим) для инструментов пайплайна, Python для скриптов редактора (решение владельца, 13.10.2026, с цитируемыми источниками в [docs/LANGUAGES.ru.md](docs/LANGUAGES.ru.md)).

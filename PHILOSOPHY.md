@@ -1,4 +1,5 @@
 # LAST CALL philosophy
+**[Русская версия этого файла →](PHILOSOPHY.ru.md)**
 
 This file says what LAST CALL is and why. [ARCHITECTURE.md](ARCHITECTURE.md) says how it is built, [ROADMAP.md](ROADMAP.md) in what order, [docs/GAME-DESIGN.md](docs/GAME-DESIGN.md) in what detail. Where they disagree, **this file wins**, and it wins over any agent's memory too.
 

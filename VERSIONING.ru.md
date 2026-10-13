@@ -1,4 +1,5 @@
 # Версионирование
+**[English version of this file →](VERSIONING.md)**
 
 У LAST CALL два канала релизов и по одной схеме версии на канал. Схема повторяет [двухуровневую идею FlashAgent](https://github.com/flashback7766/FlashAgent) — счётчик сборок плюс SemVer — адаптированную для игры с редактором и контентом.
 

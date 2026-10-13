@@ -1,4 +1,5 @@
 # Участие в LAST CALL
+**[English version of this file →](CONTRIBUTING.md)**
 
 Сначала прочитайте [PHILOSOPHY.ru.md](PHILOSOPHY.ru.md). Функция против её принципов будет отклонена, как бы хорошо она ни была сделана. Коротко:
 
