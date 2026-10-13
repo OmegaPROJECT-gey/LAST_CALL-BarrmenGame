@@ -53,3 +53,6 @@ jobs:
 
       - name: Day schedule (phase clock) unit tests
         run: ./scripts/test-day-schedule.sh
+
+      - name: Save state unit tests
+        run: ./scripts/test-save-state.sh
