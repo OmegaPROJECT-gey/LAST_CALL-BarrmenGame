@@ -8,7 +8,7 @@
 [![Платформа](https://img.shields.io/badge/platform-PC-89b4fa.svg)](ROADMAP.ru.md)
 [![Движок](https://img.shields.io/badge/engine-Unreal%20Engine%205-e05656.svg)](ARCHITECTURE.ru.md)
 [![Документы](https://img.shields.io/badge/docs-EN%20%7C%20%D0%A0%D1%83%D1%81-blue.svg)](docs/MAINTENANCE.ru.md)
-[![Лицензия](https://img.shields.io/badge/license-TBD-lightgrey.svg)](CONTRIBUTING.ru.md)
+[![Лицензия](https://img.shields.io/badge/license-MIT%20(code)%20%7C%20content%20proprietary-blue.svg)](LICENSE)
 
 </div>
 
@@ -57,6 +57,7 @@
 | Инструменты / пайплайн | CLI на Rust (или Zig): запекание ассетов, проверка диалогов, проверка локализации |
 | Данные | UE DataTables, исходники JSON/YAML под контролем версий |
 | Мультиплеер | Репликация UE, listen-server кооператив на 2–4 игрока |
+| Текст игры | Пишется нативно на **обоих** языках с самого начала (`Data/Localization/`) |
 | Документация | Markdown, двуязычно EN/RU, пересмотр по режиму из [docs/MAINTENANCE.ru.md](docs/MAINTENANCE.ru.md) |
 | Бесплатные 3D-модели | Каталог с лицензиями: [docs/FREE-3D-MODELS.ru.md](docs/FREE-3D-MODELS.ru.md) |
 
@@ -107,4 +108,4 @@ docs/                        GDD, нарратив, арт, языки, ассе
 
 ## Лицензия
 
-Ещё не выбрана: исходный код, бесплатные ассеты (каждый сохраняет собственную лицензию, указанную в [docs/FREE-3D-MODELS.ru.md](docs/FREE-3D-MODELS.ru.md)) и контент игры будут лицензироваться раздельно. Решение ожидается — см. [CONTRIBUTING.ru.md](CONTRIBUTING.ru.md).
+**[MIT](LICENSE) на код и документацию.** Контент игры — арт, аудио, сюжет, диалоги и проприетарные ассеты — **не** покрывается MIT и остаётся проприетарным. Бесплатные сторонние ассеты сохраняют собственные лицензии, записанные по каждому ассету в [docs/FREE-3D-MODELS.ru.md](docs/FREE-3D-MODELS.ru.md). Решение владельца, 13.10.2026 (см. [PHILOSOPHY.ru.md](PHILOSOPHY.ru.md) §4).

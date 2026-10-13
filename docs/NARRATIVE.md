@@ -73,7 +73,7 @@ Standing is a number per faction; heat (police attention) is separate. Both are 
 - No purple prose about rain; the rain is in the renderer (see [ART-BIBLE.md](ART-BIBLE.md)).
 - Curses kept mild (rating target: 16+); violence described by consequence, not by gore.
 - Every line must survive being said by a person holding a bottle.
-- **Localization:** all text authored in English, translated to Russian; both files ship (mirror of this repository's bilingual docs). Strings live in `Data/Localization/`.
+- **Bilingual from birth:** dialogues and lore are written natively in **both** English and Russian (owner decision, 2026-10-13) — not drafted in one and translated into the other; each language is authored on its own. Strings live in `Data/Localization/` (`en.json`, `ru.json`), and the parity lint fails the build if either side misses a key ([ARCHITECTURE.md](ARCHITECTURE.md) §7).
 
 ## 8. Content checklist for v1.0
 

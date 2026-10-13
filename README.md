@@ -8,7 +8,7 @@
 [![Platform](https://img.shields.io/badge/platform-PC-89b4fa.svg)](ROADMAP.md)
 [![Engine](https://img.shields.io/badge/engine-Unreal%20Engine%205-e05656.svg)](ARCHITECTURE.md)
 [![Docs](https://img.shields.io/badge/docs-EN%20%7C%20%D0%A0%D1%83%D1%81-blue.svg)](docs/MAINTENANCE.md)
-[![License](https://img.shields.io/badge/license-TBD-lightgrey.svg)](CONTRIBUTING.md)
+[![License](https://img.shields.io/badge/license-MIT%20(code)%20%7C%20content%20proprietary-blue.svg)](LICENSE)
 
 </div>
 
@@ -57,6 +57,7 @@ Full design: [docs/GAME-DESIGN.md](docs/GAME-DESIGN.md) · Story and characters:
 | Tools / pipeline | Rust (or Zig) CLI tools for asset cooking, dialogue linting, localization checks |
 | Scripting / data | UE DataTables, JSON/YAML sources under version control |
 | Multiplayer | UE replication, listen-server co-op for 2–4 players |
+| Game text | Written natively in **both** EN and RU from the start (`Data/Localization/`) |
 | Documentation | Markdown, bilingual EN/RU, reviewed on the routine in [docs/MAINTENANCE.md](docs/MAINTENANCE.md) |
 | Free 3D assets | Cataloged with licenses in [docs/FREE-3D-MODELS.md](docs/FREE-3D-MODELS.md) |
 
@@ -107,4 +108,4 @@ Every document exists in both languages; changing one means updating its twin (s
 
 ## License
 
-Not yet decided: the source code, the free assets (each keeps its own license, listed in [docs/FREE-3D-MODELS.md](docs/FREE-3D-MODELS.md)) and the game content will be licensed separately. Decision pending — see [CONTRIBUTING.md](CONTRIBUTING.md).
+**[MIT](LICENSE) for code and documentation.** The game content — art, audio, story, dialogue and proprietary assets — is **not** covered by MIT and remains proprietary. Free third-party assets keep their own licenses, recorded per asset in [docs/FREE-3D-MODELS.md](docs/FREE-3D-MODELS.md). Owner decision, 2026-10-13 (see [PHILOSOPHY.md](PHILOSOPHY.md) §4).

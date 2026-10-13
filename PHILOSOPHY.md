@@ -42,7 +42,8 @@ Every feature must serve at least one of these. A feature that serves none is de
 | Multiplayer | UE replication, listen server, 2–4 players | Co-op is a mode, never a requirement for the campaign |
 | Platform | PC first | Consoles only after the PC build is complete |
 | Documentation | Markdown, EN + RU pairs, routine in [docs/MAINTENANCE.md](docs/MAINTENANCE.md) | Two languages are a feature for players and contributors, not duplication |
-| License | TBD (code, assets and content licensed separately) | Owner decision pending |
+| Game text | Written natively in both EN and RU from the start — no translation pass later | Owner decision 2026-10-13; both languages ship (`Data/Localization/`) |
+| License | **MIT** for code and documentation; game content and proprietary assets stay proprietary; free assets keep their own licenses ([docs/FREE-3D-MODELS.md](docs/FREE-3D-MODELS.md)) | Owner decision 2026-10-13 |
 
 The full comparison of languages and engines — C++, Rust, Zig, Odin, Godot, Bevy — is in [docs/LANGUAGES.md](docs/LANGUAGES.md).
 

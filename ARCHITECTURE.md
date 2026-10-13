@@ -105,11 +105,11 @@ Data/
   Dialogue/*.json       trees, conditions, interruptions
   Skills/*.json         skill tree edges and costs
   Balance/*.json        patience/mood tuning, prices, tips
-  Localization/         en.json, ru.json (in-game text mirrors docs)
+  Localization/         en.json, ru.json — written natively in both languages (owner decision 2026-10-13), game text mirrors the docs' bilingualism
 ```
 
 - Dialogue trees are JSON with condition nodes; `tools/lc-dialogue-lint` (Rust) checks reachability, missing localization keys and dead ends in CI.
-- Localization keys are shared between UI and dialogue; lint fails the build on a missing RU string.
+- Localization keys are shared between UI and dialogue; **parity lint fails the build when either language misses a key** — neither language is downstream of the other.
 
 ## 8. Multiplayer (co-op 2–4)
 

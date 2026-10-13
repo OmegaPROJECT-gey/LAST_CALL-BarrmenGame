@@ -56,6 +56,7 @@ A milestone is closed only when its **user path runs end to end** — a scenario
 
 ## How milestones are worked
 
+- **Team:** one developer with AI agents. Milestones are taken strictly in order, one at a time, and worked autonomously end to end — each one lands as a checked result, not a status update.
 - One milestone, one branch, one result that can be checked. Within a track, milestones go in order.
 - Track F did not start without F0 building in CI; **F1 (the pour) gates every gameplay milestone**.
 - Every milestone passes the data linters and the scenario test for its track.
