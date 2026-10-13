@@ -1,0 +1,21 @@
+{
+	"ui.phase.morning": "Утро",
+	"ui.phase.shift": "Смена",
+	"ui.phase.night": "Ночь",
+	"ui.phase.summary": "Итог дня",
+	"ui.mood": "Настроение",
+	"ui.patience": "Терпение",
+	"dlg.harris.greet": "Вечерний привет. Как обычно.",
+	"dlg.harris.offer_case": "Есть имя, которое нельзя вписать в рапорт. Быть слышно за этой стойкой.",
+	"dlg.harris.choice.accept": "Если оно поднимется — услышу.",
+	"dlg.harris.choice.pour_first": "Сначала я налью.",
+	"dlg.harris.choice.refuse": "Я держу бар в стороне от ваших дел.",
+	"dlg.harris.poured": "Справедливо. Тот, кто сначала наливает, а потом обещает, слушает лучше.",
+	"dlg.harris.accepted": "Тогда мы поняли друг друга, бармен.",
+	"dlg.harris.refused": "Ваш дядя говорил меньше, а знал больше.",
+	"recipe.signature_noir.name": "Фирменный Нуар",
+	"skill.flair": "Флейринг",
+	"skill.psychology": "Психология",
+	"skill.steady_hands": "Крепкие нервы",
+	"skill.alchemy": "Алхимия"
+}

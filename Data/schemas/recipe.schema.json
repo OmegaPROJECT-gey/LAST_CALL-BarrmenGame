@@ -1,0 +1,55 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "recipe.schema.json",
+	"title": "LAST CALL cocktail recipe",
+	"type": "object",
+	"required": ["id", "display_name", "glass", "steps"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+		"display_name": { "$ref": "#/$defs/localized" },
+		"glass": { "type": "string", "enum": ["rocks", "highball", "martini", "coupe", "flute", "tulip"] },
+		"steps": {
+			"type": "array",
+			"minItems": 1,
+			"items": {
+				"type": "object",
+				"required": ["ingredient", "layer", "flow_window"],
+				"additionalProperties": false,
+				"properties": {
+					"ingredient": { "type": "string" },
+					"layer": { "type": "string", "enum": ["base", "modifier", "accent"] },
+					"flow_window": {
+						"type": "array",
+						"items": { "type": "number", "minimum": 0, "maximum": 1 },
+						"minItems": 2,
+						"maxItems": 2
+					}
+				}
+			}
+		},
+		"continuity_break_seconds": { "type": "number", "minimum": 0 },
+		"effects": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"mood_bonus": { "type": "number" },
+				"tip_multiplier": { "type": "number", "minimum": 0 },
+				"xp_multiplier": { "type": "number", "minimum": 0 }
+			}
+		},
+		"story": { "type": "object" }
+	},
+	"$defs": {
+		"localized": {
+			"type": "object",
+			"required": ["en", "ru"],
+			"additionalProperties": false,
+			"properties": {
+				"en": { "type": "string", "minLength": 1 },
+				"ru": { "type": "string", "minLength": 1 }
+			}
+		}
+	}
+}

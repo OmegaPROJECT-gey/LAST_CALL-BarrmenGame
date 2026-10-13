@@ -1,0 +1,28 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "balance.schema.json",
+	"title": "LAST CALL balance tuning",
+	"type": "object",
+	"required": ["customer", "pour", "tips"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"customer": {
+			"type": "object",
+			"required": ["patience_drain_per_second_idle", "mood_decay_per_second_unattended"],
+			"additionalProperties": { "type": "number" }
+		},
+		"pour": {
+			"type": "object",
+			"required": ["overflow_spill_threshold", "flow_curve"],
+			"additionalProperties": true
+		},
+		"tips": {
+			"type": "object",
+			"required": ["base_rate", "critical_combo_multiplier"],
+			"additionalProperties": true
+		},
+		"heat": { "type": "object", "additionalProperties": { "type": "number" } },
+		"economy": { "type": "object", "additionalProperties": { "type": "number" } }
+	}
+}

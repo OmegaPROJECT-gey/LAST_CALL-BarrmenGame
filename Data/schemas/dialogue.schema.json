@@ -1,0 +1,85 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "dialogue.schema.json",
+	"title": "LAST CALL dialogue tree",
+	"type": "object",
+	"required": ["id", "entry", "nodes"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+		"act": { "type": "integer", "minimum": 1 },
+		"participants": { "type": "array", "items": { "type": "string" } },
+		"entry": { "type": "string" },
+		"interruptible": { "type": "boolean" },
+		"interrupt_recording": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"on_ignored": { "type": "string" },
+				"on_heard": { "type": "string" }
+			}
+		},
+		"nodes": {
+			"type": "object",
+			"minProperties": 1,
+			"additionalProperties": { "$ref": "#/$defs/node" }
+		}
+	},
+	"$defs": {
+		"condition": {
+			"type": "object",
+			"required": ["type"],
+			"properties": {
+				"type": { "type": "string", "enum": ["faction_standing", "skill", "story_flag", "has_item", "phase"] },
+				"faction": { "type": "string" },
+				"flag": { "type": "string" },
+				"id": { "type": "string" },
+				"min": { "type": "number" },
+				"max": { "type": "number" },
+				"owned": { "type": "boolean" },
+				"value": {}
+			}
+		},
+		"effect": {
+			"type": "object",
+			"required": ["type"],
+			"properties": {
+				"type": { "type": "string", "enum": ["faction_standing", "story_flag", "mood", "quest", "item", "heat"] },
+				"faction": { "type": "string" },
+				"flag": { "type": "string" },
+				"target": { "type": "string" },
+				"id": { "type": "string" },
+				"state": { "type": "string" },
+				"value": {},
+				"delta": { "type": "number" }
+			}
+		},
+		"choice": {
+			"type": "object",
+			"required": ["id", "text_key"],
+			"additionalProperties": false,
+			"properties": {
+				"id": { "type": "string" },
+				"text_key": { "type": "string" },
+				"next": { "type": "string" },
+				"conditions": { "type": "array", "items": { "$ref": "#/$defs/condition" } },
+				"effects": { "type": "array", "items": { "$ref": "#/$defs/effect" } }
+			}
+		},
+		"node": {
+			"type": "object",
+			"required": ["speaker", "text_key"],
+			"additionalProperties": false,
+			"properties": {
+				"speaker": { "type": "string" },
+				"text_key": { "type": "string" },
+				"conditions": { "type": "array", "items": { "$ref": "#/$defs/condition" } },
+				"effects": { "type": "array", "items": { "$ref": "#/$defs/effect" } },
+				"next": { "type": "string" },
+				"choices": { "type": "array", "items": { "$ref": "#/$defs/choice" } },
+				"end": { "type": "boolean" }
+			}
+		}
+	}
+}

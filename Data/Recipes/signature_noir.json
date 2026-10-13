@@ -1,0 +1,27 @@
+{
+	"$schema": "../schemas/recipe.schema.json",
+	"id": "signature_noir",
+	"display_name": {
+		"en": "Signature Noir",
+		"ru": "Фирменный Нуар"
+	},
+	"glass": "rocks",
+	"steps": [
+		{ "ingredient": "whiskey_rye", "flow_window": [0.35, 0.75], "layer": "base" },
+		{ "ingredient": "coffee_liqueur", "flow_window": [0.25, 0.6], "layer": "modifier" },
+		{ "ingredient": "orange_oil", "flow_window": [0.1, 0.3], "layer": "accent" }
+	],
+	"continuity_break_seconds": 4,
+	"effects": {
+		"mood_bonus": 0.25,
+		"tip_multiplier": 1.4,
+		"xp_multiplier": 1.2
+	},
+	"story": {
+		"act1_hook": true,
+		"note": {
+			"en": "The first recipe from the uncle's wall that Alex can reproduce.",
+			"ru": "Первый рецепт со стены дяди, который Алекс может повторить."
+		}
+	}
+}

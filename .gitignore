@@ -1,0 +1,27 @@
+# Unreal Engine
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Build/
+.vs/
+.vscode/
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+Makefile
+CMakeLists.txt
+
+# Rust tools
+tools/target/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local env
+*.local
+.env

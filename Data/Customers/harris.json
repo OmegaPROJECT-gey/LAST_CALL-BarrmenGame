@@ -1,0 +1,25 @@
+{
+	"$schema": "../schemas/customer.schema.json",
+	"id": "harris",
+	"archetype": "regular_major",
+	"name": { "en": "Detective Harris", "ru": "Детектив Харрис" },
+	"seat": "bar_stool_3",
+	"schedule": {
+		"days": [1, 2, 3, 4, 5, 6, 7],
+		"phases": ["Shift"],
+		"arrival_hour": 18
+	},
+	"taste": {
+		"order": "whiskey_neat",
+		"glass": "rocks",
+		"acceptable_substitutes": ["whiskey_on_ice"]
+	},
+	"persona": {
+		"tell": "nervous",
+		"mood_baseline": 0.45,
+		"patience_baseline": 0.6,
+		"will_tell_story": true
+	},
+	"faction": "bureau",
+	"arc": "act1_harris"
+}

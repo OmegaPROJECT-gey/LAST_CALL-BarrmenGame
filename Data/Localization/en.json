@@ -1,0 +1,21 @@
+{
+	"ui.phase.morning": "Morning",
+	"ui.phase.shift": "Shift",
+	"ui.phase.night": "Night",
+	"ui.phase.summary": "End of day",
+	"ui.mood": "Mood",
+	"ui.patience": "Patience",
+	"dlg.harris.greet": "Evening. The usual.",
+	"dlg.harris.offer_case": "There's a name I can't put in a report. Maybe you've heard it at this counter.",
+	"dlg.harris.choice.accept": "You'll hear it if it comes up.",
+	"dlg.harris.choice.pour_first": "Let me pour you something first.",
+	"dlg.harris.choice.refuse": "I keep the bar out of your cases.",
+	"dlg.harris.poured": "Fair. A man who pours before he promises listens better.",
+	"dlg.harris.accepted": "Then we understand each other, bartender.",
+	"dlg.harris.refused": "Your uncle talked less, and he knew more.",
+	"recipe.signature_noir.name": "Signature Noir",
+	"skill.flair": "Flair",
+	"skill.psychology": "Psychology",
+	"skill.steady_hands": "Steady hands",
+	"skill.alchemy": "Alchemy"
+}

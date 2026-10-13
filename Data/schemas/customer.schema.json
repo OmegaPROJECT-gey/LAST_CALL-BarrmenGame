@@ -1,0 +1,59 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "customer.schema.json",
+	"title": "LAST CALL customer / regular",
+	"type": "object",
+	"required": ["id", "name", "taste", "persona", "faction"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+		"archetype": { "type": "string" },
+		"name": { "$ref": "#/$defs/localized" },
+		"seat": { "type": "string" },
+		"schedule": {
+			"type": "object",
+			"required": ["days", "phases"],
+			"additionalProperties": false,
+			"properties": {
+				"days": { "type": "array", "items": { "type": "integer", "minimum": 1, "maximum": 7 } },
+				"phases": { "type": "array", "items": { "type": "string", "enum": ["Morning", "Shift", "Night", "Summary"] } },
+				"arrival_hour": { "type": "integer", "minimum": 0, "maximum": 23 }
+			}
+		},
+		"taste": {
+			"type": "object",
+			"required": ["order", "glass"],
+			"additionalProperties": false,
+			"properties": {
+				"order": { "type": "string" },
+				"glass": { "type": "string" },
+				"acceptable_substitutes": { "type": "array", "items": { "type": "string" } }
+			}
+		},
+		"persona": {
+			"type": "object",
+			"required": ["tell", "mood_baseline", "patience_baseline"],
+			"additionalProperties": false,
+			"properties": {
+				"tell": { "type": "string", "enum": ["thirsty", "lonely", "hostile", "nervous", "fake"] },
+				"mood_baseline": { "type": "number", "minimum": 0, "maximum": 1 },
+				"patience_baseline": { "type": "number", "minimum": 0, "maximum": 1 },
+				"will_tell_story": { "type": "boolean" }
+			}
+		},
+		"faction": { "type": "string", "enum": ["syndicate", "ring", "bureau", "station", "civilian"] },
+		"arc": { "type": "string" }
+	},
+	"$defs": {
+		"localized": {
+			"type": "object",
+			"required": ["en", "ru"],
+			"additionalProperties": false,
+			"properties": {
+				"en": { "type": "string", "minLength": 1 },
+				"ru": { "type": "string", "minLength": 1 }
+			}
+		}
+	}
+}

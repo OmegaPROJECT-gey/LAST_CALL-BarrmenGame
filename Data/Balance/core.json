@@ -1,0 +1,32 @@
+{
+	"$schema": "../schemas/balance.schema.json",
+	"customer": {
+		"patience_drain_per_second_idle": 0.02,
+		"patience_drain_per_second_waiting": 0.05,
+		"patience_refill_on_correct_order": 0.15,
+		"patience_refill_on_listened": 0.25,
+		"mood_decay_per_second_unattended": 0.01,
+		"mood_bonus_on_critical_combo": 0.3
+	},
+	"pour": {
+		"overflow_spill_threshold": 1.0,
+		"slow_pour_seconds_before_boredom": 6,
+		"flow_curve": { "min_angle_deg": 10, "max_angle_deg": 70, "viscosity_default": 1.0 }
+	},
+	"tips": {
+		"base_rate": 0.12,
+		"critical_combo_multiplier": 1.5,
+		"mood_to_tip_curve": [0.0, 0.5, 1.0],
+		"mood_to_tip_values": [0.5, 1.0, 1.6]
+	},
+	"heat": {
+		"raid_chance_per_day_base": 0.05,
+		"raid_chance_per_heat_point": 0.01,
+		"fine_base": 500
+	},
+	"economy": {
+		"daily_stand_cost": 200,
+		"bar_staff_wages": 350,
+		"starting_money": 2000
+	}
+}

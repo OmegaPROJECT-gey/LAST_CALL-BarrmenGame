@@ -1,0 +1,33 @@
+{
+	"$schema": "../schemas/skills.schema.json",
+	"branches": {
+		"flair": {
+			"display_name": { "en": "Flair", "ru": "Флейринг" },
+			"nodes": [
+				{ "id": "flair_1", "cost": 100, "requires": [], "effect": { "type": "service_speed", "mult": 0.9 } },
+				{ "id": "flair_2", "cost": 250, "requires": ["flair_1"], "effect": { "type": "tip_multiplier", "mult": 1.15 } }
+			]
+		},
+		"psychology": {
+			"display_name": { "en": "Psychology", "ru": "Психология" },
+			"nodes": [
+				{ "id": "psychology_1", "cost": 120, "requires": [], "effect": { "type": "reveal_tells" } },
+				{ "id": "psychology_2", "cost": 300, "requires": ["psychology_1"], "effect": { "type": "reveal_lies" } }
+			]
+		},
+		"steady_hands": {
+			"display_name": { "en": "Steady hands", "ru": "Крепкие нервы" },
+			"nodes": [
+				{ "id": "steady_1", "cost": 100, "requires": [], "effect": { "type": "pour_shake", "mult": 0.7 } },
+				{ "id": "steady_2", "cost": 250, "requires": ["steady_1"], "effect": { "type": "combo_window", "mult": 1.2 } }
+			]
+		},
+		"alchemy": {
+			"display_name": { "en": "Alchemy", "ru": "Алхимия" },
+			"nodes": [
+				{ "id": "alchemy_1", "cost": 150, "requires": [], "effect": { "type": "unlock_ingredients", "ids": ["sedative", "laxative"] } },
+				{ "id": "alchemy_2", "cost": 400, "requires": ["alchemy_1"], "effect": { "type": "unlock_ingredients", "ids": ["poison"] } }
+			]
+		}
+	}
+}

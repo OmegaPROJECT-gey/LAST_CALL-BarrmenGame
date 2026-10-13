@@ -1,0 +1,74 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act1_harris_meeting",
+	"act": 1,
+	"participants": ["player", "harris"],
+	"entry": "greet",
+	"nodes": {
+		"greet": {
+			"speaker": "harris",
+			"text_key": "dlg.harris.greet",
+			"next": "offer_case"
+		},
+		"offer_case": {
+			"speaker": "harris",
+			"text_key": "dlg.harris.offer_case",
+			"choices": [
+				{
+					"id": "accept",
+					"text_key": "dlg.harris.choice.accept",
+					"conditions": [{ "type": "faction_standing", "faction": "bureau", "min": 0 }],
+					"effects": [
+						{ "type": "faction_standing", "faction": "bureau", "delta": 1 },
+						{ "type": "story_flag", "flag": "heard_harris_case", "value": true }
+					],
+					"next": "accept_route"
+				},
+				{
+					"id": "pour_first",
+					"text_key": "dlg.harris.choice.pour_first",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "poured_harris_before_talk", "value": true }],
+					"next": "poured"
+				},
+				{
+					"id": "refuse",
+					"text_key": "dlg.harris.choice.refuse",
+					"conditions": [{ "type": "skill", "id": "psychology_1", "owned": false }],
+					"effects": [{ "type": "faction_standing", "faction": "bureau", "delta": -1 }],
+					"next": "refused"
+				}
+			]
+		},
+		"poured": {
+			"speaker": "harris",
+			"text_key": "dlg.harris.poured",
+			"conditions": [{ "type": "story_flag", "flag": "poured_harris_before_talk", "value": true }],
+			"effects": [{ "type": "mood", "target": "harris", "delta": 0.15 }],
+			"next": "offer_case_after_pour"
+		},
+		"offer_case_after_pour": {
+			"speaker": "harris",
+			"text_key": "dlg.harris.offer_case",
+			"next": "accept_route"
+		},
+		"accept_route": {
+			"speaker": "harris",
+			"text_key": "dlg.harris.accepted",
+			"effects": [
+				{ "type": "quest", "id": "act1_ear_for_bureau", "state": "started" }
+			],
+			"end": true
+		},
+		"refused": {
+			"speaker": "harris",
+			"text_key": "dlg.harris.refused",
+			"end": true
+		}
+	},
+	"interruptible": true,
+	"interrupt_recording": {
+		"on_ignored": "ignored_harris_meeting",
+		"on_heard": "heard_harris_meeting"
+	}
+}
