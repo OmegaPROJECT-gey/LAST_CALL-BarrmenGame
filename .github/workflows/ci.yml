@@ -65,3 +65,6 @@ jobs:
 
       - name: Recipe library unit tests (data -> solver)
         run: ./scripts/test-recipes.sh
+
+      - name: Dialogue runner unit tests (data -> world)
+        run: ./scripts/test-dialogue.sh
