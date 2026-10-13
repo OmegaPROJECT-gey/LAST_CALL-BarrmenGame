@@ -29,13 +29,14 @@ namespace lc {
 		bool story_order = false; // carries a story beat (NARRATIVE.md)
 	};
 
-	// The two recipe effects the order outcome may still pay out
+	// The recipe effects the order layer may still pay out
 	// (Data/Recipes/*.json "effects"); the combo quality itself is
 	// evaluated by the pour solver, this is the order layer on top.
 	struct RecipeEffects
 	{
 		double mood_bonus = 0.0;
 		double tip_multiplier = 1.0;
+		double xp_multiplier = 1.0;
 	};
 
 	struct ServeOutcome

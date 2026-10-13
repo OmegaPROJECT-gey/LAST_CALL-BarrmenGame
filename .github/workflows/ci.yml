@@ -62,3 +62,6 @@ jobs:
 
       - name: Minimal JSON reader unit tests
         run: ./scripts/test-json.sh
+
+      - name: Recipe library unit tests (data -> solver)
+        run: ./scripts/test-recipes.sh
