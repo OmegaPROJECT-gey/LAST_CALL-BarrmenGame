@@ -22,6 +22,11 @@
 			"required": ["morning_seconds", "summary_seconds"],
 			"additionalProperties": { "type": "number" }
 		},
+		"order": {
+			"type": "object",
+			"required": ["substitute_tip_penalty"],
+			"additionalProperties": { "type": "number" }
+		},
 		"tips": {
 			"type": "object",
 			"required": ["base_rate", "critical_combo_multiplier"],

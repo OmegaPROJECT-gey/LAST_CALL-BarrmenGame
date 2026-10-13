@@ -26,6 +26,9 @@
 		"night_seconds": 0,
 		"summary_seconds": 20
 	},
+	"order": {
+		"substitute_tip_penalty": 0.7
+	},
 	"tips": {
 		"base_rate": 0.12,
 		"critical_combo_multiplier": 1.5,

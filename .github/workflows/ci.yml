@@ -56,3 +56,6 @@ jobs:
 
       - name: Save state unit tests
         run: ./scripts/test-save-state.sh
+
+      - name: Order + consequence log unit tests (F3 cores)
+        run: ./scripts/test-order.sh
