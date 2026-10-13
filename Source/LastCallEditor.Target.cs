@@ -8,7 +8,7 @@ public class LastCallEditorTarget : TargetRules
 	public LastCallEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
-		DefaultBuildSettings = BuildSettingsVersion.V5;
+		DefaultBuildSettings = BuildSettingsVersion.V7;
 		IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
 		ExtraModuleNames.Add("LastCall");
 		ExtraModuleNames.Add("LastCallTools");
