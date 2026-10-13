@@ -47,3 +47,6 @@ jobs:
 
       - name: Pour solver unit tests
         run: ./scripts/test-pour-solver.sh
+
+      - name: Customer reaction unit tests
+        run: ./scripts/test-customer-reaction.sh

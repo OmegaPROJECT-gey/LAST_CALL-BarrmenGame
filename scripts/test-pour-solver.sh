@@ -7,7 +7,7 @@ cd "$(dirname "$0")/.."
 
 mkdir -p build
 g++ -std=c++17 -Wall -Wextra -Werror -O1 \
-	-I Source/LastCall \
+	-I Source/LastCall -I tools/tests \
 	Source/LastCall/Bar/PourSolverCore.cpp \
 	tools/tests/pour/pour_solver_test.cpp \
 	-o build/pour_solver_test

@@ -5,8 +5,14 @@
 		"patience_drain_per_second_waiting": 0.05,
 		"patience_refill_on_correct_order": 0.15,
 		"patience_refill_on_listened": 0.25,
+		"patience_penalty_ruined": 0.5,
 		"mood_decay_per_second_unattended": 0.01,
-		"mood_bonus_on_critical_combo": 0.3
+		"mood_bonus_on_critical_combo": 0.3,
+		"spill_patience_per_ml": 0.02,
+		"burst_walkout_spill_ml": 120.0,
+		"shock_seconds": 3.0,
+		"band_pleased": 0.75,
+		"band_annoyed": 0.4
 	},
 	"pour": {
 		"overflow_spill_threshold": 1.0,

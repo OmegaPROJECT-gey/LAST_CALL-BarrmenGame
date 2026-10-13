@@ -4,89 +4,17 @@
 // Source/LastCall/Bar/PourSolverCore.cpp with plain g++. The same file is
 // compiled as an UE Automation test later (ARCHITECTURE.md, section 10).
 
-#include <cmath>
-#include <cstdio>
-#include <fstream>
-#include <sstream>
-#include <string>
 #include <vector>
 
 #include "Bar/PourSolverCore.h"
 
+#include "test_support.h"
+
 namespace {
 
-	int failures = 0;
-	int checks = 0;
-
-	void expect(bool condition, const char* what)
-	{
-		++checks;
-		if (!condition)
-		{
-			++failures;
-			std::printf("FAIL: %s\n", what);
-		}
-	}
-
-	void expect_near(double actual, double expected, double tolerance, const char* what)
-	{
-		++checks;
-		if (std::fabs(actual - expected) > tolerance)
-		{
-			++failures;
-			std::printf("FAIL: %s (actual %.4f, expected %.4f)\n", what, actual, expected);
-		}
-	}
-
-	// Walk up to the repository root (marked by LastCall.uproject).
-	std::string repo_root()
-	{
-		std::string dir = ".";
-		for (int depth = 0; depth < 8; ++depth)
-		{
-			std::ifstream probe(dir + "/LastCall.uproject");
-			if (probe.good())
-			{
-				return dir;
-			}
-			dir += "/..";
-		}
-		return ".";
-	}
-
-	// Pull one numeric value out of Data/Balance/core.json without a JSON
-	// library: enough for the sync checks below.
-	double balance_number(const std::string& key)
-	{
-		const std::string path = repo_root() + "/Data/Balance/core.json";
-		std::ifstream file(path);
-		if (!file)
-		{
-			return -1.0;
-		}
-		std::stringstream buffer;
-		buffer << file.rdbuf();
-		const std::string text = buffer.str();
-		const std::string needle = "\"" + key + "\"";
-		const std::size_t at = text.find(needle);
-		if (at == std::string::npos)
-		{
-			return -1.0;
-		}
-		const std::size_t colon = text.find(':', at);
-		if (colon == std::string::npos)
-		{
-			return -1.0;
-		}
-		try
-		{
-			return std::stod(text.substr(colon + 1));
-		}
-		catch (...)
-		{
-			return -1.0;
-		}
-	}
+	using lc_test::balance_number;
+	using lc_test::expect;
+	using lc_test::expect_near;
 
 	lc::RecipeSpec noir_recipe()
 	{
@@ -231,6 +159,5 @@ int main()
 	expect_near(balance_number("flow_ml_per_s"), tuning.base_flow_ml_per_s, 1e-9,
 		"flow_ml_per_s in sync with Data/Balance/core.json");
 
-	std::printf("%d checks, %d failure(s)\n", checks, failures);
-	return failures == 0 ? 0 : 1;
+	return lc_test::report("pour solver");
 }
