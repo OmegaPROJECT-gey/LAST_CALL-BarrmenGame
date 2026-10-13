@@ -20,6 +20,12 @@
 		"flow_ml_per_s": 60.0,
 		"flow_curve": { "min_angle_deg": 10, "max_angle_deg": 70, "viscosity_default": 1.0 }
 	},
+	"phases": {
+		"morning_seconds": 300,
+		"shift_seconds": 0,
+		"night_seconds": 0,
+		"summary_seconds": 20
+	},
 	"tips": {
 		"base_rate": 0.12,
 		"critical_combo_multiplier": 1.5,

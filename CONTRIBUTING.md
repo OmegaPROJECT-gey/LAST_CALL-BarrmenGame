@@ -50,5 +50,6 @@ Documentation changes need nothing but a text editor — that is most of the con
 2. One logical change per pull request, linked to its issue.
 3. Documentation changes: both languages, changelog entry, links checked (the repo has a link checker — see [docs/MAINTENANCE.md](docs/MAINTENANCE.md)).
 4. Code changes (from F0 on): build passes on Linux and Windows, data linters pass, and a bug fix comes with a test that fails without it.
+5. Working sessions — human or AI agent — never idle on background waits: while a file downloads, an archive unpacks or an engine installs, work continues on the next task (see [docs/MAINTENANCE.md](docs/MAINTENANCE.md) §6).
 
 Everyone taking part follows the [Code of Conduct](CODE_OF_CONDUCT.md).

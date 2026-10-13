@@ -17,6 +17,11 @@
 			"required": ["overflow_spill_threshold", "flow_curve"],
 			"additionalProperties": true
 		},
+		"phases": {
+			"type": "object",
+			"required": ["morning_seconds", "summary_seconds"],
+			"additionalProperties": { "type": "number" }
+		},
 		"tips": {
 			"type": "object",
 			"required": ["base_rate", "critical_combo_multiplier"],

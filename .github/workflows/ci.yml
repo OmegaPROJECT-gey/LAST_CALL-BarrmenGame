@@ -50,3 +50,6 @@ jobs:
 
       - name: Customer reaction unit tests
         run: ./scripts/test-customer-reaction.sh
+
+      - name: Day schedule (phase clock) unit tests
+        run: ./scripts/test-day-schedule.sh

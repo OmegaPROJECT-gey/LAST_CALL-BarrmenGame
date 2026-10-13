@@ -11,7 +11,7 @@ A milestone is closed only when its **user path runs end to end** — a scenario
 
 - [~] **F0. Project skeleton (gate).** UE5 project builds on Linux and Windows; `Source/LastCall` modules compile; `Data/` schema validation and dialogue lint run in CI; documentation pairs linked both ways. **Done (2026-10-13):** `LastCall.uproject`, runtime module with the phase clock (`ULCPhaseManager`), editor module, target files, noir renderer/input configs, design data with JSON Schemas, three linters (`lc-data-lint`, `lc-dialogue-lint`, `lc-docs-check`) green locally and wired into CI (`scripts/lint.sh`). **Open:** install UE 5.8 and compile both targets on Linux and Windows — no engine on the machine yet.
 - [~] **F1. One pour.** The pour solver moves a bottle, a stream and a glass: tilt → flow, volume rises, overflow spills, customer reacts. This is the gate for everything else — no other milestone starts before a stranger can spill a drink on camera. **Done (2026-10-13):** engine-independent solver core (`Source/LastCall/Bar/PourSolverCore`) — tilt→flow curve with viscosity and saturation, glass fill/overflow/spill integration at 30 Hz, combo quality (ruined/fine/good/critical) from pour samples only, synced with `Data/Balance/core.json`; engine-independent customer reaction core (`Source/LastCall/Customers/CustomerReactionCore`) — patience drain, spill shock, burst walk-out, reaction bands; 27 + 39 unit checks green locally and in CI. **Open:** UE wrappers (`FLCPourSolver`, `ULCCustomerComponent`), bottle/stream/glass actors, Niagara stream, reaction barks and animations — needs UE 5.8.
-- [ ] **F2. One day.** `ULCPhaseManager` runs Morning → Shift → Night → Summary with placeholder content and a save at each boundary.
+- [~] **F2. One day.** `ULCPhaseManager` runs Morning → Shift → Night → Summary with placeholder content and a save at each boundary. **Done (2026-10-13):** engine-independent phase clock core (`Source/LastCall/Core/DayScheduleCore`) — forward-only phase machine with skip-forward allowed, timed (morning/summary) and untimed (shift/night) phases, day counter, save-boundary flag for the save system; 29 unit checks in CI. **Open:** UE wrapper wiring (`ULCPhaseManager` over the core), the save system itself, placeholder content per phase — needs UE 5.8.
 - [ ] **F3. One customer.** Patience, mood, one order, one story, one tell; interrupting has a recorded consequence.
 
 ## Track A: the bar (core)
@@ -58,6 +58,7 @@ A milestone is closed only when its **user path runs end to end** — a scenario
 ## How milestones are worked
 
 - **Team:** one developer with AI agents. Milestones are taken strictly in order, one at a time, and worked autonomously end to end — each one lands as a checked result, not a status update.
+- **No idling on background work.** While a file downloads, an archive unpacks, an engine installs or any long job runs in the background, the agent keeps taking the next autonomous task; results are processed when they arrive (rule in [docs/MAINTENANCE.md](docs/MAINTENANCE.md) §6).
 - One milestone, one branch, one result that can be checked. Within a track, milestones go in order.
 - Track F did not start without F0 building in CI; **F1 (the pour) gates every gameplay milestone**.
 - Every milestone passes the data linters and the scenario test for its track.

@@ -92,3 +92,4 @@ done
 3. **Both languages or nothing.** A one-language change blocks the commit.
 4. **The roadmap is the truth about "when".** If `ROADMAP` says `[ ]`, it is not started — no matter what anyone remembers.
 5. **Assets need licenses.** Nothing enters `FREE-3D-MODELS` without URL + license + format, and nothing unlicensed enters the game.
+6. **The agent never idles on background work.** While a file downloads, an archive unpacks, an engine installs or any long job runs in the background, work continues on the next autonomous task (roadmap order: engine-independent cores, linters, documentation). When the background job reports, its result is processed and work continues. Waiting is not working.

@@ -72,7 +72,7 @@ Phase transitions are **the only loading points** in the game (see PHILOSOPHY §
 
 Every subsystem is an `UObject` component or a plain service — **no gameplay class may reach another subsystem's internals**; cross-system talk goes through the event bus (`FOnPhaseChanged`, `FOnCustomerServed`, `FOnHeatRaised`, …). This is what keeps the phase swap cheap.
 
-Two subsystems ship their logic as engine-independent C++17 cores — `Bar/PourSolverCore` (tilt → flow → volume/spill, combo quality) and `Customers/CustomerReactionCore` (patience, shock, walk-out, reaction bands). They contain no Unreal types, so `scripts/test-pour-solver.sh` and `scripts/test-customer-reaction.sh` test the math and the rules before an engine is installed; the UE-facing classes (`FLCPourSolver`, `ULCCustomerComponent`) wrap the cores and add rendering, animation and replication. Tuning lives in `Data/Balance/core.json` and the tests assert code and data stay in sync.
+Two of these ship their logic as engine-independent C++17 cores — `Bar/PourSolverCore` (tilt → flow → volume/spill, combo quality), `Customers/CustomerReactionCore` (patience, shock, walk-out, reaction bands) and `Core/DayScheduleCore` (phase machine, timers, save boundaries). They contain no Unreal types, so `scripts/test-pour-solver.sh`, `scripts/test-customer-reaction.sh` and `scripts/test-day-schedule.sh` test the math and the rules before an engine is installed; the UE-facing classes (`FLCPourSolver`, `ULCCustomerComponent`, `ULCPhaseManager`) wrap the cores and add rendering, animation and replication. Tuning lives in `Data/Balance/core.json` and the tests assert code and data stay in sync.
 
 ## 4. Liquid subsystem (the signature tech)
 
