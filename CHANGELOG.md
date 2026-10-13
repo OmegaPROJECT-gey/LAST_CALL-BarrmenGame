@@ -5,6 +5,7 @@ All notable changes to LAST CALL, in both languages. Sections are headed with th
 ## Unreleased
 
 - F0 in progress: UE 5.8 project skeleton (`LastCall.uproject`, `Source/` runtime + editor modules, phase clock `ULCPhaseManager`, noir renderer/input configs), design data with JSON Schemas, and three linters — `lc-data-lint`, `lc-dialogue-lint` (graph + EN/RU parity), `lc-docs-check` (twin links + link integrity) — running locally and in CI. Open: engine compile on Linux/Windows (no UE on the machine yet).
+- F1 groundwork: engine-independent pour solver core (`Source/LastCall/Bar/PourSolverCore`) — tilt→flow curve (viscosity, saturation), glass fill/overflow/spill integration, combo quality from pour samples only; 27 unit checks via `scripts/test-pour-solver.sh`, wired into CI as the `solver` job. Open: UE wrapper, actors, Niagara stream, customer reaction (needs UE 5.8).
 - Documentation set created: README, PHILOSOPHY, ARCHITECTURE, ROADMAP, CHANGELOG, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, VERSIONING — each in English and Russian, linked pairwise.
 - Game documents: [GAME-DESIGN](docs/GAME-DESIGN.md), [NARRATIVE](docs/NARRATIVE.md), [ART-BIBLE](docs/ART-BIBLE.md), [LANGUAGES](docs/LANGUAGES.md), [FREE-3D-MODELS](docs/FREE-3D-MODELS.md), [MAINTENANCE](docs/MAINTENANCE.md).
 - Stack decided: Unreal Engine 5 (5.8) + C++ for the game, Rust (Zig acceptable) for pipeline tools, Python for editor scripting (owner decision, 2026-10-13, with cited research in [docs/LANGUAGES.md](docs/LANGUAGES.md)).

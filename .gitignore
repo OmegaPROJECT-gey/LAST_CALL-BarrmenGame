@@ -18,6 +18,9 @@ CMakeLists.txt
 # Rust tools
 tools/target/
 
+# local build artifacts (pour solver tests)
+build/
+
 # OS
 .DS_Store
 Thumbs.db

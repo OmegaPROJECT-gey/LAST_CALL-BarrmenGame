@@ -37,3 +37,13 @@ jobs:
 
       - name: Documentation pairs + link integrity
         run: ./tools/target/debug/lc-docs-check
+
+  solver:
+    # F1 groundwork: the pour solver core is engine-independent C++17,
+    # so its unit tests run before UE 5.8 is installed (ARCHITECTURE 10).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pour solver unit tests
+        run: ./scripts/test-pour-solver.sh
