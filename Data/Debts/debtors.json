@@ -1,0 +1,44 @@
+{
+	"$schema": "../schemas/debtors.schema.json",
+	"debtors": [
+		{
+			"id": "pete_low",
+			"display_name": {
+				"en": "Pete the Low",
+				"ru": "Пит Низкий"
+			},
+			"block": "docks",
+			"faction": "civilian",
+			"owed": 40,
+			"talk_resist": 0.4,
+			"intimidate_resist": 0.5,
+			"collateral": "pocket_watch"
+		},
+		{
+			"id": "ruby",
+			"display_name": {
+				"en": "Ruby",
+				"ru": "Руби"
+			},
+			"block": "market",
+			"faction": "ring",
+			"owed": 120,
+			"talk_resist": 0.7,
+			"intimidate_resist": 0.35,
+			"collateral": ""
+		},
+		{
+			"id": "fingers",
+			"display_name": {
+				"en": "Fingers",
+				"ru": "Пальцы"
+			},
+			"block": "docks",
+			"faction": "syndicate",
+			"owed": 250,
+			"talk_resist": 0.8,
+			"intimidate_resist": 0.6,
+			"collateral": "signet_ring"
+		}
+	]
+}

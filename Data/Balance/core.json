@@ -75,5 +75,13 @@
 		"pressure_per_late": 1.0,
 		"walkout_pressure": 2.5,
 		"pressure_limit": 10.0
+	},
+	"debt": {
+		"partial_ratio": 0.5,
+		"fight_loot_ratio": 0.25,
+		"take_heat": 1.0,
+		"fight_heat": 2.5,
+		"violence_heat": 2.0,
+		"violence_standing": -1.0
 	}
 }

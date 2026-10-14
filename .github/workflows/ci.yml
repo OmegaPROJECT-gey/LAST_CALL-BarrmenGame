@@ -95,3 +95,6 @@ jobs:
 
       - name: Orders to go unit tests (queue -> pressure)
         run: ./scripts/test-togo.sh
+
+      - name: Debt runs unit tests (approaches -> outcomes)
+        run: ./scripts/test-debt.sh
