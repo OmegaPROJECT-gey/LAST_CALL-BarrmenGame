@@ -63,7 +63,7 @@ int main()
 	}
 	expect(library.find("no_such_faction") == nullptr, "unknown factions read null");
 
-	expect(library.reactions().size() == 11, "eleven reaction rows");
+	expect(library.reactions().size() == 19, "nineteen reaction rows");
 
 	const lc::Reaction* case_reaction = library.reaction_for("heard_harris_case");
 	expect(case_reaction != nullptr, "the detective's case has a reaction");
@@ -95,6 +95,16 @@ int main()
 			{"kane_knew_uncle", "bureau", 1.0},
 			{"kane_price_read", "civilian", 1.0},
 			{"shadow_deferred", "syndicate", -1.0},
+			// Beat 4's habit evenings: the scenes move flags only, the
+			// table moves standing (C3 - baselines for the three gangs).
+			{"syndicate_drop_taken", "syndicate", 1.0},
+			{"syndicate_drop_asked", "syndicate", -1.0},
+			{"syndicate_drop_refused", "syndicate", -1.0},
+			{"ring_delivery_accepted", "ring", 1.0},
+			{"ring_delivery_asked", "ring", -1.0},
+			{"ring_delivery_refused", "ring", -1.0},
+			{"station_understood", "station", 1.0},
+			{"station_blind_eye_refused", "station", -1.0},
 		};
 		for (const Expected& want : expected)
 		{

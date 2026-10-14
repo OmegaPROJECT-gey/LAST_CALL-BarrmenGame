@@ -110,6 +110,70 @@
 				"en": "You made the Syndicate's man wait for his drink. Waiting gets remembered.",
 				"ru": "Вы заставили человека Синдиката ждать коктейль. Ожидание запоминают."
 			}
+		},
+		{
+			"flag": "syndicate_drop_taken",
+			"standing": { "syndicate": 1 },
+			"note": {
+				"en": "The drop came and went through your bar without a word. The Syndicate notes who keeps quiet.",
+				"ru": "Дроп прошёл через ваш бар и ушёл без лишних слов. Синдикат записывает, кто молчит."
+			}
+		},
+		{
+			"flag": "syndicate_drop_asked",
+			"standing": { "syndicate": -1 },
+			"note": {
+				"en": "You asked what the folded bill was for. Questions have a smell; yours reached the Syndicate.",
+				"ru": "Вы спросили, зачем сложенная купюра. У вопросов есть запах; ваш дошёл до Синдиката."
+			}
+		},
+		{
+			"flag": "syndicate_drop_refused",
+			"standing": { "syndicate": -1 },
+			"note": {
+				"en": "The Syndicate's money came back untouched. Untouched reads as unread.",
+				"ru": "Деньги Синдиката вернулись нетронутыми. Нетронутое читается как не прочитанное."
+			}
+		},
+		{
+			"flag": "ring_delivery_accepted",
+			"standing": { "ring": 1 },
+			"note": {
+				"en": "The Ring's crate spent a night under your ice. Loyalty starts in the dark.",
+				"ru": "Ящик Кольца провёл ночь под вашим льдом. Верность начинается в темноте."
+			}
+		},
+		{
+			"flag": "ring_delivery_asked",
+			"standing": { "ring": -1 },
+			"note": {
+				"en": "You asked what was in the crate. The Ring pays for silence and charges for curiosity.",
+				"ru": "Вы спросили, что в ящике. Кольцо платит за молчание и берёт за любопытство."
+			}
+		},
+		{
+			"flag": "ring_delivery_refused",
+			"standing": { "ring": -1 },
+			"note": {
+				"en": "The Ring's delivery found another door. The count of refusals started at your bar.",
+				"ru": "Доставка Кольца нашла другую дверь. Счёт отказов начался в вашем баре."
+			}
+		},
+		{
+			"flag": "station_understood",
+			"standing": { "station": 1 },
+			"note": {
+				"en": "You understood the arrangement without saying it. The Station likes tenants who read quietly.",
+				"ru": "Вы поняли договорённость, не говоря её вслух. Участок любит жильцов, которые читают молча."
+			}
+		},
+		{
+			"flag": "station_blind_eye_refused",
+			"standing": { "station": -1 },
+			"note": {
+				"en": "You said the quiet part out loud. The blind eye keeps a list; your name is on it.",
+				"ru": "Вы произнесли вслух то, что молчат. Слепой глаз ведёт список; ваше имя в нём есть."
+			}
 		}
 	]
 }

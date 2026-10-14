@@ -297,6 +297,62 @@ int main()
 		expect(runner.at_end() && runner.current_text_key() == "dlg.shadow.unmasked.named",
 			"the press route ends on the hint");
 	}
+	// --- act 1, beat 4a: the Syndicate's drop (C3) ---------------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act1_syndicate_drop.json"), nullptr)
+			&& runner.start(world), "act1_syndicate_drop loads and starts");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"the drop has three ways to take it");
+		expect(runner.choose("take", world), "the drop is taken quietly");
+		expect(world.has_flag("syndicate_drop_taken"), "the drop is recorded as a flag");
+		expect(world.has_flag("act1_syndicate_drop_played"), "the evening records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.vera.drop.taken",
+			"the drop ends on Vera's last line");
+		expect_near(world.standing_of("syndicate"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+		DialogueRunner fresh;
+		expect(fresh.load(read_repo_file("Data/Dialogue/act1_syndicate_drop.json"), nullptr)
+			&& !fresh.start(world), "the drop does not play twice");
+	}
+	// --- act 1, beat 4b: the Ring's delivery (C3) ----------------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act1_ring_delivery.json"), nullptr)
+			&& runner.start(world), "act1_ring_delivery loads and starts");
+		runner.advance(world); // into the choice
+		expect(runner.choose("refuse", world), "another door is asked for");
+		expect(world.has_flag("ring_delivery_refused"), "the refusal is recorded as a flag");
+		expect(world.has_flag("act1_ring_delivery_played"), "the evening records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.sal.delivery.refused",
+			"the refusal ends on Sal's last line");
+		expect_near(world.standing_of("ring"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+		DialogueRunner fresh;
+		expect(fresh.load(read_repo_file("Data/Dialogue/act1_ring_delivery.json"), nullptr)
+			&& !fresh.start(world), "the delivery does not play twice");
+	}
+	// --- act 1, beat 4c: the Station's blind eye (C3) ------------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act1_station_blind_eye.json"), nullptr)
+			&& runner.start(world), "act1_station_blind_eye loads and starts");
+		runner.advance(world); // into the choice
+		expect(runner.choose("nod_understood", world), "the arrangement is understood");
+		expect(world.has_flag("station_understood"), "the nod is recorded as a flag");
+		expect(world.has_flag("act1_station_blind_eye_played"), "the evening records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.agnes.rent.understood",
+			"the nod ends on Mrs. Boyle's last line");
+		expect_near(world.standing_of("station"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+		DialogueRunner fresh;
+		expect(fresh.load(read_repo_file("Data/Dialogue/act1_station_blind_eye.json"), nullptr)
+			&& !fresh.start(world), "the rent day does not play twice");
+	}
 	// --- phase condition ---------------------------------------------------------------
 	{
 		DialogueRunner runner;
