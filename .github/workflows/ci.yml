@@ -92,3 +92,6 @@ jobs:
 
       - name: Night mode unit tests (gating -> death consequences)
         run: ./scripts/test-night.sh
+
+      - name: Orders to go unit tests (queue -> pressure)
+        run: ./scripts/test-togo.sh

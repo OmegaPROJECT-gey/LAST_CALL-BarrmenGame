@@ -67,5 +67,13 @@
 		"death_heat": 3.0,
 		"death_standing": -2.0,
 		"death_hospital_days": 2
+	},
+	"to_go": {
+		"base_window_seconds": 25.0,
+		"tip_bonus_fast": 0.3,
+		"tip_penalty_late": 0.5,
+		"pressure_per_late": 1.0,
+		"walkout_pressure": 2.5,
+		"pressure_limit": 10.0
 	}
 }
