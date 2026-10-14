@@ -1,0 +1,63 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act3_sal_fork",
+	"act": 3,
+	"participants": ["player", "sal"],
+	"entry": "third_crate",
+	"nodes": {
+		"third_crate": {
+			"speaker": "sal",
+			"text_key": "dlg.sal.crate.third",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act3_sal_fork_played", "value": false },
+				{ "type": "story_flag", "flag": "act2_sal_favor_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "sal",
+			"text_key": "dlg.sal.crate.hint",
+			"choices": [
+				{
+					"id": "week",
+					"text_key": "dlg.sal.crate.choice.week",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "sal_crate_week", "value": true }],
+					"next": "week_stored"
+				},
+				{
+					"id": "one_night",
+					"text_key": "dlg.sal.crate.choice.night",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "sal_crate_one_night", "value": true }],
+					"next": "one_night"
+				},
+				{
+					"id": "refuse",
+					"text_key": "dlg.sal.crate.choice.refuse",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "sal_crate_refused", "value": true }],
+					"next": "refused"
+				}
+			]
+		},
+		"week_stored": {
+			"speaker": "sal",
+			"text_key": "dlg.sal.crate.week",
+			"effects": [{ "type": "story_flag", "flag": "act3_sal_fork_played", "value": true }],
+			"end": true
+		},
+		"one_night": {
+			"speaker": "sal",
+			"text_key": "dlg.sal.crate.one_night",
+			"effects": [{ "type": "story_flag", "flag": "act3_sal_fork_played", "value": true }],
+			"end": true
+		},
+		"refused": {
+			"speaker": "sal",
+			"text_key": "dlg.sal.crate.refused",
+			"effects": [{ "type": "story_flag", "flag": "act3_sal_fork_played", "value": true }],
+			"end": true
+		}
+	}
+}

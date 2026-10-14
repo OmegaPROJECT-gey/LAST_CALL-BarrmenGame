@@ -1,0 +1,63 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act3_vera_fork",
+	"act": 3,
+	"participants": ["player", "vera"],
+	"entry": "monday",
+	"nodes": {
+		"monday": {
+			"speaker": "vera",
+			"text_key": "dlg.vera.book.monday",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act3_vera_fork_played", "value": false },
+				{ "type": "story_flag", "flag": "act2_vera_favor_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "vera",
+			"text_key": "dlg.vera.book.hint",
+			"choices": [
+				{
+					"id": "burn",
+					"text_key": "dlg.vera.book.choice.burn",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "vera_book_burned", "value": true }],
+					"next": "burned"
+				},
+				{
+					"id": "sell_harris",
+					"text_key": "dlg.vera.book.choice.sell",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "vera_book_sold", "value": true }],
+					"next": "sold"
+				},
+				{
+					"id": "return",
+					"text_key": "dlg.vera.book.choice.return",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "vera_book_returned", "value": true }],
+					"next": "returned"
+				}
+			]
+		},
+		"burned": {
+			"speaker": "vera",
+			"text_key": "dlg.vera.book.burned",
+			"effects": [{ "type": "story_flag", "flag": "act3_vera_fork_played", "value": true }],
+			"end": true
+		},
+		"sold": {
+			"speaker": "vera",
+			"text_key": "dlg.vera.book.sold",
+			"effects": [{ "type": "story_flag", "flag": "act3_vera_fork_played", "value": true }],
+			"end": true
+		},
+		"returned": {
+			"speaker": "vera",
+			"text_key": "dlg.vera.book.returned",
+			"effects": [{ "type": "story_flag", "flag": "act3_vera_fork_played", "value": true }],
+			"end": true
+		}
+	}
+}

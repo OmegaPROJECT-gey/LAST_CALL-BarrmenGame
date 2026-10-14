@@ -1,0 +1,69 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act2_agnes_favor",
+	"act": 2,
+	"participants": ["player", "agnes"],
+	"entry": "paper",
+	"nodes": {
+		"paper": {
+			"speaker": "agnes",
+			"text_key": "dlg.agnes.lease.paper",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act2_agnes_favor_played", "value": false },
+				{ "type": "story_flag", "flag": "act1_station_blind_eye_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "agnes",
+			"text_key": "dlg.agnes.lease.hint",
+			"choices": [
+				{
+					"id": "sign",
+					"text_key": "dlg.agnes.lease.choice.sign",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "agnes_lease_signed", "value": true },
+						{ "type": "mood", "target": "agnes", "delta": 0.1 }
+					],
+					"next": "signed"
+				},
+				{
+					"id": "read_fine",
+					"text_key": "dlg.agnes.lease.choice.read",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "agnes_lease_read", "value": true },
+						{ "type": "mood", "target": "agnes", "delta": -0.1 }
+					],
+					"next": "read"
+				},
+				{
+					"id": "refuse_line",
+					"text_key": "dlg.agnes.lease.choice.line",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "agnes_lease_refused", "value": true }],
+					"next": "refused"
+				}
+			]
+		},
+		"signed": {
+			"speaker": "agnes",
+			"text_key": "dlg.agnes.lease.signed",
+			"effects": [{ "type": "story_flag", "flag": "act2_agnes_favor_played", "value": true }],
+			"end": true
+		},
+		"read": {
+			"speaker": "agnes",
+			"text_key": "dlg.agnes.lease.read",
+			"effects": [{ "type": "story_flag", "flag": "act2_agnes_favor_played", "value": true }],
+			"end": true
+		},
+		"refused": {
+			"speaker": "agnes",
+			"text_key": "dlg.agnes.lease.refused",
+			"effects": [{ "type": "story_flag", "flag": "act2_agnes_favor_played", "value": true }],
+			"end": true
+		}
+	}
+}

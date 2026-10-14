@@ -1,0 +1,63 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act3_agnes_fork",
+	"act": 3,
+	"participants": ["player", "agnes"],
+	"entry": "warning",
+	"nodes": {
+		"warning": {
+			"speaker": "agnes",
+			"text_key": "dlg.agnes.warn.warning",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act3_agnes_fork_played", "value": false },
+				{ "type": "story_flag", "flag": "act2_agnes_favor_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "agnes",
+			"text_key": "dlg.agnes.warn.hint",
+			"choices": [
+				{
+					"id": "cover",
+					"text_key": "dlg.agnes.warn.choice.cover",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "agnes_covered", "value": true }],
+					"next": "covered"
+				},
+				{
+					"id": "hedge",
+					"text_key": "dlg.agnes.warn.choice.hedge",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "agnes_silent", "value": true }],
+					"next": "silent"
+				},
+				{
+					"id": "sell_harris",
+					"text_key": "dlg.agnes.warn.choice.sell",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "agnes_envelope_sold", "value": true }],
+					"next": "sold"
+				}
+			]
+		},
+		"covered": {
+			"speaker": "agnes",
+			"text_key": "dlg.agnes.warn.covered",
+			"effects": [{ "type": "story_flag", "flag": "act3_agnes_fork_played", "value": true }],
+			"end": true
+		},
+		"silent": {
+			"speaker": "agnes",
+			"text_key": "dlg.agnes.warn.silent",
+			"effects": [{ "type": "story_flag", "flag": "act3_agnes_fork_played", "value": true }],
+			"end": true
+		},
+		"sold": {
+			"speaker": "agnes",
+			"text_key": "dlg.agnes.warn.sold",
+			"effects": [{ "type": "story_flag", "flag": "act3_agnes_fork_played", "value": true }],
+			"end": true
+		}
+	}
+}

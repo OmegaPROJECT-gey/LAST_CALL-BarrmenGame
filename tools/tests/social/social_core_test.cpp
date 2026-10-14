@@ -63,7 +63,7 @@ int main()
 	}
 	expect(library.find("no_such_faction") == nullptr, "unknown factions read null");
 
-	expect(library.reactions().size() == 19, "nineteen reaction rows");
+	expect(library.reactions().size() == 31, "thirty-one reaction rows");
 
 	const lc::Reaction* case_reaction = library.reaction_for("heard_harris_case");
 	expect(case_reaction != nullptr, "the detective's case has a reaction");
@@ -86,32 +86,59 @@ int main()
 			const char* flag;
 			const char* faction;
 			double delta;
+			int count; // factions moved by this flag (some rows move two)
 		};
 		const Expected expected[] = {
-			{"harris_told_breakin", "syndicate", -1.0},
-			{"harris_withheld_breakin", "syndicate", 1.0},
-			{"harris_quiet_report", "station", 1.0},
-			{"kane_first_fact_heard", "civilian", 1.0},
-			{"kane_knew_uncle", "bureau", 1.0},
-			{"kane_price_read", "civilian", 1.0},
-			{"shadow_deferred", "syndicate", -1.0},
+			{"harris_told_breakin", "syndicate", -1.0, 1},
+			{"harris_withheld_breakin", "syndicate", 1.0, 1},
+			{"harris_quiet_report", "station", 1.0, 1},
+			{"kane_first_fact_heard", "civilian", 1.0, 1},
+			{"kane_knew_uncle", "bureau", 1.0, 1},
+			{"kane_price_read", "civilian", 1.0, 1},
+			{"shadow_deferred", "syndicate", -1.0, 1},
 			// Beat 4's habit evenings: the scenes move flags only, the
 			// table moves standing (C3 - baselines for the three gangs).
-			{"syndicate_drop_taken", "syndicate", 1.0},
-			{"syndicate_drop_asked", "syndicate", -1.0},
-			{"syndicate_drop_refused", "syndicate", -1.0},
-			{"ring_delivery_accepted", "ring", 1.0},
-			{"ring_delivery_asked", "ring", -1.0},
-			{"ring_delivery_refused", "ring", -1.0},
-			{"station_understood", "station", 1.0},
-			{"station_blind_eye_refused", "station", -1.0},
+			{"syndicate_drop_taken", "syndicate", 1.0, 1},
+			{"syndicate_drop_asked", "syndicate", -1.0, 1},
+			{"syndicate_drop_refused", "syndicate", -1.0, 1},
+			{"ring_delivery_accepted", "ring", 1.0, 1},
+			{"ring_delivery_asked", "ring", -1.0, 1},
+			{"ring_delivery_refused", "ring", -1.0, 1},
+			{"station_understood", "station", 1.0, 1},
+			{"station_blind_eye_refused", "station", -1.0, 1},
+			// The three completed regular arcs: favor then fork (C3 batch 4).
+			{"vera_launder_helped", "syndicate", 1.0, 1},
+			{"vera_launder_refused", "syndicate", -1.0, 1},
+			{"vera_book_burned", "syndicate", 1.0, 1},
+			{"vera_book_sold", "syndicate", -2.0, 2},
+			{"vera_book_sold", "bureau", 1.0, 2},
+			{"sal_meeting_hosted", "ring", 1.0, 1},
+			{"sal_meeting_refused", "ring", -1.0, 1},
+			{"sal_crate_week", "ring", 1.0, 1},
+			{"sal_crate_refused", "ring", -2.0, 1},
+			{"agnes_lease_signed", "station", 1.0, 1},
+			{"agnes_lease_refused", "station", -1.0, 1},
+			{"agnes_covered", "station", 1.0, 1},
+			{"agnes_envelope_sold", "station", -2.0, 2},
+			{"agnes_envelope_sold", "bureau", 1.0, 2},
 		};
 		for (const Expected& want : expected)
 		{
 			const lc::Reaction* row = library.reaction_for(want.flag);
-			expect(row != nullptr && row->standing.size() == 1
-				&& row->standing[0].first == want.faction
-				&& row->standing[0].second == want.delta
+			bool found = false;
+			int moved = 0;
+			if (row)
+			{
+				moved = static_cast<int>(row->standing.size());
+				for (const auto& s : row->standing)
+				{
+					if (s.first == want.faction && s.second == want.delta)
+					{
+						found = true;
+					}
+				}
+			}
+			expect(row != nullptr && found && moved == want.count
 				&& !row->note_en.empty() && !row->note_ru.empty(),
 				want.flag);
 		}

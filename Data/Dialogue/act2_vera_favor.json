@@ -1,0 +1,69 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act2_vera_favor",
+	"act": 2,
+	"participants": ["player", "vera"],
+	"entry": "register",
+	"nodes": {
+		"register": {
+			"speaker": "vera",
+			"text_key": "dlg.vera.favor.register",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act2_vera_favor_played", "value": false },
+				{ "type": "story_flag", "flag": "act1_syndicate_drop_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "vera",
+			"text_key": "dlg.vera.favor.hint",
+			"choices": [
+				{
+					"id": "play_along",
+					"text_key": "dlg.vera.favor.choice.play_along",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "vera_launder_helped", "value": true },
+						{ "type": "mood", "target": "vera", "delta": 0.1 }
+					],
+					"next": "helped"
+				},
+				{
+					"id": "ring_true",
+					"text_key": "dlg.vera.favor.choice.ring_true",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "vera_launder_refused", "value": true }],
+					"next": "refused"
+				},
+				{
+					"id": "ask_terms",
+					"text_key": "dlg.vera.favor.choice.ask_terms",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "vera_launder_asked", "value": true },
+						{ "type": "mood", "target": "vera", "delta": -0.1 }
+					],
+					"next": "asked"
+				}
+			]
+		},
+		"helped": {
+			"speaker": "vera",
+			"text_key": "dlg.vera.favor.helped",
+			"effects": [{ "type": "story_flag", "flag": "act2_vera_favor_played", "value": true }],
+			"end": true
+		},
+		"refused": {
+			"speaker": "vera",
+			"text_key": "dlg.vera.favor.refused",
+			"effects": [{ "type": "story_flag", "flag": "act2_vera_favor_played", "value": true }],
+			"end": true
+		},
+		"asked": {
+			"speaker": "vera",
+			"text_key": "dlg.vera.favor.asked",
+			"effects": [{ "type": "story_flag", "flag": "act2_vera_favor_played", "value": true }],
+			"end": true
+		}
+	}
+}

@@ -1,0 +1,69 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act2_sal_favor",
+	"act": 2,
+	"participants": ["player", "sal"],
+	"entry": "ask_back",
+	"nodes": {
+		"ask_back": {
+			"speaker": "sal",
+			"text_key": "dlg.sal.vote.ask",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act2_sal_favor_played", "value": false },
+				{ "type": "story_flag", "flag": "act1_ring_delivery_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "sal",
+			"text_key": "dlg.sal.vote.hint",
+			"choices": [
+				{
+					"id": "host",
+					"text_key": "dlg.sal.vote.choice.host",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "sal_meeting_hosted", "value": true },
+						{ "type": "mood", "target": "sal", "delta": 0.1 }
+					],
+					"next": "hosted"
+				},
+				{
+					"id": "terms",
+					"text_key": "dlg.sal.vote.choice.terms",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "sal_meeting_conditional", "value": true },
+						{ "type": "mood", "target": "sal", "delta": -0.1 }
+					],
+					"next": "conditional"
+				},
+				{
+					"id": "refuse",
+					"text_key": "dlg.sal.vote.choice.refuse",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "sal_meeting_refused", "value": true }],
+					"next": "refused"
+				}
+			]
+		},
+		"hosted": {
+			"speaker": "sal",
+			"text_key": "dlg.sal.vote.hosted",
+			"effects": [{ "type": "story_flag", "flag": "act2_sal_favor_played", "value": true }],
+			"end": true
+		},
+		"conditional": {
+			"speaker": "sal",
+			"text_key": "dlg.sal.vote.conditional",
+			"effects": [{ "type": "story_flag", "flag": "act2_sal_favor_played", "value": true }],
+			"end": true
+		},
+		"refused": {
+			"speaker": "sal",
+			"text_key": "dlg.sal.vote.refused",
+			"effects": [{ "type": "story_flag", "flag": "act2_sal_favor_played", "value": true }],
+			"end": true
+		}
+	}
+}

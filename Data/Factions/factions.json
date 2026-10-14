@@ -174,6 +174,102 @@
 				"en": "You said the quiet part out loud. The blind eye keeps a list; your name is on it.",
 				"ru": "Вы произнесли вслух то, что молчат. Слепой глаз ведёт список; ваше имя в нём есть."
 			}
+		},
+		{
+			"flag": "vera_launder_helped",
+			"standing": { "syndicate": 1 },
+			"note": {
+				"en": "Your till rang up a night that never happened. The Syndicate counts in round numbers.",
+				"ru": "Ваша касса пробила вечер, которого не было. Синдикат считает круглыми числами."
+			}
+		},
+		{
+			"flag": "vera_launder_refused",
+			"standing": { "syndicate": -1 },
+			"note": {
+				"en": "Your till told the truth. The Syndicate finds honest arithmetic loud.",
+				"ru": "Ваша касса сказала правду. Синдикату честная арифметика кажется шумом."
+			}
+		},
+		{
+			"flag": "vera_book_burned",
+			"standing": { "syndicate": 1 },
+			"note": {
+				"en": "The count book went to ash instead of paper. Ash keeps secrets better than desks.",
+				"ru": "Книга счёта пошла в пепел, а не на столы. Пепел хранит секреты лучше столов."
+			}
+		},
+		{
+			"flag": "vera_book_sold",
+			"standing": { "syndicate": -2, "bureau": 1 },
+			"note": {
+				"en": "Vera's ink turned up in a detective's folder. The Syndicate loses a book; the Bureau gains one.",
+				"ru": "Почерк Веры оказался в папке детектива. Синдикат теряет книгу; Бюро приобретает."
+			}
+		},
+		{
+			"flag": "sal_meeting_hosted",
+			"standing": { "ring": 1 },
+			"note": {
+				"en": "A union vote met under your roof and left no minutes. The Ring remembers roofs.",
+				"ru": "Профсоюзное голосование прошло под вашей крышей и не оставило протокола. Кольцо помнит крыши."
+			}
+		},
+		{
+			"flag": "sal_meeting_refused",
+			"standing": { "ring": -1 },
+			"note": {
+				"en": "The Ring asked for two hours of shelter and got a closed door. Doors get counted.",
+				"ru": "Кольцо попросило два часа укрытия и получило закрытую дверь. Двери считают."
+			}
+		},
+		{
+			"flag": "sal_crate_week",
+			"standing": { "ring": 1 },
+			"note": {
+				"en": "The Ring's season crate stayed a week under your ice. Cold storage is worth warm words.",
+				"ru": "Сезонный ящик Кольца неделю отлеживался под вашим льдом. Холодный склад дороже тёплых слов."
+			}
+		},
+		{
+			"flag": "sal_crate_refused",
+			"standing": { "ring": -2 },
+			"note": {
+				"en": "The Ring heard no again. Refusals are currency; yours just depreciated.",
+				"ru": "Кольцо снова услышало отказ. Отказы - валюта; ваша только что подешевела."
+			}
+		},
+		{
+			"flag": "agnes_lease_signed",
+			"standing": { "station": 1 },
+			"note": {
+				"en": "You signed the line about the sealed basement. The Station likes tenants who don't renovate.",
+				"ru": "Вы подписали строку о закрытом подвале. Участок любит жильцов, которые не делают ремонт."
+			}
+		},
+		{
+			"flag": "agnes_lease_refused",
+			"standing": { "station": -1 },
+			"note": {
+				"en": "You wouldn't sign the landlady's line. The Station remembers tenants who read too closely.",
+				"ru": "Вы не подписали строку хозяйки. Участок запоминает жильцов, которые читают слишком внимательно."
+			}
+		},
+		{
+			"flag": "agnes_covered",
+			"standing": { "station": 1 },
+			"note": {
+				"en": "When the notebook came asking, you closed the notebook. The Station pays in rent and memory.",
+				"ru": "Когда к вам пришёл блокнот, вы закрыли блокнот. Участок платит рентой и памятью."
+			}
+		},
+		{
+			"flag": "agnes_envelope_sold",
+			"standing": { "station": -2, "bureau": 1 },
+			"note": {
+				"en": "The precinct's envelope story walked to a detective. The Station pays debts double; the Bureau pays for talk.",
+				"ru": "История конверта участка дошла до детектива. Участок платит долги вдвойне; Бюро платит за разговоры."
+			}
 		}
 	]
 }
