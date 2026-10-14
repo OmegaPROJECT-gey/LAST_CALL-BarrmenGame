@@ -35,6 +35,7 @@
 		"heat": { "type": "object", "additionalProperties": { "type": "number" } },
 		"economy": { "type": "object", "additionalProperties": { "type": "number" } },
 		"liquid": { "type": "object", "additionalProperties": { "type": "number" } },
-		"threat": { "type": "object", "additionalProperties": { "type": "number" } }
+		"threat": { "type": "object", "additionalProperties": { "type": "number" } },
+		"crafting": { "type": "object", "additionalProperties": { "type": "number" } }
 	}
 }

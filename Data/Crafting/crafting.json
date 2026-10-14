@@ -1,0 +1,39 @@
+{
+	"$schema": "../schemas/crafting.schema.json",
+	"crafts": [
+		{
+			"id": "infusion_coffee",
+			"kind": "infusion",
+			"display_name": {
+				"en": "Coffee infusion",
+				"ru": "Кофейная настойка"
+			},
+			"inputs": [
+				{ "item": "coffee_liqueur", "amount": 2 },
+				{ "item": "whiskey_rye", "amount": 1 }
+			],
+			"time_minutes": 45,
+			"strength": 0.55,
+			"output_item": "infusion_coffee",
+			"output_amount": 1,
+			"failure_item": "swill"
+		},
+		{
+			"id": "syrup_orange",
+			"kind": "syrup",
+			"display_name": {
+				"en": "Orange syrup",
+				"ru": "Апельсиновый сироп"
+			},
+			"inputs": [
+				{ "item": "orange_oil", "amount": 1 },
+				{ "item": "soda_water", "amount": 2 }
+			],
+			"time_minutes": 20,
+			"strength": 0.7,
+			"output_item": "syrup_orange",
+			"output_amount": 1,
+			"failure_item": "swill"
+		}
+	]
+}

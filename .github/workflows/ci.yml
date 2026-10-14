@@ -83,3 +83,6 @@ jobs:
 
       - name: Social consequences unit tests (flags -> standing)
         run: ./scripts/test-social.sh
+
+      - name: Crafting unit tests (inputs -> outcomes)
+        run: ./scripts/test-crafting.sh

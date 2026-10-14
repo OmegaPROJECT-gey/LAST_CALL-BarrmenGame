@@ -55,5 +55,12 @@
 		"low_mood_threshold": 0.3,
 		"band_elevated": 0.35,
 		"band_danger": 0.7
+	},
+	"crafting": {
+		"perfect_time_minutes": 2.0,
+		"perfect_strength": 0.15,
+		"usable_time_minutes": 6.0,
+		"usable_strength": 0.35,
+		"sloppy_quality": 0.5
 	}
 }

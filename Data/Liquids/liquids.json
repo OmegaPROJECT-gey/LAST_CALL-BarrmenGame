@@ -55,6 +55,39 @@
 			"foam": 0.5,
 			"color": "#cfe9ef",
 			"base_price": 3
+		},
+		"infusion_coffee": {
+			"display_name": {
+				"en": "Coffee infusion",
+				"ru": "Кофейная настойка"
+			},
+			"viscosity": 2.0,
+			"density": 1.05,
+			"foam": 0.0,
+			"color": "#2a1710",
+			"base_price": 26
+		},
+		"syrup_orange": {
+			"display_name": {
+				"en": "Orange syrup",
+				"ru": "Апельсиновый сироп"
+			},
+			"viscosity": 5.5,
+			"density": 1.25,
+			"foam": 0.0,
+			"color": "#c96f10",
+			"base_price": 20
+		},
+		"swill": {
+			"display_name": {
+				"en": "Swill",
+				"ru": "Сивуха"
+			},
+			"viscosity": 2.2,
+			"density": 1.0,
+			"foam": 0.3,
+			"color": "#5a5344",
+			"base_price": 1
 		}
 	}
 }

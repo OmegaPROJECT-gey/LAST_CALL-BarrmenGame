@@ -1,0 +1,54 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "crafting.schema.json",
+	"title": "LAST CALL crafting (infusions and syrups)",
+	"type": "object",
+	"required": ["crafts"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"crafts": {
+			"type": "array",
+			"minItems": 1,
+			"items": {
+				"type": "object",
+				"required": ["id", "kind", "display_name", "inputs", "time_minutes", "strength", "output_item", "failure_item"],
+				"additionalProperties": false,
+				"properties": {
+					"id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+					"kind": { "type": "string", "enum": ["infusion", "syrup"] },
+					"display_name": { "$ref": "#/$defs/localized" },
+					"inputs": {
+						"type": "array",
+						"minItems": 1,
+						"items": {
+							"type": "object",
+							"required": ["item", "amount"],
+							"additionalProperties": false,
+							"properties": {
+								"item": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+								"amount": { "type": "number", "exclusiveMinimum": 0 }
+							}
+						}
+					},
+					"time_minutes": { "type": "number", "exclusiveMinimum": 0 },
+					"strength": { "type": "number", "minimum": 0, "maximum": 1 },
+					"output_item": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+					"output_amount": { "type": "integer", "minimum": 1 },
+					"failure_item": { "type": "string", "pattern": "^[a-z0-9_]+$" }
+				}
+			}
+		}
+	},
+	"$defs": {
+		"localized": {
+			"type": "object",
+			"required": ["en", "ru"],
+			"additionalProperties": false,
+			"properties": {
+				"en": { "type": "string", "minLength": 1 },
+				"ru": { "type": "string", "minLength": 1 }
+			}
+		}
+	}
+}
