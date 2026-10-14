@@ -1,0 +1,38 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "liquids.schema.json",
+	"title": "LAST CALL liquid properties",
+	"type": "object",
+	"required": ["liquids"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"liquids": {
+			"type": "object",
+			"minProperties": 1,
+			"additionalProperties": {
+				"type": "object",
+				"required": ["display_name", "viscosity", "density", "foam", "color"],
+				"additionalProperties": false,
+				"properties": {
+					"display_name": { "$ref": "#/$defs/localized" },
+					"viscosity": { "type": "number", "exclusiveMinimum": 0 },
+					"density": { "type": "number", "minimum": 0.5, "maximum": 2.0 },
+					"foam": { "type": "number", "minimum": 0, "maximum": 1 },
+					"color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+				}
+			}
+		}
+	},
+	"$defs": {
+		"localized": {
+			"type": "object",
+			"required": ["en", "ru"],
+			"additionalProperties": false,
+			"properties": {
+				"en": { "type": "string", "minLength": 1 },
+				"ru": { "type": "string", "minLength": 1 }
+			}
+		}
+	}
+}

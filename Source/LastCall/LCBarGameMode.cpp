@@ -1,13 +1,13 @@
 #include "LCBarGameMode.h"
 
 #include "Core/LCPhaseManager.h"
-#include "GameFramework/GameInstance.h"
+#include "Engine/GameInstance.h"
 #include "LastCall.h"
 
 ALCBarGameMode::ALCBarGameMode()
 {
 	// The bar is a place, not a shooter: no default weapon, no crosshair.
-	bStartPlayersAsSpectator = false;
+	bStartPlayersAsSpectators = false;
 }
 
 void ALCBarGameMode::BeginPlay()

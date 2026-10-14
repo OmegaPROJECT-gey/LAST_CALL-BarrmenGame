@@ -29,11 +29,8 @@ public class LastCall : ModuleRules
 			"Niagara"
 		});
 
-		// Data-driven content lives outside Content/ and is loaded through
-		// DataTables compiled from Data/*.json (ARCHITECTURE.md 7).
-		PublicIncludePaths.AddRange(new string[]
-		{
-			// keep module root include clean; subsystem folders are private
-		});
+		// Subsystem folders (Core/, Bar/, Dialogue/, ...) are included as
+		// "Core/Foo.h" everywhere - the module root must be on the path.
+		PublicIncludePaths.Add(ModuleDirectory);
 	}
 }

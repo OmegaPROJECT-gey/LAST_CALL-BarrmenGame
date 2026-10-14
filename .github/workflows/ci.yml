@@ -71,3 +71,6 @@ jobs:
 
       - name: Skill tree unit tests (data -> wallet)
         run: ./scripts/test-skills.sh
+
+      - name: Liquid core unit tests (layering -> solver)
+        run: ./scripts/test-liquids.sh
