@@ -1,0 +1,33 @@
+{
+	"$schema": "../schemas/customer.schema.json",
+	"id": "rosa",
+	"archetype": "regular_minor",
+	"name": {
+		"en": "Rosa Delgado",
+		"ru": "Роза Дельгадо"
+	},
+	"schedule": {
+		"days": [
+			4,
+			6
+		],
+		"phases": [
+			"Night"
+		],
+		"arrival_hour": 23
+	},
+	"taste": {
+		"order": "whiskey_neat",
+		"glass": "rocks",
+		"acceptable_substitutes": [
+			"dry_martini"
+		]
+	},
+	"persona": {
+		"tell": "thirsty",
+		"mood_baseline": 0.55,
+		"patience_baseline": 0.4,
+		"will_tell_story": false
+	},
+	"faction": "civilian"
+}

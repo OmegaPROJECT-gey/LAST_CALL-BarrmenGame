@@ -85,8 +85,8 @@ int main()
 		std::vector<std::string> errors;
 		const int loaded = from_directory.load_directory(
 			lc_test::repo_root() + "/Data/Customers", &errors);
-		expect(loaded == 3 && errors.empty(), "the Customers directory loads clean");
-		expect(from_directory.ids().size() == 3, "three regulars on the books");
+		expect(loaded == 15 && errors.empty(), "the Customers directory loads clean");
+		expect(from_directory.ids().size() == 15, "fifteen regulars on the books");
 
 		const CustomerRecord* kane = from_directory.find("kane");
 		expect(kane != nullptr, "Miss Kane is found");

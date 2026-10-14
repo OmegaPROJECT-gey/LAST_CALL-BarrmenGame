@@ -101,6 +101,8 @@ Besides the three majors, twelve regulars carry smaller arcs that intersect the 
 
 Each arc: 3–6 scenes, one favor, one betrayal option, one ending state. They are the sandbox's connective tissue.
 
+**Roster (names land with the records, 2026-10-14):** Vera Lynch (the office worker who launders money through tips), Denny Rourke (the bartender's ex-partner), Sal Petrakis (the union rep), Brother Amos (the street preacher), Ivy Nakamura (the hacker on the bar's Wi-Fi), Walter Prewitt (the uncle's former partner), Rosa Delgado (the paramedic), Mrs. Agnes Boyle (the landlady), Jax Corso (the DJ), Pip (the pickpocket kid), Mack O'Shea (the ex-boxer waiting to be a doorman), Dana Voss (the journalist).
+
 ## 5. Factions
 
 | Faction | Wants | Gives | Turns if... |
@@ -132,7 +134,7 @@ Standing is a number per faction; heat (police attention) is separate. Both are 
 
 - [x] Act I–IV beat sheet: written in EN and RU and approved by the owner (§2.1, ROADMAP C1)
 - [~] 3 major characters: full trees + schedules (C2)
-- [ ] 12 regulars: 3–6 scenes each (C3)
+- [~] 12 regulars: records done, 3–6 scenes each pending (C3)
 - [~] 4 factions: standing events + reaction tables (C3)
 - [ ] 6 endings, each with a distinct last night (C4)
 - [ ] RU pass by a native editor, not machine-only (P3)

@@ -1,0 +1,33 @@
+{
+	"$schema": "../schemas/customer.schema.json",
+	"id": "dana",
+	"archetype": "regular_minor",
+	"name": {
+		"en": "Dana Voss",
+		"ru": "Дана Восс"
+	},
+	"schedule": {
+		"days": [
+			2,
+			4
+		],
+		"phases": [
+			"Shift"
+		],
+		"arrival_hour": 16
+	},
+	"taste": {
+		"order": "dry_martini",
+		"glass": "martini",
+		"acceptable_substitutes": [
+			"signature_noir"
+		]
+	},
+	"persona": {
+		"tell": "fake",
+		"mood_baseline": 0.5,
+		"patience_baseline": 0.55,
+		"will_tell_story": true
+	},
+	"faction": "bureau"
+}

@@ -1,0 +1,30 @@
+{
+	"$schema": "../schemas/customer.schema.json",
+	"id": "agnes",
+	"archetype": "regular_minor",
+	"name": {
+		"en": "Mrs. Agnes Boyle",
+		"ru": "Миссис Агнес Бойл"
+	},
+	"schedule": {
+		"days": [
+			1
+		],
+		"phases": [
+			"Shift"
+		],
+		"arrival_hour": 13
+	},
+	"taste": {
+		"order": "dry_martini",
+		"glass": "martini",
+		"acceptable_substitutes": []
+	},
+	"persona": {
+		"tell": "fake",
+		"mood_baseline": 0.6,
+		"patience_baseline": 0.75,
+		"will_tell_story": true
+	},
+	"faction": "station"
+}

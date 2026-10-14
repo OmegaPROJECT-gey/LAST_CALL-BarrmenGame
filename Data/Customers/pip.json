@@ -1,0 +1,32 @@
+{
+	"$schema": "../schemas/customer.schema.json",
+	"id": "pip",
+	"archetype": "regular_minor",
+	"name": {
+		"en": "Pip",
+		"ru": "Пип"
+	},
+	"schedule": {
+		"days": [
+			5,
+			6,
+			7
+		],
+		"phases": [
+			"Night"
+		],
+		"arrival_hour": 22
+	},
+	"taste": {
+		"order": "dry_martini",
+		"glass": "martini",
+		"acceptable_substitutes": []
+	},
+	"persona": {
+		"tell": "nervous",
+		"mood_baseline": 0.5,
+		"patience_baseline": 0.3,
+		"will_tell_story": false
+	},
+	"faction": "ring"
+}

@@ -1,0 +1,33 @@
+{
+	"$schema": "../schemas/customer.schema.json",
+	"id": "walter",
+	"archetype": "regular_minor",
+	"name": {
+		"en": "Walter Prewitt",
+		"ru": "Уолтер Прюитт"
+	},
+	"schedule": {
+		"days": [
+			1,
+			5
+		],
+		"phases": [
+			"Shift"
+		],
+		"arrival_hour": 19
+	},
+	"taste": {
+		"order": "signature_noir",
+		"glass": "rocks",
+		"acceptable_substitutes": [
+			"whiskey_neat"
+		]
+	},
+	"persona": {
+		"tell": "nervous",
+		"mood_baseline": 0.4,
+		"patience_baseline": 0.7,
+		"will_tell_story": true
+	},
+	"faction": "bureau"
+}

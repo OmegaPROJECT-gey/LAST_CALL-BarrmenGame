@@ -1,0 +1,33 @@
+{
+	"$schema": "../schemas/customer.schema.json",
+	"id": "denny",
+	"archetype": "regular_minor",
+	"name": {
+		"en": "Denny Rourke",
+		"ru": "Денни Рорк"
+	},
+	"schedule": {
+		"days": [
+			3,
+			6
+		],
+		"phases": [
+			"Shift"
+		],
+		"arrival_hour": 21
+	},
+	"taste": {
+		"order": "whiskey_neat",
+		"glass": "rocks",
+		"acceptable_substitutes": [
+			"black_manhattan"
+		]
+	},
+	"persona": {
+		"tell": "lonely",
+		"mood_baseline": 0.45,
+		"patience_baseline": 0.5,
+		"will_tell_story": true
+	},
+	"faction": "civilian"
+}

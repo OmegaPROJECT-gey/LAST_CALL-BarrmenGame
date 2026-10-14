@@ -1,0 +1,34 @@
+{
+	"$schema": "../schemas/customer.schema.json",
+	"id": "ivy",
+	"archetype": "regular_minor",
+	"name": {
+		"en": "Ivy Nakamura",
+		"ru": "Айви Накамура"
+	},
+	"schedule": {
+		"days": [
+			3,
+			4,
+			5
+		],
+		"phases": [
+			"Night"
+		],
+		"arrival_hour": 22
+	},
+	"taste": {
+		"order": "black_manhattan",
+		"glass": "rocks",
+		"acceptable_substitutes": [
+			"dry_martini"
+		]
+	},
+	"persona": {
+		"tell": "nervous",
+		"mood_baseline": 0.5,
+		"patience_baseline": 0.45,
+		"will_tell_story": true
+	},
+	"faction": "ring"
+}

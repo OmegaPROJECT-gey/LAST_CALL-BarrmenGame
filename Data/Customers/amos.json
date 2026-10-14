@@ -1,0 +1,30 @@
+{
+	"$schema": "../schemas/customer.schema.json",
+	"id": "amos",
+	"archetype": "regular_minor",
+	"name": {
+		"en": "Brother Amos",
+		"ru": "Брат Амос"
+	},
+	"schedule": {
+		"days": [
+			7
+		],
+		"phases": [
+			"Shift"
+		],
+		"arrival_hour": 16
+	},
+	"taste": {
+		"order": "whiskey_neat",
+		"glass": "rocks",
+		"acceptable_substitutes": []
+	},
+	"persona": {
+		"tell": "lonely",
+		"mood_baseline": 0.6,
+		"patience_baseline": 0.8,
+		"will_tell_story": true
+	},
+	"faction": "civilian"
+}

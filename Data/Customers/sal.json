@@ -1,0 +1,31 @@
+{
+	"$schema": "../schemas/customer.schema.json",
+	"id": "sal",
+	"archetype": "regular_minor",
+	"name": {
+		"en": "Sal Petrakis",
+		"ru": "Сал Петракис"
+	},
+	"schedule": {
+		"days": [
+			2,
+			4
+		],
+		"phases": [
+			"Shift"
+		],
+		"arrival_hour": 17
+	},
+	"taste": {
+		"order": "whiskey_neat",
+		"glass": "rocks",
+		"acceptable_substitutes": []
+	},
+	"persona": {
+		"tell": "nervous",
+		"mood_baseline": 0.55,
+		"patience_baseline": 0.65,
+		"will_tell_story": true
+	},
+	"faction": "ring"
+}
