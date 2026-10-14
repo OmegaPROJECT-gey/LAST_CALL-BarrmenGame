@@ -1,0 +1,63 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act3_ivy_fork",
+	"act": 3,
+	"participants": ["player", "ivy"],
+	"entry": "extract",
+	"nodes": {
+		"extract": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.extract.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act3_ivy_fork_played", "value": false },
+				{ "type": "story_flag", "flag": "act2_ivy_favor_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.extract.hint",
+			"choices": [
+				{
+					"id": "shelter",
+					"text_key": "dlg.ivy.extract.choice.shelter",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "ivy_hidden", "value": true }],
+					"next": "hidden"
+				},
+				{
+					"id": "hand_ring",
+					"text_key": "dlg.ivy.extract.choice.ring",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "ivy_handed", "value": true }],
+					"next": "handed"
+				},
+				{
+					"id": "flip_bureau",
+					"text_key": "dlg.ivy.extract.choice.bureau",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "ivy_flipped", "value": true }],
+					"next": "flipped"
+				}
+			]
+		},
+		"hidden": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.extract.hidden",
+			"effects": [{ "type": "story_flag", "flag": "act3_ivy_fork_played", "value": true }],
+			"end": true
+		},
+		"handed": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.extract.handed",
+			"effects": [{ "type": "story_flag", "flag": "act3_ivy_fork_played", "value": true }],
+			"end": true
+		},
+		"flipped": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.extract.flipped",
+			"effects": [{ "type": "story_flag", "flag": "act3_ivy_fork_played", "value": true }],
+			"end": true
+		}
+	}
+}

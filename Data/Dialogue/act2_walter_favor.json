@@ -1,0 +1,69 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act2_walter_favor",
+	"act": 2,
+	"participants": ["player", "walter"],
+	"entry": "basement",
+	"nodes": {
+		"basement": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.basement.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act2_walter_favor_played", "value": false },
+				{ "type": "story_flag", "flag": "act1_walter_first_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.basement.hint",
+			"choices": [
+				{
+					"id": "open",
+					"text_key": "dlg.walter.basement.choice.open",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "walter_basement_opened", "value": true },
+						{ "type": "mood", "target": "walter", "delta": 0.1 }
+					],
+					"next": "opened"
+				},
+				{
+					"id": "refuse",
+					"text_key": "dlg.walter.basement.choice.refuse",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "walter_basement_refused", "value": true },
+						{ "type": "mood", "target": "walter", "delta": -0.1 }
+					],
+					"next": "refused"
+				},
+				{
+					"id": "question",
+					"text_key": "dlg.walter.basement.choice.ask",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "walter_basement_asked", "value": true }],
+					"next": "asked"
+				}
+			]
+		},
+		"opened": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.basement.opened",
+			"effects": [{ "type": "story_flag", "flag": "act2_walter_favor_played", "value": true }],
+			"end": true
+		},
+		"refused": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.basement.refused",
+			"effects": [{ "type": "story_flag", "flag": "act2_walter_favor_played", "value": true }],
+			"end": true
+		},
+		"asked": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.basement.asked",
+			"effects": [{ "type": "story_flag", "flag": "act2_walter_favor_played", "value": true }],
+			"end": true
+		}
+	}
+}

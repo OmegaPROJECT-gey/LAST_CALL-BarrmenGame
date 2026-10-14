@@ -1,0 +1,69 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act2_amos_favor",
+	"act": 2,
+	"participants": ["player", "amos"],
+	"entry": "shelter",
+	"nodes": {
+		"shelter": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.shelter.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act2_amos_favor_played", "value": false },
+				{ "type": "story_flag", "flag": "act1_amos_sermon_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.shelter.hint",
+			"choices": [
+				{
+					"id": "open",
+					"text_key": "dlg.amos.shelter.choice.open",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "amos_shelter_ok", "value": true },
+						{ "type": "mood", "target": "amos", "delta": 0.1 }
+					],
+					"next": "opened"
+				},
+				{
+					"id": "conditions",
+					"text_key": "dlg.amos.shelter.choice.terms",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "amos_shelter_terms", "value": true },
+						{ "type": "mood", "target": "amos", "delta": -0.1 }
+					],
+					"next": "terms_set"
+				},
+				{
+					"id": "refuse",
+					"text_key": "dlg.amos.shelter.choice.refuse",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "amos_shelter_refused", "value": true }],
+					"next": "refused"
+				}
+			]
+		},
+		"opened": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.shelter.opened",
+			"effects": [{ "type": "story_flag", "flag": "act2_amos_favor_played", "value": true }],
+			"end": true
+		},
+		"terms_set": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.shelter.terms_set",
+			"effects": [{ "type": "story_flag", "flag": "act2_amos_favor_played", "value": true }],
+			"end": true
+		},
+		"refused": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.shelter.refused",
+			"effects": [{ "type": "story_flag", "flag": "act2_amos_favor_played", "value": true }],
+			"end": true
+		}
+	}
+}

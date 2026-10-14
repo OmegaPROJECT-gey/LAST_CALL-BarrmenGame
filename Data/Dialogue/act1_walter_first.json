@@ -1,0 +1,66 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act1_walter_first",
+	"act": 1,
+	"participants": ["player", "walter"],
+	"entry": "first",
+	"nodes": {
+		"first": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.first.entry",
+			"conditions": [{ "type": "story_flag", "flag": "act1_walter_first_played", "value": false }],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.first.hint",
+			"choices": [
+				{
+					"id": "honor",
+					"text_key": "dlg.walter.first.choice.honor",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "walter_signature_poured", "value": true },
+						{ "type": "mood", "target": "walter", "delta": 0.1 }
+					],
+					"next": "honored"
+				},
+				{
+					"id": "improve",
+					"text_key": "dlg.walter.first.choice.improve",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "walter_altered", "value": true },
+						{ "type": "mood", "target": "walter", "delta": -0.1 }
+					],
+					"next": "altered"
+				},
+				{
+					"id": "ask",
+					"text_key": "dlg.walter.first.choice.ask",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "walter_asked", "value": true }],
+					"next": "asked"
+				}
+			]
+		},
+		"honored": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.first.honored",
+			"effects": [{ "type": "story_flag", "flag": "act1_walter_first_played", "value": true }],
+			"end": true
+		},
+		"altered": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.first.altered",
+			"effects": [{ "type": "story_flag", "flag": "act1_walter_first_played", "value": true }],
+			"end": true
+		},
+		"asked": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.first.asked",
+			"effects": [{ "type": "story_flag", "flag": "act1_walter_first_played", "value": true }],
+			"end": true
+		}
+	}
+}

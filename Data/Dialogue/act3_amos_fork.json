@@ -1,0 +1,63 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act3_amos_fork",
+	"act": 3,
+	"participants": ["player", "amos"],
+	"entry": "notes",
+	"nodes": {
+		"notes": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.notes.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act3_amos_fork_played", "value": false },
+				{ "type": "story_flag", "flag": "act2_amos_favor_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.notes.hint",
+			"choices": [
+				{
+					"id": "break_log",
+					"text_key": "dlg.amos.notes.choice.break",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "amos_log_broken", "value": true }],
+					"next": "broken"
+				},
+				{
+					"id": "keep_log",
+					"text_key": "dlg.amos.notes.choice.keep",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "amos_log_kept", "value": true }],
+					"next": "kept"
+				},
+				{
+					"id": "take_log",
+					"text_key": "dlg.amos.notes.choice.take",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "amos_log_mine", "value": true }],
+					"next": "mine"
+				}
+			]
+		},
+		"broken": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.notes.broken",
+			"effects": [{ "type": "story_flag", "flag": "act3_amos_fork_played", "value": true }],
+			"end": true
+		},
+		"kept": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.notes.kept",
+			"effects": [{ "type": "story_flag", "flag": "act3_amos_fork_played", "value": true }],
+			"end": true
+		},
+		"mine": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.notes.mine",
+			"effects": [{ "type": "story_flag", "flag": "act3_amos_fork_played", "value": true }],
+			"end": true
+		}
+	}
+}

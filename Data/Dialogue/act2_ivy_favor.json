@@ -1,0 +1,69 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act2_ivy_favor",
+	"act": 2,
+	"participants": ["player", "ivy"],
+	"entry": "drop",
+	"nodes": {
+		"drop": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.drop.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act2_ivy_favor_played", "value": false },
+				{ "type": "story_flag", "flag": "act1_ivy_wifi_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.drop.hint",
+			"choices": [
+				{
+					"id": "hold",
+					"text_key": "dlg.ivy.drop.choice.hold",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "ivy_drop_held", "value": true },
+						{ "type": "mood", "target": "ivy", "delta": 0.1 }
+					],
+					"next": "held"
+				},
+				{
+					"id": "open",
+					"text_key": "dlg.ivy.drop.choice.open",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "ivy_drop_opened", "value": true },
+						{ "type": "mood", "target": "ivy", "delta": -0.1 }
+					],
+					"next": "opened"
+				},
+				{
+					"id": "refuse",
+					"text_key": "dlg.ivy.drop.choice.refuse",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "ivy_drop_refused", "value": true }],
+					"next": "refused"
+				}
+			]
+		},
+		"held": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.drop.held",
+			"effects": [{ "type": "story_flag", "flag": "act2_ivy_favor_played", "value": true }],
+			"end": true
+		},
+		"opened": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.drop.opened",
+			"effects": [{ "type": "story_flag", "flag": "act2_ivy_favor_played", "value": true }],
+			"end": true
+		},
+		"refused": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.drop.refused",
+			"effects": [{ "type": "story_flag", "flag": "act2_ivy_favor_played", "value": true }],
+			"end": true
+		}
+	}
+}

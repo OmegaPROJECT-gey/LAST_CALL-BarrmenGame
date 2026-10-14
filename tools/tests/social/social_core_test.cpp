@@ -63,7 +63,7 @@ int main()
 	}
 	expect(library.find("no_such_faction") == nullptr, "unknown factions read null");
 
-	expect(library.reactions().size() == 48, "forty-eight reaction rows");
+	expect(library.reactions().size() == 68, "sixty-eight reaction rows");
 
 	const lc::Reaction* case_reaction = library.reaction_for("heard_harris_case");
 	expect(case_reaction != nullptr, "the detective's case has a reaction");
@@ -142,6 +142,35 @@ int main()
 			{"mack_defended", "syndicate", 1.0, 1},
 			{"denny_sold", "bureau", 1.0, 1},
 			{"denny_protected", "civilian", 1.0, 1},
+			// Wave 3 arcs: Amos (the preacher / The Room + Station),
+			// Ivy (the hacker / The Ring vs the Bureau),
+			// Walter (the uncle's partner / the archive index) - C3 batch 6.
+			{"amos_sermon_ok", "civilian", 1.0, 1},
+			{"amos_heckled", "civilian", -1.0, 1},
+			{"amos_shelter_ok", "civilian", 1.0, 1},
+			{"amos_shelter_refused", "civilian", -1.0, 1},
+			{"amos_log_broken", "station", -1.0, 2},
+			{"amos_log_broken", "civilian", 1.0, 2},
+			{"amos_log_kept", "station", 1.0, 1},
+			{"amos_log_mine", "civilian", -1.0, 1},
+			{"ivy_wifi_ok", "ring", 1.0, 1},
+			{"ivy_warned", "ring", -1.0, 1},
+			{"ivy_drop_held", "ring", 1.0, 1},
+			{"ivy_drop_refused", "ring", -1.0, 1},
+			{"ivy_drop_opened", "ring", -2.0, 1},
+			{"ivy_hidden", "ring", -2.0, 2},
+			{"ivy_hidden", "civilian", 1.0, 2},
+			{"ivy_handed", "ring", 1.0, 1},
+			{"ivy_flipped", "bureau", 1.0, 2},
+			{"ivy_flipped", "ring", -2.0, 2},
+			{"walter_signature_poured", "civilian", 1.0, 1},
+			{"walter_altered", "civilian", -1.0, 1},
+			{"walter_index_sold", "bureau", 2.0, 1},
+			{"walter_index_burned", "syndicate", -1.0, 4},
+			{"walter_index_burned", "ring", -1.0, 4},
+			{"walter_index_burned", "station", -1.0, 4},
+			{"walter_index_burned", "bureau", -1.0, 4},
+			{"walter_index_kept", "civilian", 1.0, 1},
 		};
 		for (const Expected& want : expected)
 		{

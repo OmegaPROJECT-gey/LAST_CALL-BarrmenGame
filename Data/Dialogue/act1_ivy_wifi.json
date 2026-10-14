@@ -1,0 +1,66 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act1_ivy_wifi",
+	"act": 1,
+	"participants": ["player", "ivy"],
+	"entry": "corner",
+	"nodes": {
+		"corner": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.wifi.entry",
+			"conditions": [{ "type": "story_flag", "flag": "act1_ivy_wifi_played", "value": false }],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.wifi.hint",
+			"choices": [
+				{
+					"id": "trust",
+					"text_key": "dlg.ivy.wifi.choice.trust",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "ivy_wifi_ok", "value": true },
+						{ "type": "mood", "target": "ivy", "delta": 0.1 }
+					],
+					"next": "trusted"
+				},
+				{
+					"id": "warn",
+					"text_key": "dlg.ivy.wifi.choice.warn",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "ivy_warned", "value": true },
+						{ "type": "mood", "target": "ivy", "delta": -0.1 }
+					],
+					"next": "warned"
+				},
+				{
+					"id": "hire_task",
+					"text_key": "dlg.ivy.wifi.choice.task",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "ivy_hired_hack", "value": true }],
+					"next": "tasked"
+				}
+			]
+		},
+		"trusted": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.wifi.trusted",
+			"effects": [{ "type": "story_flag", "flag": "act1_ivy_wifi_played", "value": true }],
+			"end": true
+		},
+		"warned": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.wifi.warned",
+			"effects": [{ "type": "story_flag", "flag": "act1_ivy_wifi_played", "value": true }],
+			"end": true
+		},
+		"tasked": {
+			"speaker": "ivy",
+			"text_key": "dlg.ivy.wifi.tasked",
+			"effects": [{ "type": "story_flag", "flag": "act1_ivy_wifi_played", "value": true }],
+			"end": true
+		}
+	}
+}

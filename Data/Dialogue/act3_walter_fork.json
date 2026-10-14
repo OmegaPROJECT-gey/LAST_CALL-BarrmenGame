@@ -1,0 +1,63 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act3_walter_fork",
+	"act": 3,
+	"participants": ["player", "walter"],
+	"entry": "index",
+	"nodes": {
+		"index": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.index.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act3_walter_fork_played", "value": false },
+				{ "type": "story_flag", "flag": "act2_walter_favor_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.index.hint",
+			"choices": [
+				{
+					"id": "sell",
+					"text_key": "dlg.walter.index.choice.sell",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "walter_index_sold", "value": true }],
+					"next": "sold"
+				},
+				{
+					"id": "burn",
+					"text_key": "dlg.walter.index.choice.burn",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "walter_index_burned", "value": true }],
+					"next": "burned"
+				},
+				{
+					"id": "keep",
+					"text_key": "dlg.walter.index.choice.keep",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "walter_index_kept", "value": true }],
+					"next": "kept"
+				}
+			]
+		},
+		"sold": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.index.sold",
+			"effects": [{ "type": "story_flag", "flag": "act3_walter_fork_played", "value": true }],
+			"end": true
+		},
+		"burned": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.index.burned",
+			"effects": [{ "type": "story_flag", "flag": "act3_walter_fork_played", "value": true }],
+			"end": true
+		},
+		"kept": {
+			"speaker": "walter",
+			"text_key": "dlg.walter.index.kept",
+			"effects": [{ "type": "story_flag", "flag": "act3_walter_fork_played", "value": true }],
+			"end": true
+		}
+	}
+}

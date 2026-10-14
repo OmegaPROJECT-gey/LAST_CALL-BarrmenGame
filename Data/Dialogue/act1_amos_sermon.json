@@ -1,0 +1,66 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act1_amos_sermon",
+	"act": 1,
+	"participants": ["player", "amos"],
+	"entry": "sermon",
+	"nodes": {
+		"sermon": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.sermon.entry",
+			"conditions": [{ "type": "story_flag", "flag": "act1_amos_sermon_played", "value": false }],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.sermon.hint",
+			"choices": [
+				{
+					"id": "let_preach",
+					"text_key": "dlg.amos.sermon.choice.preach",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "amos_sermon_ok", "value": true },
+						{ "type": "mood", "target": "amos", "delta": 0.1 }
+					],
+					"next": "preaching"
+				},
+				{
+					"id": "heckle",
+					"text_key": "dlg.amos.sermon.choice.heckle",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "amos_heckled", "value": true },
+						{ "type": "mood", "target": "amos", "delta": -0.1 }
+					],
+					"next": "heckled"
+				},
+				{
+					"id": "pour",
+					"text_key": "dlg.amos.sermon.choice.pour",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "amos_poured", "value": true }],
+					"next": "poured"
+				}
+			]
+		},
+		"preaching": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.sermon.preaching",
+			"effects": [{ "type": "story_flag", "flag": "act1_amos_sermon_played", "value": true }],
+			"end": true
+		},
+		"heckled": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.sermon.heckled",
+			"effects": [{ "type": "story_flag", "flag": "act1_amos_sermon_played", "value": true }],
+			"end": true
+		},
+		"poured": {
+			"speaker": "amos",
+			"text_key": "dlg.amos.sermon.poured",
+			"effects": [{ "type": "story_flag", "flag": "act1_amos_sermon_played", "value": true }],
+			"end": true
+		}
+	}
+}

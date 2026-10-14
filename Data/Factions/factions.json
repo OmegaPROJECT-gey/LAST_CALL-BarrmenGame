@@ -406,6 +406,166 @@
 				"en": "You covered a friend's old debt instead of selling it. The room writes that down in invisible ink.",
 				"ru": "Вы покрыли старый долг друга, вместо чтобы продать его. Зал записывает это невидимыми чернилами."
 			}
+		},
+		{
+			"flag": "amos_sermon_ok",
+			"standing": { "civilian": 1 },
+			"note": {
+				"en": "You gave a preacher the floor on a slow Sunday. The room likes a bar that has room.",
+				"ru": "Вы отдали проповеднику пол в тихое воскресенье. Зал любит бар, в котором есть место."
+			}
+		},
+		{
+			"flag": "amos_heckled",
+			"standing": { "civilian": -1 },
+			"note": {
+				"en": "You heckled scripture at your own counter. The room forgives bad pours, not bad manners.",
+				"ru": "Вы перебили писание у собственной стойки. Зал прощает плохие налитые, но не плохие манеры."
+			}
+		},
+		{
+			"flag": "amos_shelter_ok",
+			"standing": { "civilian": 1 },
+			"note": {
+				"en": "Six strangers slept under your roof and asked no questions. The room keeps that kind of weather report.",
+				"ru": "Шесть незнакомцев проспали под вашей крышей и не задали вопросов. Зал ведёт такие сводки погоды."
+			}
+		},
+		{
+			"flag": "amos_shelter_refused",
+			"standing": { "civilian": -1 },
+			"note": {
+				"en": "You sent the preacher's flock to the porch. The room counts every door that stayed shut.",
+				"ru": "Вы отправили стадо проповедника на крыльцо. Зал считает каждую закрытую дверь."
+			}
+		},
+		{
+			"flag": "amos_log_broken",
+			"standing": { "station": -1, "civilian": 1 },
+			"note": {
+				"en": "The faces notebook burned in your sink. The Station loses its Sunday eye; the room keeps its privacy.",
+				"ru": "Тетрадь лиц сгорела в вашей раковине. Участок теряет свой воскресный глаз; зал сохраняет приватность."
+			}
+		},
+		{
+			"flag": "amos_log_kept",
+			"standing": { "station": 1 },
+			"note": {
+				"en": "The notebook kept writing names after ten. The Station buys eyes either way.",
+				"ru": "Тетрадь продолжала писать имена после десяти. Участку всё равно, с какой совестью."
+			}
+		},
+		{
+			"flag": "amos_log_mine",
+			"standing": { "civilian": -1 },
+			"note": {
+				"en": "You took the preacher's notebook for yourself. The room watches who turns confessions into property.",
+				"ru": "Вы забрали тетрадь проповедника себе. Зал наблюдает, кто превращает исповеди в собственность."
+			}
+		},
+		{
+			"flag": "ivy_wifi_ok",
+			"standing": { "ring": 1 },
+			"note": {
+				"en": "The Ring's girl kept her outlet and her network name. The Ring notes who leaves their people alone.",
+				"ru": "Девочка Кольца сохранила свою розетку и имя сети. Кольцо записывает, кто не трогает их людей."
+			}
+		},
+		{
+			"flag": "ivy_warned",
+			"standing": { "ring": -1 },
+			"note": {
+				"en": "You threatened the Ring's girl over a router. Threats travel on the Ring's wires first.",
+				"ru": "Вы пригрозили девочке Кольца из-за роутера. Угрозы идут по проводам Кольца первыми."
+			}
+		},
+		{
+			"flag": "ivy_drop_held",
+			"standing": { "ring": 1 },
+			"note": {
+				"en": "A drive rested four hours in your ice and nobody saw it breathe. The Ring remembers cold hands.",
+				"ru": "Диск четыре часа лежал в вашем льду, и никто не видел, как он дышит. Кольцо помнит холодные руки."
+			}
+		},
+		{
+			"flag": "ivy_drop_refused",
+			"standing": { "ring": -1 },
+			"note": {
+				"en": "You refused the Ring's courier your ice. Couriers talk to each other in a language of doors.",
+				"ru": "Вы не пустили диск Кольца в свой лёд. Курьеры разговаривают между собой языком дверей."
+			}
+		},
+		{
+			"flag": "ivy_drop_opened",
+			"standing": { "ring": -2 },
+			"note": {
+				"en": "You read the Ring's drive. Trust, once read, never fits back in the case.",
+				"ru": "Вы прочитали диск Кольца. Доверие, однажды прочитанное, больше не влезает в футляр."
+			}
+		},
+		{
+			"flag": "ivy_hidden",
+			"standing": { "ring": -2, "civilian": 1 },
+			"note": {
+				"en": "The Ring's asset disappeared into your stockroom. The Ring loses a tool; the room gains proof you hide people.",
+				"ru": "Актив Кольца исчез на вашем складе. Кольцо теряет инструмент; зал получает доказательство, что вы прячете людей."
+			}
+		},
+		{
+			"flag": "ivy_handed",
+			"standing": { "ring": 1 },
+			"note": {
+				"en": "You returned the Ring's girl to the Ring. Loyalty delivered in person is worth double.",
+				"ru": "Вы вернули девочку Кольцу обратно. Верность, доставленная лично, стоит вдвое."
+			}
+		},
+		{
+			"flag": "ivy_flipped",
+			"standing": { "bureau": 1, "ring": -2 },
+			"note": {
+				"en": "You sold the Ring's asset to the Bureau. One faction's tool becomes another faction's witness.",
+				"ru": "Вы продали актив Кольца Бюро. Инструмент одной группировки становится свидетелем другой."
+			}
+		},
+		{
+			"flag": "walter_signature_poured",
+			"standing": { "civilian": 1 },
+			"note": {
+				"en": "The uncle's recipe poured exactly as chalked. The room likes old contracts honored at the counter.",
+				"ru": "Рецепт дяди налит ровно как мелом. Зал любит старые контракты, честные у стойки."
+			}
+		},
+		{
+			"flag": "walter_altered",
+			"standing": { "civilian": -1 },
+			"note": {
+				"en": "You improved a dead man's recipe. The room forgives money, not memory.",
+				"ru": "Вы улучшили рецепт покойного. Зал прощает деньги, но не память."
+			}
+		},
+		{
+			"flag": "walter_index_sold",
+			"standing": { "bureau": 2 },
+			"note": {
+				"en": "The drink-keyed index of the uncle's archive went to the Bureau whole. The Bureau pays double for a master key.",
+				"ru": "Ключевой к архиву дяди указатель целиком ушёл в Бюро. Бюро платит вдвое за ключ от всех замков."
+			}
+		},
+		{
+			"flag": "walter_index_burned",
+			"standing": { "syndicate": -1, "ring": -1, "station": -1, "bureau": -1 },
+			"note": {
+				"en": "The archive's index burned. Four factions lose one prize; nobody gains the secret.",
+				"ru": "Указатель архива сгорел. Четыре группировки теряют по призу; никто не получает тайну."
+			}
+		},
+		{
+			"flag": "walter_index_kept",
+			"standing": { "civilian": 1 },
+			"note": {
+				"en": "You kept an old partner's word instead of spending it. The room saw the handshake.",
+				"ru": "Вы сдержали слово старого партнёра, вместо чтобы потратить. Зал видел рукопожатие."
+			}
 		}
 	]
 }

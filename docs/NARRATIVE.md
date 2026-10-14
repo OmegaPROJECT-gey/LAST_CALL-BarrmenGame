@@ -134,7 +134,7 @@ Standing is a number per faction; heat (police attention) is separate. Both are 
 
 - [x] Act I–IV beat sheet: written in EN and RU and approved by the owner (§2.1, ROADMAP C1)
 - [~] 3 major characters: full trees + schedules (C2)
-- [~] 12 regulars: records done; six arcs complete (Vera, Sal, Agnes, Dana, Mack, Denny), six pending (C3)
+- [~] 12 regulars: records done; nine arcs complete (Vera, Sal, Agnes, Dana, Mack, Denny, Amos, Ivy, Walter), three pending (C3)
 - [~] 4 factions: standing events + reaction tables (C3)
 - [ ] 6 endings, each with a distinct last night (C4)
 - [ ] RU pass by a native editor, not machine-only (P3)
