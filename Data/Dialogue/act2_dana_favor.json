@@ -1,0 +1,69 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act2_dana_favor",
+	"act": 2,
+	"participants": ["player", "dana"],
+	"entry": "ask",
+	"nodes": {
+		"ask": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.favor.ask",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act2_dana_favor_played", "value": false },
+				{ "type": "story_flag", "flag": "act1_dana_arrival_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.favor.hint",
+			"choices": [
+				{
+					"id": "talk",
+					"text_key": "dlg.dana.favor.choice.talk",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "dana_uncle_talked", "value": true },
+						{ "type": "mood", "target": "dana", "delta": 0.1 }
+					],
+					"next": "talked"
+				},
+				{
+					"id": "redirect",
+					"text_key": "dlg.dana.favor.choice.redirect",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "dana_fed_story", "value": true }],
+					"next": "redirected"
+				},
+				{
+					"id": "refuse",
+					"text_key": "dlg.dana.favor.choice.refuse",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "dana_uncle_refused", "value": true },
+						{ "type": "mood", "target": "dana", "delta": -0.1 }
+					],
+					"next": "refused"
+				}
+			]
+		},
+		"talked": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.favor.talked",
+			"effects": [{ "type": "story_flag", "flag": "act2_dana_favor_played", "value": true }],
+			"end": true
+		},
+		"redirected": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.favor.redirected",
+			"effects": [{ "type": "story_flag", "flag": "act2_dana_favor_played", "value": true }],
+			"end": true
+		},
+		"refused": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.favor.refused",
+			"effects": [{ "type": "story_flag", "flag": "act2_dana_favor_played", "value": true }],
+			"end": true
+		}
+	}
+}

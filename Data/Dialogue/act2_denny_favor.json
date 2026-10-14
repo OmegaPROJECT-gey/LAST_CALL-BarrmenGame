@@ -1,0 +1,69 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act2_denny_favor",
+	"act": 2,
+	"participants": ["player", "denny"],
+	"entry": "shifts",
+	"nodes": {
+		"shifts": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.shifts.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act2_denny_favor_played", "value": false },
+				{ "type": "story_flag", "flag": "act1_denny_return_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.shifts.hint",
+			"choices": [
+				{
+					"id": "hire",
+					"text_key": "dlg.denny.shifts.choice.hire",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "denny_hired", "value": true },
+						{ "type": "mood", "target": "denny", "delta": 0.1 }
+					],
+					"next": "hired"
+				},
+				{
+					"id": "loan",
+					"text_key": "dlg.denny.shifts.choice.loan",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "denny_loaned", "value": true }],
+					"next": "loaned"
+				},
+				{
+					"id": "refuse",
+					"text_key": "dlg.denny.shifts.choice.refuse",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "denny_refused", "value": true },
+						{ "type": "mood", "target": "denny", "delta": -0.1 }
+					],
+					"next": "refused"
+				}
+			]
+		},
+		"hired": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.shifts.hired",
+			"effects": [{ "type": "story_flag", "flag": "act2_denny_favor_played", "value": true }],
+			"end": true
+		},
+		"loaned": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.shifts.loaned",
+			"effects": [{ "type": "story_flag", "flag": "act2_denny_favor_played", "value": true }],
+			"end": true
+		},
+		"refused": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.shifts.refused",
+			"effects": [{ "type": "story_flag", "flag": "act2_denny_favor_played", "value": true }],
+			"end": true
+		}
+	}
+}

@@ -1,0 +1,69 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act3_mack_fork",
+	"act": 3,
+	"participants": ["player", "mack"],
+	"entry": "id_line",
+	"nodes": {
+		"id_line": {
+			"speaker": "mack",
+			"text_key": "dlg.mack.id.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act3_mack_fork_played", "value": false },
+				{ "type": "story_flag", "flag": "act2_mack_favor_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "mack",
+			"text_key": "dlg.mack.id.hint",
+			"choices": [
+				{
+					"id": "confirm",
+					"text_key": "dlg.mack.id.choice.confirm",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "mack_named", "value": true },
+						{ "type": "mood", "target": "mack", "delta": -0.1 }
+					],
+					"next": "named"
+				},
+				{
+					"id": "alibi",
+					"text_key": "dlg.mack.id.choice.alibi",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "mack_defended", "value": true },
+						{ "type": "mood", "target": "mack", "delta": 0.1 }
+					],
+					"next": "defended"
+				},
+				{
+					"id": "silence",
+					"text_key": "dlg.mack.id.choice.silence",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "mack_silent", "value": true }],
+					"next": "quiet"
+				}
+			]
+		},
+		"named": {
+			"speaker": "mack",
+			"text_key": "dlg.mack.id.named",
+			"effects": [{ "type": "story_flag", "flag": "act3_mack_fork_played", "value": true }],
+			"end": true
+		},
+		"defended": {
+			"speaker": "mack",
+			"text_key": "dlg.mack.id.defended",
+			"effects": [{ "type": "story_flag", "flag": "act3_mack_fork_played", "value": true }],
+			"end": true
+		},
+		"quiet": {
+			"speaker": "mack",
+			"text_key": "dlg.mack.id.quiet",
+			"effects": [{ "type": "story_flag", "flag": "act3_mack_fork_played", "value": true }],
+			"end": true
+		}
+	}
+}

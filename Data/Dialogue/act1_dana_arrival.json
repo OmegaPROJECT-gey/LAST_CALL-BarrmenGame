@@ -1,0 +1,66 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act1_dana_arrival",
+	"act": 1,
+	"participants": ["player", "dana"],
+	"entry": "seat",
+	"nodes": {
+		"seat": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.arrive.seat",
+			"conditions": [{ "type": "story_flag", "flag": "act1_dana_arrival_played", "value": false }],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.arrive.hint",
+			"choices": [
+				{
+					"id": "quote",
+					"text_key": "dlg.dana.arrive.choice.quote",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "dana_quote_given", "value": true },
+						{ "type": "mood", "target": "dana", "delta": 0.1 }
+					],
+					"next": "quoted"
+				},
+				{
+					"id": "wall",
+					"text_key": "dlg.dana.arrive.choice.wall",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "dana_no_quote", "value": true }],
+					"next": "walled"
+				},
+				{
+					"id": "trade",
+					"text_key": "dlg.dana.arrive.choice.trade",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "dana_trade_asked", "value": true },
+						{ "type": "mood", "target": "dana", "delta": -0.1 }
+					],
+					"next": "traded"
+				}
+			]
+		},
+		"quoted": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.arrive.quoted",
+			"effects": [{ "type": "story_flag", "flag": "act1_dana_arrival_played", "value": true }],
+			"end": true
+		},
+		"walled": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.arrive.walled",
+			"effects": [{ "type": "story_flag", "flag": "act1_dana_arrival_played", "value": true }],
+			"end": true
+		},
+		"traded": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.arrive.traded",
+			"effects": [{ "type": "story_flag", "flag": "act1_dana_arrival_played", "value": true }],
+			"end": true
+		}
+	}
+}

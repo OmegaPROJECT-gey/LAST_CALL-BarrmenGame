@@ -1,0 +1,66 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act1_mack_first_shift",
+	"act": 1,
+	"participants": ["player", "mack"],
+	"entry": "door",
+	"nodes": {
+		"door": {
+			"speaker": "mack",
+			"text_key": "dlg.mack.door.entry",
+			"conditions": [{ "type": "story_flag", "flag": "act1_mack_first_shift_played", "value": false }],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "mack",
+			"text_key": "dlg.mack.door.hint",
+			"choices": [
+				{
+					"id": "let_watch",
+					"text_key": "dlg.mack.door.choice.watch",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "mack_watch_ok", "value": true },
+						{ "type": "mood", "target": "mack", "delta": 0.1 }
+					],
+					"next": "watching"
+				},
+				{
+					"id": "tell_sit",
+					"text_key": "dlg.mack.door.choice.sit",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "mack_told_sit", "value": true }],
+					"next": "sitting"
+				},
+				{
+					"id": "buy_drink",
+					"text_key": "dlg.mack.door.choice.drink",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "mack_fed_drink", "value": true },
+						{ "type": "mood", "target": "mack", "delta": 0.1 }
+					],
+					"next": "drinking"
+				}
+			]
+		},
+		"watching": {
+			"speaker": "mack",
+			"text_key": "dlg.mack.door.watching",
+			"effects": [{ "type": "story_flag", "flag": "act1_mack_first_shift_played", "value": true }],
+			"end": true
+		},
+		"sitting": {
+			"speaker": "mack",
+			"text_key": "dlg.mack.door.sitting",
+			"effects": [{ "type": "story_flag", "flag": "act1_mack_first_shift_played", "value": true }],
+			"end": true
+		},
+		"drinking": {
+			"speaker": "mack",
+			"text_key": "dlg.mack.door.drinking",
+			"effects": [{ "type": "story_flag", "flag": "act1_mack_first_shift_played", "value": true }],
+			"end": true
+		}
+	}
+}

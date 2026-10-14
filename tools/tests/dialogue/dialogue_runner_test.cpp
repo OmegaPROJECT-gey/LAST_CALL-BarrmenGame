@@ -483,6 +483,180 @@ int main()
 		expect_near(world.standing_of("station"), 0.0, 1e-9,
 			"the scene moves no standing - the city's table does");
 	}
+	// --- act 1, C3: Dana's arrival (arc 4 of 12) ----------------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act1_dana_arrival.json"), nullptr)
+			&& runner.start(world), "act1_dana_arrival loads and starts cold");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to meet the press");
+		expect(runner.choose("quote", world), "a line is given");
+		expect(world.has_flag("dana_quote_given"), "the quote is recorded as a flag");
+		expect(world.has_flag("act1_dana_arrival_played"), "the evening records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.dana.arrive.quoted",
+			"the evening ends on the notebook");
+		expect_near(world.standing_of("civilian"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+		DialogueRunner fresh;
+		expect(fresh.load(read_repo_file("Data/Dialogue/act1_dana_arrival.json"), nullptr)
+			&& !fresh.start(world), "the evening does not play twice");
+	}
+	// --- act 2, C3: Dana's favor - the uncle (arc 4) ------------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act2_dana_favor.json"), nullptr)
+			&& !runner.start(world), "the favor waits for the arrival");
+		world.set_flag("act1_dana_arrival_played", true);
+		expect(runner.start(world), "act2_dana_favor starts after the arrival");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the uncle");
+		expect(runner.choose("talk", world), "the uncle is talked about");
+		expect(world.has_flag("dana_uncle_talked"), "the talk is recorded as a flag");
+		expect(world.has_flag("act2_dana_favor_played"), "the favor records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.dana.favor.talked",
+			"the favor ends on the shorthand");
+		expect_near(world.standing_of("bureau"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+	}
+	// --- act 3, C3: Dana's fork - the photograph (arc 4 ending) -------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act3_dana_fork.json"), nullptr)
+			&& !runner.start(world), "the photograph waits for the favor");
+		world.set_flag("act2_dana_favor_played", true);
+		expect(runner.start(world), "act3_dana_fork starts after the favor");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the front page");
+		expect(runner.choose("let_print", world), "the story runs");
+		expect(world.has_flag("dana_story_printed"), "the print is recorded as a flag");
+		expect(world.has_flag("act3_dana_fork_played"), "the fork records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.dana.fork.printed",
+			"the fork ends on six columns");
+		expect_near(world.standing_of("bureau"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+	}
+	// --- act 1, C3: Mack's first shift (arc 5 of 12) ------------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act1_mack_first_shift.json"), nullptr)
+			&& runner.start(world), "act1_mack_first_shift loads and starts cold");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the door");
+		expect(runner.choose("let_watch", world), "the door is lent");
+		expect(world.has_flag("mack_watch_ok"), "the watch is recorded as a flag");
+		expect(world.has_flag("act1_mack_first_shift_played"), "the evening records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.mack.door.watching",
+			"the evening ends on the unblinking door");
+		expect_near(world.standing_of("civilian"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+		DialogueRunner fresh;
+		expect(fresh.load(read_repo_file("Data/Dialogue/act1_mack_first_shift.json"), nullptr)
+			&& !fresh.start(world), "the evening does not play twice");
+	}
+	// --- act 2, C3: Mack's favor - the sponsor line (arc 5) -----------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act2_mack_favor.json"), nullptr)
+			&& !runner.start(world), "the favor waits for the first shift");
+		world.set_flag("act1_mack_first_shift_played", true);
+		expect(runner.start(world), "act2_mack_favor starts after the first shift");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the sponsor line");
+		expect(runner.choose("sign", world), "the name is signed");
+		expect(world.has_flag("mack_sponsored"), "the sponsorship is recorded as a flag");
+		expect(world.has_flag("act2_mack_favor_played"), "the favor records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.mack.sponsor.signed",
+			"the favor ends on the boxer's signature");
+		expect_near(world.standing_of("syndicate"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+	}
+	// --- act 3, C3: Mack's fork - the identification (arc 5 ending) ---------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act3_mack_fork.json"), nullptr)
+			&& !runner.start(world), "the notebook waits for the favor");
+		world.set_flag("act2_mack_favor_played", true);
+		expect(runner.start(world), "act3_mack_fork starts after the favor");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the identification");
+		expect(runner.choose("alibi", world), "the alibi is given");
+		expect(world.has_flag("mack_defended"), "the defense is recorded as a flag");
+		expect(world.has_flag("act3_mack_fork_played"), "the fork records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.mack.id.defended",
+			"the fork ends on the till's agreement");
+		expect_near(world.standing_of("syndicate"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+	}
+	// --- act 1, C3: Denny's return (arc 6 of 12) ----------------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act1_denny_return.json"), nullptr)
+			&& runner.start(world), "act1_denny_return loads and starts cold");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the doorway");
+		expect(runner.choose("welcome", world), "the pour lands early");
+		expect(world.has_flag("denny_welcomed"), "the welcome is recorded as a flag");
+		expect(world.has_flag("act1_denny_return_played"), "the evening records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.denny.return.welcomed",
+			"the evening ends on the turned key");
+		expect_near(world.standing_of("civilian"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+		DialogueRunner fresh;
+		expect(fresh.load(read_repo_file("Data/Dialogue/act1_denny_return.json"), nullptr)
+			&& !fresh.start(world), "the evening does not play twice");
+	}
+	// --- act 2, C3: Denny's favor - the shifts (arc 6) ----------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act2_denny_favor.json"), nullptr)
+			&& !runner.start(world), "the favor waits for the return");
+		world.set_flag("act1_denny_return_played", true);
+		expect(runner.start(world), "act2_denny_favor starts after the return");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the shifts");
+		expect(runner.choose("hire", world), "the early shift is given");
+		expect(world.has_flag("denny_hired"), "the hire is recorded as a flag");
+		expect(world.has_flag("act2_denny_favor_played"), "the favor records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.denny.shifts.hired",
+			"the favor ends on the tied apron");
+		expect_near(world.standing_of("civilian"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+	}
+	// --- act 3, C3: Denny's fork - the memories (arc 6 ending) --------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act3_denny_fork.json"), nullptr)
+			&& !runner.start(world), "the envelope waits for the favor");
+		world.set_flag("act2_denny_favor_played", true);
+		expect(runner.start(world), "act3_denny_fork starts after the favor");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the envelope");
+		expect(runner.choose("protect", world), "the memories are kept");
+		expect(world.has_flag("denny_protected"), "the protection is recorded as a flag");
+		expect(world.has_flag("act3_denny_fork_played"), "the fork records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.denny.memory.protected",
+			"the fork ends on the unopened envelope");
+		expect_near(world.standing_of("civilian"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+	}
 	// --- phase condition ---------------------------------------------------------------
 	{
 		DialogueRunner runner;

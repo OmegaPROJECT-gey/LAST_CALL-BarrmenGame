@@ -1,0 +1,63 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act3_dana_fork",
+	"act": 3,
+	"participants": ["player", "dana"],
+	"entry": "photo",
+	"nodes": {
+		"photo": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.fork.photo",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act3_dana_fork_played", "value": false },
+				{ "type": "story_flag", "flag": "act2_dana_favor_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.fork.hint",
+			"choices": [
+				{
+					"id": "kill_story",
+					"text_key": "dlg.dana.fork.choice.kill",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "dana_story_killed", "value": true }],
+					"next": "killed"
+				},
+				{
+					"id": "let_print",
+					"text_key": "dlg.dana.fork.choice.print",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "dana_story_printed", "value": true }],
+					"next": "printed"
+				},
+				{
+					"id": "buy_photo",
+					"text_key": "dlg.dana.fork.choice.negatives",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "dana_photo_bought", "value": true }],
+					"next": "bought"
+				}
+			]
+		},
+		"killed": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.fork.killed",
+			"effects": [{ "type": "story_flag", "flag": "act3_dana_fork_played", "value": true }],
+			"end": true
+		},
+		"printed": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.fork.printed",
+			"effects": [{ "type": "story_flag", "flag": "act3_dana_fork_played", "value": true }],
+			"end": true
+		},
+		"bought": {
+			"speaker": "dana",
+			"text_key": "dlg.dana.fork.bought",
+			"effects": [{ "type": "story_flag", "flag": "act3_dana_fork_played", "value": true }],
+			"end": true
+		}
+	}
+}

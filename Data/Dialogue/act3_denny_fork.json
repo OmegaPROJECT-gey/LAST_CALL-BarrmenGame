@@ -1,0 +1,66 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act3_denny_fork",
+	"act": 3,
+	"participants": ["player", "denny"],
+	"entry": "memory",
+	"nodes": {
+		"memory": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.memory.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act3_denny_fork_played", "value": false },
+				{ "type": "story_flag", "flag": "act2_denny_favor_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.memory.hint",
+			"choices": [
+				{
+					"id": "sell_memory",
+					"text_key": "dlg.denny.memory.choice.sell",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "denny_sold", "value": true }],
+					"next": "sold"
+				},
+				{
+					"id": "protect",
+					"text_key": "dlg.denny.memory.choice.protect",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "denny_protected", "value": true },
+						{ "type": "mood", "target": "denny", "delta": 0.1 }
+					],
+					"next": "protected"
+				},
+				{
+					"id": "hands_off",
+					"text_key": "dlg.denny.memory.choice.hands_off",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "denny_chose", "value": true }],
+					"next": "choosing"
+				}
+			]
+		},
+		"sold": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.memory.sold",
+			"effects": [{ "type": "story_flag", "flag": "act3_denny_fork_played", "value": true }],
+			"end": true
+		},
+		"protected": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.memory.protected",
+			"effects": [{ "type": "story_flag", "flag": "act3_denny_fork_played", "value": true }],
+			"end": true
+		},
+		"choosing": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.memory.choosing",
+			"effects": [{ "type": "story_flag", "flag": "act3_denny_fork_played", "value": true }],
+			"end": true
+		}
+	}
+}

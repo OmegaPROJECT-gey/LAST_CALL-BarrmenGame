@@ -270,6 +270,142 @@
 				"en": "The precinct's envelope story walked to a detective. The Station pays debts double; the Bureau pays for talk.",
 				"ru": "История конверта участка дошла до детектива. Участок платит долги вдвойне; Бюро платит за разговоры."
 			}
+		},
+		{
+			"flag": "dana_quote_given",
+			"standing": { "civilian": 1 },
+			"note": {
+				"en": "Your bar's first night-column quote was a line about lying. The room likes words that travel well.",
+				"ru": "Первая цитата для ночной колонки вашего бара была про ложь. Зал любит слова, которые хорошо путешествуют."
+			}
+		},
+		{
+			"flag": "mack_watch_ok",
+			"standing": { "civilian": 1 },
+			"note": {
+				"en": "A boxer stood your door for free and nothing happened. Nothing happening is worth something.",
+				"ru": "Боксёр бесплатно дежурил у вашей двери, и ничего не случилось. То, что ничего не случилось, стоит чего-то."
+			}
+		},
+		{
+			"flag": "denny_welcomed",
+			"standing": { "civilian": 1 },
+			"note": {
+				"en": "You poured an ex-partner's whiskey before he asked. The room keeps that kind of book.",
+				"ru": "Вы налили бывшему партнёру до просьбы. Зал ведёт такие книги."
+			}
+		},
+		{
+			"flag": "denny_wounded",
+			"standing": { "civilian": -1 },
+			"note": {
+				"en": "You told an old failure to its face. The room forgives money, not memory.",
+				"ru": "Вы сказали старой неудаче в лицо. Зал прощает деньги, но не память."
+			}
+		},
+		{
+			"flag": "dana_uncle_talked",
+			"standing": { "bureau": 1 },
+			"note": {
+				"en": "Your uncle's name reached a notebook that reads for the Bureau. The Bureau reads everything.",
+				"ru": "Имя дяди дошло до блокнота, который пишет для Бюро. Бюро читает всё."
+			}
+		},
+		{
+			"flag": "dana_uncle_refused",
+			"standing": { "bureau": -1 },
+			"note": {
+				"en": "The Bureau's journalist got declined to comment. The Bureau files the decline.",
+				"ru": "Журналистке Бюро ответили отказ от комментариев. Бюро записывает отказы."
+			}
+		},
+		{
+			"flag": "mack_sponsored",
+			"standing": { "syndicate": 1 },
+			"note": {
+				"en": "Your signature vouched for the Syndicate's boxer-doorman. Paper likes other paper.",
+				"ru": "Ваша подпись поручилась за боксёра-дверня Синдиката. Бумага любит другую бумагу."
+			}
+		},
+		{
+			"flag": "mack_sponsor_refused",
+			"standing": { "syndicate": -1 },
+			"note": {
+				"en": "You wouldn't sign the Syndicate's man. Names not signed get remembered unsigned.",
+				"ru": "Вы не подписали человека Синдиката. Неподписанные имена запоминают как неподписанные."
+			}
+		},
+		{
+			"flag": "denny_hired",
+			"standing": { "civilian": 1 },
+			"note": {
+				"en": "The ex-partner got his early shift back. The room believes in second shifts.",
+				"ru": "Бывший партнёр вернул раннюю смену. Зал верит во вторые смены."
+			}
+		},
+		{
+			"flag": "denny_refused",
+			"standing": { "civilian": -1 },
+			"note": {
+				"en": "You turned your own away at the ice. The room counts who turns away whom.",
+				"ru": "Вы отвернули своего у льда. Зал считает, кто кого отворачивает."
+			}
+		},
+		{
+			"flag": "dana_story_killed",
+			"standing": { "syndicate": 1 },
+			"note": {
+				"en": "The wall photo died in a drawer. The Syndicate loves a bar that knows what a drawer is for.",
+				"ru": "Фото стены умерло в ящике. Синдикат любит бар, который знает, зачем ящики."
+			}
+		},
+		{
+			"flag": "dana_story_printed",
+			"standing": { "bureau": 1, "civilian": -1 },
+			"note": {
+				"en": "Six columns of night prose put your chalk on every doorstep. The Bureau reads; the room squints.",
+				"ru": "Шесть колонок ночной прозы положили ваш мел на каждый порог. Бюро читает; зал щурится."
+			}
+		},
+		{
+			"flag": "dana_photo_bought",
+			"standing": { "syndicate": 1 },
+			"note": {
+				"en": "Negatives changed hands for cash. The Syndicate calls that romance.",
+				"ru": "Негативы сменили карманы за наличные. Синдикат называет это романтикой."
+			}
+		},
+		{
+			"flag": "mack_named",
+			"standing": { "syndicate": -2, "bureau": 1 },
+			"note": {
+				"en": "You gave the doorman's name to a notebook. The Syndicate loses a soldier; the Bureau gains a witness.",
+				"ru": "Вы отдали имя дверня блокноту. Синдикат теряет солдата; Бюро приобретает свидетеля."
+			}
+		},
+		{
+			"flag": "mack_defended",
+			"standing": { "syndicate": 1 },
+			"note": {
+				"en": "The till backed the boxer's alibi. The Syndicate believes in alibis that cost something.",
+				"ru": "Касса подтвердила алиби боксёра. Синдикат верит в алиби, которые стоят денег."
+			}
+		},
+		{
+			"flag": "denny_sold",
+			"standing": { "bureau": 1 },
+			"note": {
+				"en": "Your uncle's memories walked to the Bureau in an envelope. The Bureau pays for the past.",
+				"ru": "Воспоминания о дяде ушли в Бюро конвертом. Бюро платит за прошлое."
+			}
+		},
+		{
+			"flag": "denny_protected",
+			"standing": { "civilian": 1 },
+			"note": {
+				"en": "You covered a friend's old debt instead of selling it. The room writes that down in invisible ink.",
+				"ru": "Вы покрыли старый долг друга, вместо чтобы продать его. Зал записывает это невидимыми чернилами."
+			}
 		}
 	]
 }

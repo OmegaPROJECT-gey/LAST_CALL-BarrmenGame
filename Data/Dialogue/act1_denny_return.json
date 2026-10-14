@@ -1,0 +1,66 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act1_denny_return",
+	"act": 1,
+	"participants": ["player", "denny"],
+	"entry": "return",
+	"nodes": {
+		"return": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.return.entry",
+			"conditions": [{ "type": "story_flag", "flag": "act1_denny_return_played", "value": false }],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.return.hint",
+			"choices": [
+				{
+					"id": "welcome",
+					"text_key": "dlg.denny.return.choice.welcome",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "denny_welcomed", "value": true },
+						{ "type": "mood", "target": "denny", "delta": 0.1 }
+					],
+					"next": "welcomed"
+				},
+				{
+					"id": "wound",
+					"text_key": "dlg.denny.return.choice.wound",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "denny_wounded", "value": true },
+						{ "type": "mood", "target": "denny", "delta": -0.1 }
+					],
+					"next": "wounded"
+				},
+				{
+					"id": "gossip",
+					"text_key": "dlg.denny.return.choice.gossip",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "denny_talked", "value": true }],
+					"next": "gossiping"
+				}
+			]
+		},
+		"welcomed": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.return.welcomed",
+			"effects": [{ "type": "story_flag", "flag": "act1_denny_return_played", "value": true }],
+			"end": true
+		},
+		"wounded": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.return.wounded",
+			"effects": [{ "type": "story_flag", "flag": "act1_denny_return_played", "value": true }],
+			"end": true
+		},
+		"gossiping": {
+			"speaker": "denny",
+			"text_key": "dlg.denny.return.gossiping",
+			"effects": [{ "type": "story_flag", "flag": "act1_denny_return_played", "value": true }],
+			"end": true
+		}
+	}
+}

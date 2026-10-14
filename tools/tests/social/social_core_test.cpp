@@ -63,7 +63,7 @@ int main()
 	}
 	expect(library.find("no_such_faction") == nullptr, "unknown factions read null");
 
-	expect(library.reactions().size() == 31, "thirty-one reaction rows");
+	expect(library.reactions().size() == 48, "forty-eight reaction rows");
 
 	const lc::Reaction* case_reaction = library.reaction_for("heard_harris_case");
 	expect(case_reaction != nullptr, "the detective's case has a reaction");
@@ -121,6 +121,27 @@ int main()
 			{"agnes_covered", "station", 1.0, 1},
 			{"agnes_envelope_sold", "station", -2.0, 2},
 			{"agnes_envelope_sold", "bureau", 1.0, 2},
+			// Wave 2 arcs: Dana (press/Bureau), Mack (door/Syndicate),
+			// Denny (the ex-partner/The Room) - C3 batch 5.
+			{"dana_quote_given", "civilian", 1.0, 1},
+			{"mack_watch_ok", "civilian", 1.0, 1},
+			{"denny_welcomed", "civilian", 1.0, 1},
+			{"denny_wounded", "civilian", -1.0, 1},
+			{"dana_uncle_talked", "bureau", 1.0, 1},
+			{"dana_uncle_refused", "bureau", -1.0, 1},
+			{"mack_sponsored", "syndicate", 1.0, 1},
+			{"mack_sponsor_refused", "syndicate", -1.0, 1},
+			{"denny_hired", "civilian", 1.0, 1},
+			{"denny_refused", "civilian", -1.0, 1},
+			{"dana_story_killed", "syndicate", 1.0, 1},
+			{"dana_story_printed", "bureau", 1.0, 2},
+			{"dana_story_printed", "civilian", -1.0, 2},
+			{"dana_photo_bought", "syndicate", 1.0, 1},
+			{"mack_named", "syndicate", -2.0, 2},
+			{"mack_named", "bureau", 1.0, 2},
+			{"mack_defended", "syndicate", 1.0, 1},
+			{"denny_sold", "bureau", 1.0, 1},
+			{"denny_protected", "civilian", 1.0, 1},
 		};
 		for (const Expected& want : expected)
 		{
