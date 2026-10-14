@@ -48,5 +48,12 @@
 	},
 	"liquid": {
 		"foam_decay_per_s": 0.12
+	},
+	"threat": {
+		"hostile_tell_weight": 0.45,
+		"low_mood_weight": 0.2,
+		"low_mood_threshold": 0.3,
+		"band_elevated": 0.35,
+		"band_danger": 0.7
 	}
 }

@@ -77,3 +77,6 @@ jobs:
 
       - name: Economy core unit tests (suppliers -> ledger)
         run: ./scripts/test-economy.sh
+
+      - name: Customer library unit tests (personas -> threat)
+        run: ./scripts/test-customer-library.sh

@@ -2,6 +2,10 @@
 
 #include "Core/SaveStateCore.h"
 
+#include <cerrno>
+#include <cmath>
+#include <cstdlib>
+#include <limits>
 #include <sstream>
 
 namespace lc {
@@ -22,32 +26,44 @@ namespace lc {
 			double heat = 0.0;
 		};
 
+		// strtol/strtod instead of std::stoi/std::stod: the Game target
+		// compiles with exceptions disabled (-fno-exceptions), and a save
+		// file must refuse garbage without throwing.
 		bool parse_int(const std::string& text, int& out)
 		{
-			try
-			{
-				std::size_t consumed = 0;
-				out = std::stoi(text, &consumed);
-				return consumed == text.size();
-			}
-			catch (...)
+			if (text.empty())
 			{
 				return false;
 			}
+			errno = 0;
+			char* end = nullptr;
+			const long value = std::strtol(text.c_str(), &end, 10);
+			if (end != text.c_str() + text.size() || errno == ERANGE
+				|| value < std::numeric_limits<int>::min()
+				|| value > std::numeric_limits<int>::max())
+			{
+				return false;
+			}
+			out = static_cast<int>(value);
+			return true;
 		}
 
 		bool parse_double(const std::string& text, double& out)
 		{
-			try
-			{
-				std::size_t consumed = 0;
-				out = std::stod(text, &consumed);
-				return consumed == text.size();
-			}
-			catch (...)
+			if (text.empty())
 			{
 				return false;
 			}
+			errno = 0;
+			char* end = nullptr;
+			const double value = std::strtod(text.c_str(), &end);
+			if (end != text.c_str() + text.size() || errno == ERANGE
+				|| !std::isfinite(value))
+			{
+				return false;
+			}
+			out = value;
+			return true;
 		}
 
 	} // namespace
