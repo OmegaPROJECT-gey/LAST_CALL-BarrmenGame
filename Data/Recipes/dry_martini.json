@@ -1,0 +1,19 @@
+{
+	"$schema": "../schemas/recipe.schema.json",
+	"id": "dry_martini",
+	"display_name": {
+		"en": "Dry martini, one olive",
+		"ru": "Сухой мартини, одна оливка"
+	},
+	"glass": "martini",
+	"steps": [
+		{ "ingredient": "orange_oil", "flow_window": [0.05, 0.2], "layer": "accent" },
+		{ "ingredient": "soda_water", "flow_window": [0.3, 0.55], "layer": "modifier" }
+	],
+	"continuity_break_seconds": 4,
+	"effects": {
+		"mood_bonus": 0.15,
+		"tip_multiplier": 1.2,
+		"xp_multiplier": 1.1
+	}
+}

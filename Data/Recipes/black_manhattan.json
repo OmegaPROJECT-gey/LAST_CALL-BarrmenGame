@@ -1,0 +1,33 @@
+{
+	"$schema": "../schemas/recipe.schema.json",
+	"id": "black_manhattan",
+	"display_name": {
+		"en": "Black Manhattan",
+		"ru": "Чёрный Манхэттен"
+	},
+	"glass": "rocks",
+	"steps": [
+		{ "ingredient": "whiskey_rye", "flow_window": [0.35, 0.7], "layer": "base" },
+		{ "ingredient": "coffee_liqueur", "flow_window": [0.2, 0.5], "layer": "modifier" },
+		{ "ingredient": "orange_oil", "flow_window": [0.08, 0.25], "layer": "accent" }
+	],
+	"continuity_break_seconds": 4,
+	"effects": {
+		"mood_bonus": 0.3,
+		"tip_multiplier": 1.5,
+		"xp_multiplier": 1.2
+	},
+	"story": {
+		"act1_hook": false,
+		"note": {
+			"en": "The drink «Shadow» orders from the uncle's ledger; the wall remembers it as the second fragment.",
+			"ru": "Напиток, который «Тень» заказывает по дядиной тетради; стена помнит его как второй фрагмент."
+		}
+	},
+	"secret": {
+		"fragment": 2,
+		"of": 13,
+		"text_key": "secret.02",
+		"reveal_flag": "read_uncle_wall"
+	}
+}

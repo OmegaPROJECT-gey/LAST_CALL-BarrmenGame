@@ -1,0 +1,18 @@
+{
+	"$schema": "../schemas/recipe.schema.json",
+	"id": "whiskey_neat",
+	"display_name": {
+		"en": "Whiskey, neat",
+		"ru": "Виски без льда"
+	},
+	"glass": "rocks",
+	"steps": [
+		{ "ingredient": "whiskey_rye", "flow_window": [0.4, 0.8], "layer": "base" }
+	],
+	"continuity_break_seconds": 5,
+	"effects": {
+		"mood_bonus": 0.1,
+		"tip_multiplier": 1.1,
+		"xp_multiplier": 1.0
+	}
+}

@@ -131,7 +131,7 @@ Standing is a number per faction; heat (police attention) is separate. Both are 
 ## 8. Content checklist for v1.0
 
 - [x] Act I–IV beat sheet: written in EN and RU and approved by the owner (§2.1, ROADMAP C1)
-- [ ] 3 major characters: full trees + schedules (C2)
+- [~] 3 major characters: full trees + schedules (C2)
 - [ ] 12 regulars: 3–6 scenes each (C3)
 - [ ] 4 factions: standing events + reaction tables (C3)
 - [ ] 6 endings, each with a distinct last night (C4)

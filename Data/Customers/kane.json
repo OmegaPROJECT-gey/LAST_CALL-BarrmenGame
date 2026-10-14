@@ -1,0 +1,28 @@
+{
+	"$schema": "../schemas/customer.schema.json",
+	"id": "kane",
+	"archetype": "regular_major",
+	"name": {
+		"en": "Miss Kane",
+		"ru": "Мисс Кейн"
+	},
+	"seat": "booth_1",
+	"schedule": {
+		"days": [2, 5],
+		"phases": ["Shift"],
+		"arrival_hour": 20
+	},
+	"taste": {
+		"order": "dry_martini",
+		"glass": "martini",
+		"acceptable_substitutes": []
+	},
+	"persona": {
+		"tell": "fake",
+		"mood_baseline": 0.5,
+		"patience_baseline": 0.7,
+		"will_tell_story": true
+	},
+	"faction": "civilian",
+	"arc": "act1_kane_first_fact"
+}

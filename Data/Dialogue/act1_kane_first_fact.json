@@ -1,0 +1,69 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act1_kane_first_fact",
+	"act": 1,
+	"participants": ["player", "kane"],
+	"entry": "greet",
+	"nodes": {
+		"greet": {
+			"speaker": "kane",
+			"text_key": "dlg.kane.greet",
+			"next": "first_fact"
+		},
+		"first_fact": {
+			"speaker": "kane",
+			"text_key": "dlg.kane.first_fact",
+			"choices": [
+				{
+					"id": "trade",
+					"text_key": "dlg.kane.choice.trade",
+					"conditions": [],
+					"effects": [
+						{ "type": "mood", "target": "kane", "delta": 0.1 },
+						{ "type": "story_flag", "flag": "kane_trust", "value": true }
+					],
+					"next": "traded"
+				},
+				{
+					"id": "deflect",
+					"text_key": "dlg.kane.choice.deflect",
+					"conditions": [],
+					"effects": [{ "type": "mood", "target": "kane", "delta": -0.1 }],
+					"next": "deflected"
+				},
+				{
+					"id": "read",
+					"text_key": "dlg.kane.choice.read",
+					"conditions": [{ "type": "skill", "id": "psychology_1", "owned": true }],
+					"effects": [
+						{ "type": "mood", "target": "kane", "delta": 0.15 },
+						{ "type": "story_flag", "flag": "kane_read", "value": true }
+					],
+					"next": "read_out"
+				}
+			]
+		},
+		"traded": {
+			"speaker": "kane",
+			"text_key": "dlg.kane.traded",
+			"effects": [{ "type": "story_flag", "flag": "kane_first_fact_heard", "value": true }],
+			"end": true
+		},
+		"deflected": {
+			"speaker": "kane",
+			"text_key": "dlg.kane.deflected",
+			"end": true
+		},
+		"read_out": {
+			"speaker": "kane",
+			"text_key": "dlg.kane.read_out",
+			"effects": [{ "type": "story_flag", "flag": "kane_knew_uncle", "value": true }],
+			"end": true
+		}
+	},
+	"interruptible": true,
+	"interrupt_recording": {
+		"on_ignored": "ignored_kane_first_fact",
+		"on_heard": "heard_kane_first_fact"
+	}
+}

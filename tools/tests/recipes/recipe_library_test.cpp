@@ -123,7 +123,10 @@ int main()
 		expect(noir != nullptr, "signature_noir is findable");
 		expect(!library.find("no_such_recipe"), "unknown ids read null");
 		const std::vector<std::string> ids = library.ids();
-		expect(!ids.empty() && ids[0] == "signature_noir", "ids in load order");
+		expect(ids.size() >= 4
+			&& library.find("whiskey_neat") && library.find("dry_martini")
+			&& library.find("black_manhattan"),
+			"every recipe on the wall is findable");
 
 		// Duplicate ids are refused with an error, not silently dropped.
 		const std::string text = read_repo_file("Data/Recipes/signature_noir.json");
@@ -166,11 +169,15 @@ int main()
 		std::vector<lc::SecretFragment> fragments;
 		std::string collect_error;
 		expect(lc::collect_secret_fragments(wall, fragments, &collect_error)
-			&& fragments.size() == 1
+			&& fragments.size() == 2
 			&& fragments[0].index == 1 && fragments[0].of == 13
 			&& fragments[0].recipe_id == "signature_noir"
 			&& fragments[0].text_key == "secret.01",
 			"one fragment collected from the real wall, in order");
+		expect(fragments[1].index == 2 && fragments[1].of == 13
+			&& fragments[1].recipe_id == "black_manhattan"
+			&& fragments[1].text_key == "secret.02",
+			"the second fragment comes from the Black Manhattan");
 
 		// Two recipes claiming the same fragment: refused.
 		RecipeLibrary clash;

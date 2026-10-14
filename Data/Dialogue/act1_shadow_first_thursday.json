@@ -1,0 +1,71 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act1_shadow_first_thursday",
+	"act": 1,
+	"participants": ["player", "shadow"],
+	"entry": "greet",
+	"nodes": {
+		"greet": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.greet",
+			"next": "order"
+		},
+		"order": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.order",
+			"choices": [
+				{
+					"id": "serve",
+					"text_key": "dlg.shadow.choice.serve",
+					"conditions": [{ "type": "has_item", "id": "black_manhattan", "owned": true }],
+					"effects": [
+						{ "type": "mood", "target": "shadow", "delta": 0.2 },
+						{ "type": "faction_standing", "faction": "syndicate", "delta": 1 },
+						{ "type": "story_flag", "flag": "shadow_trust", "value": true }
+					],
+					"next": "served"
+				},
+				{
+					"id": "stall",
+					"text_key": "dlg.shadow.choice.stall",
+					"conditions": [],
+					"effects": [{ "type": "mood", "target": "shadow", "delta": -0.1 }],
+					"next": "stalled"
+				},
+				{
+					"id": "improvise",
+					"text_key": "dlg.shadow.choice.improvise",
+					"conditions": [],
+					"effects": [
+						{ "type": "mood", "target": "shadow", "delta": -0.3 },
+						{ "type": "faction_standing", "faction": "syndicate", "delta": -2 },
+						{ "type": "story_flag", "flag": "shadow_offended", "value": true }
+					],
+					"next": "offended"
+				}
+			]
+		},
+		"served": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.served",
+			"effects": [{ "type": "quest", "id": "shadow_shield", "state": "started" }],
+			"end": true
+		},
+		"stalled": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.stalled",
+			"effects": [{ "type": "story_flag", "flag": "shadow_deferred", "value": true }],
+			"end": true
+		},
+		"offended": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.offended",
+			"end": true
+		}
+	},
+	"interruptible": true,
+	"interrupt_recording": {
+		"on_ignored": "ignored_shadow_first_thursday",
+		"on_heard": "heard_shadow_first_thursday"
+	}
+}

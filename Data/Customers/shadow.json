@@ -1,0 +1,28 @@
+{
+	"$schema": "../schemas/customer.schema.json",
+	"id": "shadow",
+	"archetype": "regular_major",
+	"name": {
+		"en": "«Shadow»",
+		"ru": "«Тень»"
+	},
+	"seat": "back_booth",
+	"schedule": {
+		"days": [4],
+		"phases": ["Night"],
+		"arrival_hour": 23
+	},
+	"taste": {
+		"order": "black_manhattan",
+		"glass": "rocks",
+		"acceptable_substitutes": []
+	},
+	"persona": {
+		"tell": "hostile",
+		"mood_baseline": 0.3,
+		"patience_baseline": 0.2,
+		"will_tell_story": false
+	},
+	"faction": "syndicate",
+	"arc": "act3_shadow"
+}

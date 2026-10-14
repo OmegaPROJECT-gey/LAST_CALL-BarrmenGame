@@ -18,5 +18,22 @@
 	"skill.flair": "Flair",
 	"skill.psychology": "Psychology",
 	"skill.steady_hands": "Steady hands",
-	"skill.alchemy": "Alchemy"
+	"skill.alchemy": "Alchemy",
+	"dlg.kane.greet": "Two days a week I am predictable. Enjoy it.",
+	"dlg.kane.first_fact": "A fact is on the table, bartender. It costs one honest answer. Will you answer true?",
+	"dlg.kane.choice.trade": "Ask. I'll answer true.",
+	"dlg.kane.choice.deflect": "Facts are expensive. Come back richer.",
+	"dlg.kane.choice.read": "You're not performing for me. You knew the man who wrote this wall.",
+	"dlg.kane.traded": "Then we understand each other. Your uncle said the same, the last time he sat there.",
+	"dlg.kane.deflected": "Sensible. The fact will keep. They rarely do.",
+	"dlg.kane.read_out": "Careful. People who read me end up in my ledger. Pour the martini dry.",
+	"dlg.shadow.greet": "(He sits. The room lowers its voice.)",
+	"dlg.shadow.order": "Your friend wrote a drink on that wall. Make it. Exactly.",
+	"dlg.shadow.choice.serve": "One Black Manhattan. Don't ask where I learned it.",
+	"dlg.shadow.choice.stall": "The wall is long. Give me one night to remember the rest.",
+	"dlg.shadow.choice.improvise": "(You improvise. He watches the glass, not you.)",
+	"dlg.shadow.served": "Good. The shield holds tonight.",
+	"dlg.shadow.stalled": "One night. Then I drink what I came for.",
+	"dlg.shadow.offended": "(He leaves the glass full. The room stays quiet after the door.)",
+	"secret.02": "Black Manhattan - the second fragment: the drink that buys the bar its shield."
 }

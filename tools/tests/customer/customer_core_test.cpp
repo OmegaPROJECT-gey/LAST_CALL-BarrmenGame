@@ -85,7 +85,37 @@ int main()
 		std::vector<std::string> errors;
 		const int loaded = from_directory.load_directory(
 			lc_test::repo_root() + "/Data/Customers", &errors);
-		expect(loaded >= 1 && errors.empty(), "the Customers directory loads clean");
+		expect(loaded == 3 && errors.empty(), "the Customers directory loads clean");
+		expect(from_directory.ids().size() == 3, "three regulars on the books");
+
+		const CustomerRecord* kane = from_directory.find("kane");
+		expect(kane != nullptr, "Miss Kane is found");
+		if (kane)
+		{
+			expect(kane->archetype == "regular_major" && kane->faction == "civilian"
+				&& kane->order == "dry_martini" && kane->glass == "martini",
+				"Kane: the martini, the booth, civilian");
+			expect(kane->days.size() == 2 && kane->arrival_hour == 20
+				&& kane->phases.size() == 1 && kane->phases[0] == "Shift",
+				"Kane: Tuesdays and Fridays at twenty");
+			expect(kane->persona.tell == "fake" && kane->persona.will_tell_story,
+				"Kane: her tell is a performance — psychology_2 only");
+		}
+
+		const CustomerRecord* shadow = from_directory.find("shadow");
+		expect(shadow != nullptr, "the boss is found");
+		if (shadow)
+		{
+			expect(shadow->archetype == "regular_major" && shadow->faction == "syndicate"
+				&& shadow->order == "black_manhattan" && shadow->glass == "rocks",
+				"Shadow: the Black Manhattan, syndicate");
+			expect(shadow->days.size() == 1 && shadow->days[0] == 4
+				&& shadow->phases.size() == 1 && shadow->phases[0] == "Night"
+				&& shadow->arrival_hour == 23,
+				"Shadow: Thursdays only, Night phase");
+			expect(shadow->persona.tell == "hostile" && !shadow->persona.will_tell_story,
+				"Shadow: hostile tell, no free stories");
+		}
 	}
 
 	// --- arrival ------------------------------------------------------------------------
