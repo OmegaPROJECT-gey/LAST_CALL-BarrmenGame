@@ -39,6 +39,7 @@
 		"crafting": { "type": "object", "additionalProperties": { "type": "number" } },
 		"night": { "type": "object", "additionalProperties": { "type": "number" } },
 		"to_go": { "type": "object", "additionalProperties": { "type": "number" } },
-		"debt": { "type": "object", "additionalProperties": { "type": "number" } }
+		"debt": { "type": "object", "additionalProperties": { "type": "number" } },
+		"raid": { "type": "object", "additionalProperties": { "type": "number" } }
 	}
 }

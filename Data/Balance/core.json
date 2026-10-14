@@ -83,5 +83,11 @@
 		"fight_heat": 2.5,
 		"violence_heat": 2.0,
 		"violence_standing": -1.0
+	},
+	"raid": {
+		"distraction_threshold": 0.5,
+		"fail_heat": 2.0,
+		"per_item_heat": 1.0,
+		"fail_fine": 25.0
 	}
 }

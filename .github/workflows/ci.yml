@@ -98,3 +98,6 @@ jobs:
 
       - name: Debt runs unit tests (approaches -> outcomes)
         run: ./scripts/test-debt.sh
+
+      - name: Raid director unit tests (evidence -> heat/fines)
+        run: ./scripts/test-raid.sh
