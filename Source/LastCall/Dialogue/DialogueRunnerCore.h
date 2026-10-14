@@ -2,11 +2,11 @@
 //
 // The engine-independent half of ULCDialogueRunner: loads a dialogue tree
 // from Data/Dialogue/*.json with the shared JSON reader, walks it against
-// a world state (story flags, faction standing, owned skills), applies
-// choice/node effects and records what the engine-side systems must act
-// on (mood deltas, quests). Engine-independent C++17: the UE wrapper
-// binds widgets, voices and the real faction systems to the same code the
-// tests drive.
+// a world state (story flags, faction standing, owned skills, held items,
+// the current phase), applies choice/node effects and records what the
+// engine-side systems must act on (mood deltas, quests, heat, granted
+// items). Engine-independent C++17: the UE wrapper binds widgets, voices
+// and the real faction systems to the same code the tests drive.
 //
 // License: MIT (LICENSE).
 
@@ -21,29 +21,49 @@ namespace lc {
 	/**
 	 * What the runner reads conditions against and writes story flags and
 	 * faction standing into. The UE side owns the real systems; the runner
-	 * only needs this much. Mood and quest effects are not applied here -
-	 * they land in DialogueRunner::applied() for the caller to route.
+	 * only needs this much. Mood, quest, heat and item effects are not
+	 * applied here - they land in DialogueRunner::applied() for the caller
+	 * to route (items are read back through `items`).
 	 */
 	struct DialogueWorld
 	{
 		std::vector<std::pair<std::string, bool>> flags;
 		std::vector<std::pair<std::string, double>> standing; // faction -> value
 		std::vector<std::string> skills;                      // owned skill ids
+		std::vector<std::string> items;                       // held item ids
+		std::string phase; // current phase ("Morning"...), empty when unset
 
 		bool has_flag(const std::string& flag) const;
 		void set_flag(const std::string& flag, bool value);
 		double standing_of(const std::string& faction) const; // missing faction -> 0
 		void add_standing(const std::string& faction, double delta);
 		bool owns_skill(const std::string& skill_id) const;
+		bool owns_item(const std::string& item_id) const;
 	};
 
-	/** A mood or quest effect the engine must route to its systems. */
+	/** Conditions in data form, evaluated by the runner. */
+	struct DialogueConditionSet
+	{
+		std::vector<std::pair<std::string, bool>> flags;      // flag -> required value
+		std::vector<std::pair<std::string, double>> standing; // faction -> min
+		std::vector<std::pair<std::string, bool>> skills;     // skill id -> owned
+		std::vector<std::pair<std::string, bool>> items;      // item id -> held
+		std::string phase; // required phase; empty when the data does not care
+	};
+
+	/**
+	 * A mood/quest/heat/item effect the engine must route to its systems.
+	 * type "mood": target = customer id, delta = mood delta.
+	 * type "quest": target = quest id, state = "started", ...
+	 * type "heat":  delta = heat delta (positive draws attention).
+	 * type "item":  target = item id, delta = count granted.
+	 */
 	struct AppliedEffect
 	{
-		std::string type;   // "mood" | "quest"
-		std::string target; // customer id, or quest id for quests
-		std::string state;  // quest state ("started", ...)
-		double delta = 0.0; // mood delta
+		std::string type;
+		std::string target;
+		std::string state;
+		double delta = 0.0;
 	};
 
 	struct DialogueChoiceData
@@ -51,14 +71,11 @@ namespace lc {
 		std::string id;
 		std::string text_key;
 		std::string next;
-		// Conditions in data form, evaluated by the runner.
-		std::vector<std::pair<std::string, bool>> flag_conditions;        // flag -> required value
-		std::vector<std::pair<std::string, double>> standing_conditions;   // faction -> min
-		std::vector<std::pair<std::string, bool>> skill_conditions;        // skill id -> owned
+		DialogueConditionSet conditions;
 		// Effects in data form.
-		std::vector<std::pair<std::string, bool>> flag_effects;            // flag -> value
-		std::vector<std::pair<std::string, double>> standing_effects;      // faction -> delta
-		std::vector<AppliedEffect> routed_effects;                         // mood/quest
+		std::vector<std::pair<std::string, bool>> flag_effects;       // flag -> value
+		std::vector<std::pair<std::string, double>> standing_effects; // faction -> delta
+		std::vector<AppliedEffect> routed_effects;                    // mood/quest/heat/item
 	};
 
 	struct DialogueNodeData
@@ -68,9 +85,7 @@ namespace lc {
 		std::string text_key;
 		std::string next;
 		bool end = false;
-		std::vector<std::pair<std::string, bool>> flag_conditions;
-		std::vector<std::pair<std::string, double>> standing_conditions;
-		std::vector<std::pair<std::string, bool>> skill_conditions;
+		DialogueConditionSet conditions;
 		std::vector<std::pair<std::string, bool>> flag_effects;
 		std::vector<std::pair<std::string, double>> standing_effects;
 		std::vector<AppliedEffect> routed_effects;
@@ -86,6 +101,15 @@ namespace lc {
 		 * text_key and next. `error` explains the refusal.
 		 */
 		bool load(const std::string& json_text, std::string* error = nullptr);
+
+		/**
+		 * Load every `*.json` in a directory (the whole scene list, as the
+		 * other libraries do). Each refusal lands in `errors` with its
+		 * file name; the count of loaded trees is returned. The runner
+		 * keeps the last tree loaded.
+		 */
+		int load_directory(const std::string& directory,
+			std::vector<std::string>* errors = nullptr);
 
 		/** Reset to the entry node; applies the entry node's effects. */
 		bool start(DialogueWorld& world);
@@ -104,7 +128,7 @@ namespace lc {
 		/** Take a choice by id, applying its effects. False when unknown or filtered out. */
 		bool choose(const std::string& choice_id, DialogueWorld& world);
 
-		/** Mood/quest effects applied so far, for the engine to route. */
+		/** Mood/quest/heat/item effects applied so far, for the engine to route. */
 		const std::vector<AppliedEffect>& applied() const { return applied_; }
 
 		/** Flags recorded by the data's interrupt_recording block (empty when absent). */
@@ -119,9 +143,7 @@ namespace lc {
 			const std::vector<std::pair<std::string, double>>& standing_effects,
 			const std::vector<AppliedEffect>& routed, DialogueWorld& world);
 		bool conditions_pass(const DialogueWorld& world,
-			const std::vector<std::pair<std::string, bool>>& flag_conditions,
-			const std::vector<std::pair<std::string, double>>& standing_conditions,
-			const std::vector<std::pair<std::string, bool>>& skill_conditions) const;
+			const DialogueConditionSet& conditions) const;
 
 		std::string id_;
 		std::string entry_;

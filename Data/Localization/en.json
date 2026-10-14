@@ -35,5 +35,21 @@
 	"dlg.shadow.served": "Good. The shield holds tonight.",
 	"dlg.shadow.stalled": "One night. Then I drink what I came for.",
 	"dlg.shadow.offended": "(He leaves the glass full. The room stays quiet after the door.)",
-	"secret.02": "Black Manhattan - the second fragment: the drink that buys the bar its shield."
+	"secret.02": "Black Manhattan - the second fragment: the drink that buys the bar its shield.",
+	"dlg.kane.price.greet": "Sit with me, bartender. I don't take the booth twice in one act for small talk.",
+	"dlg.kane.price.offer": "A recipe written for me alone - the third line on your wall. It costs one honest answer to one question of mine. Deal?",
+	"dlg.kane.price.choice.answer": "Ask your question.",
+	"dlg.kane.price.choice.counter": "You're not selling a recipe - you're pricing what I'll pay for it.",
+	"dlg.kane.price.choice.refuse": "My answers aren't for sale. Neither is your line.",
+	"dlg.kane.price.paid": "Then answer plain: did you inherit the bar, or did the bar inherit you? ...Good. Chalk the third line before the Syndicate reads it twice.",
+	"dlg.kane.price.countered": "Careful - people who price me that way end up in my ledger. Take the line anyway; seeing the board is earned.",
+	"dlg.kane.price.refused": "Sensible and small. Keep your silence; the wall stays one line short.",
+	"dlg.shadow.test.greet": "He sets two coins on the bar before he sits. The test starts before the order.",
+	"dlg.shadow.test.offer": "Thursday again. The ledger is written on that wall. Show me the hand that pours still remembers it.",
+	"dlg.shadow.test.choice.serve": "The drink exactly as written. No substitutions.",
+	"dlg.shadow.test.choice.confess": "Ask me what else is written there - all of it, before someone reads it to you from behind.",
+	"dlg.shadow.test.choice.fail": "(You pour from memory, not from the wall. He watches the chalk.)",
+	"dlg.shadow.test.served": "The hand remembers. The shield holds another week.",
+	"dlg.shadow.test.loyal": "(He writes nothing down. That is the point.) You said more than I asked. Words like that raise heat.",
+	"dlg.shadow.test.failed": "The wall wrote it down and you didn't remember. Next Thursday there may be no test - only an answer."
 }

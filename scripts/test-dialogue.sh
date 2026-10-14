@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Build and run the dialogue runner core unit tests without Unreal.
-# Drives the real Data/Dialogue/act1_harris_meeting.json.
+# Drives the real Data/Dialogue scene list (harris, kane, shadow).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 

@@ -4,6 +4,11 @@
 
 #include "Core/JsonCore.h"
 
+#include <algorithm>
+#include <filesystem>
+#include <fstream>
+#include <sstream>
+
 namespace lc {
 
 	// --- world ----------------------------------------------------------------------
@@ -70,6 +75,18 @@ namespace lc {
 		return false;
 	}
 
+	bool DialogueWorld::owns_item(const std::string& item_id) const
+	{
+		for (const std::string& held : items)
+		{
+			if (held == item_id)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	namespace {
 
 		bool refuse(std::string* error, const std::string& reason)
@@ -81,13 +98,6 @@ namespace lc {
 			return false;
 		}
 
-		struct CondSets
-		{
-			std::vector<std::pair<std::string, bool>> flags;
-			std::vector<std::pair<std::string, double>> standing;
-			std::vector<std::pair<std::string, bool>> skills;
-		};
-
 		struct EffSets
 		{
 			std::vector<std::pair<std::string, bool>> flags;
@@ -96,7 +106,7 @@ namespace lc {
 		};
 
 		bool parse_conditions(const JsonValue& owner, const std::string& where,
-			CondSets& out, std::string* error)
+			DialogueConditionSet& out, std::string* error)
 		{
 			const JsonValue* conditions = owner.find("conditions");
 			if (!conditions)
@@ -150,6 +160,30 @@ namespace lc {
 					}
 					condition.get_bool("owned", owned); // default: must be owned
 					out.skills.emplace_back(skill_id, owned);
+				}
+				else if (type == "has_item")
+				{
+					std::string item_id;
+					bool owned = true;
+					if (!condition.get_string("id", item_id))
+					{
+						return refuse(error, where + ": has_item condition without `id`");
+					}
+					condition.get_bool("owned", owned); // default: must be held
+					out.items.emplace_back(item_id, owned);
+				}
+				else if (type == "phase")
+				{
+					std::string phase;
+					if (!condition.get_string("id", phase) || phase.empty())
+					{
+						return refuse(error, where + ": phase condition without `id`");
+					}
+					if (!out.phase.empty())
+					{
+						return refuse(error, where + ": two phase conditions on one owner");
+					}
+					out.phase = std::move(phase);
 				}
 				else
 				{
@@ -226,6 +260,28 @@ namespace lc {
 					}
 					out.routed.push_back(std::move(routed));
 				}
+				else if (type == "heat")
+				{
+					AppliedEffect routed;
+					routed.type = "heat";
+					if (!effect.get_number("delta", routed.delta))
+					{
+						return refuse(error, where + ": heat needs `delta`");
+					}
+					out.routed.push_back(std::move(routed));
+				}
+				else if (type == "item")
+				{
+					AppliedEffect routed;
+					routed.type = "item";
+					routed.delta = 1.0;
+					if (!effect.get_string("id", routed.target))
+					{
+						return refuse(error, where + ": item needs `id`");
+					}
+					effect.get_number("value", routed.delta); // default: one
+					out.routed.push_back(std::move(routed));
+				}
 				else
 				{
 					return refuse(error, where + ": unknown effect type `" + type + "`");
@@ -286,14 +342,10 @@ namespace lc {
 			body.get_string("next", data.next);
 			body.get_bool("end", data.end);
 
-			CondSets conditions;
-			if (!parse_conditions(body, where, conditions, error))
+			if (!parse_conditions(body, where, data.conditions, error))
 			{
 				return false;
 			}
-			data.flag_conditions = std::move(conditions.flags);
-			data.standing_conditions = std::move(conditions.standing);
-			data.skill_conditions = std::move(conditions.skills);
 
 			EffSets effects;
 			if (!parse_effects(body, where, effects, error))
@@ -333,14 +385,10 @@ namespace lc {
 						return refuse(error, choice_where + ": missing `next`");
 					}
 
-					CondSets choice_conditions;
-					if (!parse_conditions(choice_value, choice_where, choice_conditions, error))
+					if (!parse_conditions(choice_value, choice_where, choice.conditions, error))
 					{
 						return false;
 					}
-					choice.flag_conditions = std::move(choice_conditions.flags);
-					choice.standing_conditions = std::move(choice_conditions.standing);
-					choice.skill_conditions = std::move(choice_conditions.skills);
 
 					EffSets choice_effects;
 					if (!parse_effects(choice_value, choice_where, choice_effects, error))
@@ -408,6 +456,62 @@ namespace lc {
 		return true;
 	}
 
+	int DialogueRunner::load_directory(const std::string& directory,
+		std::vector<std::string>* errors)
+	{
+		namespace fs = std::filesystem;
+
+		int loaded = 0;
+		std::error_code ec;
+		fs::directory_iterator it(directory, ec);
+		if (ec)
+		{
+			if (errors)
+			{
+				errors->push_back(directory + ": cannot read directory: " + ec.message());
+			}
+			return 0;
+		}
+
+		std::vector<fs::path> files;
+		for (const auto& entry : it)
+		{
+			std::error_code entry_ec;
+			if (entry.is_regular_file(entry_ec) && entry.path().extension() == ".json")
+			{
+				files.push_back(entry.path());
+			}
+		}
+		std::sort(files.begin(), files.end());
+
+		for (const fs::path& file : files)
+		{
+			std::ifstream input(file);
+			if (!input)
+			{
+				if (errors)
+				{
+					errors->push_back(file.filename().string() + ": unreadable");
+				}
+				continue;
+			}
+			std::stringstream buffer;
+			buffer << input.rdbuf();
+
+			std::string error;
+			if (!load(buffer.str(), &error))
+			{
+				if (errors)
+				{
+					errors->push_back(file.filename().string() + ": " + error);
+				}
+				continue;
+			}
+			++loaded;
+		}
+		return loaded;
+	}
+
 	const DialogueNodeData* DialogueRunner::node(const std::string& id) const
 	{
 		for (const DialogueNodeData& n : nodes_)
@@ -440,30 +544,39 @@ namespace lc {
 	}
 
 	bool DialogueRunner::conditions_pass(const DialogueWorld& world,
-		const std::vector<std::pair<std::string, bool>>& flag_conditions,
-		const std::vector<std::pair<std::string, double>>& standing_conditions,
-		const std::vector<std::pair<std::string, bool>>& skill_conditions) const
+		const DialogueConditionSet& conditions) const
 	{
-		for (const auto& condition : flag_conditions)
+		for (const auto& condition : conditions.flags)
 		{
 			if (world.has_flag(condition.first) != condition.second)
 			{
 				return false;
 			}
 		}
-		for (const auto& condition : standing_conditions)
+		for (const auto& condition : conditions.standing)
 		{
 			if (world.standing_of(condition.first) < condition.second)
 			{
 				return false;
 			}
 		}
-		for (const auto& condition : skill_conditions)
+		for (const auto& condition : conditions.skills)
 		{
 			if (world.owns_skill(condition.first) != condition.second)
 			{
 				return false;
 			}
+		}
+		for (const auto& condition : conditions.items)
+		{
+			if (world.owns_item(condition.first) != condition.second)
+			{
+				return false;
+			}
+		}
+		if (!conditions.phase.empty() && world.phase != conditions.phase)
+		{
+			return false;
 		}
 		return true;
 	}
@@ -479,8 +592,7 @@ namespace lc {
 		{
 			return false;
 		}
-		if (!conditions_pass(world, entry->flag_conditions, entry->standing_conditions,
-				entry->skill_conditions))
+		if (!conditions_pass(world, entry->conditions))
 		{
 			return false;
 		}
@@ -526,8 +638,7 @@ namespace lc {
 		for (std::size_t i = 0; i < n->choices.size(); ++i)
 		{
 			const DialogueChoiceData& choice = n->choices[i];
-			if (conditions_pass(world, choice.flag_conditions, choice.standing_conditions,
-					choice.skill_conditions))
+			if (conditions_pass(world, choice.conditions))
 			{
 				available.push_back(static_cast<int>(i));
 			}
@@ -547,8 +658,7 @@ namespace lc {
 		{
 			return false;
 		}
-		if (!conditions_pass(world, target->flag_conditions, target->standing_conditions,
-				target->skill_conditions))
+		if (!conditions_pass(world, target->conditions))
 		{
 			return false; // the data leads somewhere the world does not allow
 		}
@@ -570,8 +680,7 @@ namespace lc {
 			{
 				continue;
 			}
-			if (!conditions_pass(world, choice.flag_conditions, choice.standing_conditions,
-					choice.skill_conditions))
+			if (!conditions_pass(world, choice.conditions))
 			{
 				return false; // filtered out for this world
 			}
@@ -582,8 +691,7 @@ namespace lc {
 			}
 			apply_effects(choice.flag_effects, choice.standing_effects, choice.routed_effects, world);
 			// Choice effects may satisfy the target's own conditions.
-			if (!conditions_pass(world, target->flag_conditions, target->standing_conditions,
-					target->skill_conditions))
+			if (!conditions_pass(world, target->conditions))
 			{
 				return false;
 			}

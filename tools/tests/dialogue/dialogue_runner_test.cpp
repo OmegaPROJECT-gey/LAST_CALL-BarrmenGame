@@ -2,7 +2,7 @@
 //
 // Runs without Unreal: scripts/test-dialogue.sh compiles this against the
 // runner, the JSON reader and the test harness with g++. Drives the real
-// file Data/Dialogue/act1_harris_meeting.json.
+// files in Data/Dialogue (harris, kane, shadow) end to end.
 
 #include "Dialogue/DialogueRunnerCore.h"
 
@@ -156,6 +156,113 @@ int main()
 		expect(!runner.choose("no_such_choice", world), "unknown choice ids are refused");
 	}
 
+	// --- the whole scene list on disk (mirror of the CI lint) ----------------------
+	{
+		DialogueRunner library;
+		std::vector<std::string> errors;
+		const int loaded = library.load_directory(
+			lc_test::repo_root() + "/Data/Dialogue", &errors);
+		expect(loaded >= 5 && errors.empty(), "every dialogue in Data/Dialogue loads");
+		expect(library.id() == "act2_shadow_test", "load order is sorted, the last stays loaded");
+
+		DialogueRunner missing;
+		errors.clear();
+		expect(missing.load_directory("/no/such/directory", &errors) == 0 && !errors.empty(),
+			"a missing directory reports an error");
+	}
+	// --- has_item condition: the Thursday scene (C2) --------------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(
+			read_repo_file("Data/Dialogue/act1_shadow_first_thursday.json"), nullptr)
+			&& runner.start(world), "act1_shadow_first_thursday loads and starts");
+		runner.advance(world); // into the order
+		expect(runner.available_choices(world).size() == 2,
+			"without the drink the serving choice is hidden");
+		world.items.push_back("black_manhattan");
+		expect(runner.available_choices(world).size() == 3,
+			"holding the Black Manhattan reveals the serving choice");
+		expect(runner.choose("serve", world), "the served route is taken");
+		expect_near(world.standing_of("syndicate"), 1.0, 1e-9,
+			"serving raised syndicate standing");
+		bool quest_started = false;
+		for (const lc::AppliedEffect& effect : runner.applied())
+		{
+			if (effect.type == "quest" && effect.target == "shadow_shield"
+				&& effect.state == "started")
+			{
+				quest_started = true;
+			}
+		}
+		expect(quest_started, "the shield quest is routed to the engine");
+	}
+	// --- act 2, beat 12: Kane sells the third fragment (C2) -------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act2_kane_price.json"), nullptr)
+			&& runner.start(world), "act2_kane_price loads and starts");
+		runner.advance(world); // into the offer
+		expect(runner.available_choices(world).size() == 2,
+			"without psychology the counter choice is hidden");
+		world.skills.push_back("psychology_1");
+		expect(runner.available_choices(world).size() == 3,
+			"psychology_1 reveals the counter choice");
+		expect(runner.choose("answer", world), "the honest answer is taken");
+		expect(world.has_flag("kane_price_paid"), "the trade is recorded as a story flag");
+		bool item_granted = false;
+		for (const lc::AppliedEffect& effect : runner.applied())
+		{
+			if (effect.type == "item" && effect.target == "fragment_03")
+			{
+				item_granted = true;
+				expect_near(effect.delta, 1.0, 1e-9, "one fragment granted");
+			}
+		}
+		expect(item_granted, "the third fragment is granted for the engine to bank");
+		expect_near(world.standing_of("civilian"), 1.0, 1e-9, "honesty warmed The Room");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.kane.price.paid",
+			"the trade ends on Kane's last line");
+	}
+	// --- act 2, beat 14: heat as a routed consequence (C2) --------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act2_shadow_test.json"), nullptr)
+			&& runner.start(world), "act2_shadow_test loads and starts");
+		runner.advance(world); // into the test
+		expect(runner.choose("confess", world), "the volunteered loyalty is taken");
+		expect_near(world.standing_of("syndicate"), 2.0, 1e-9,
+			"unsolicited loyalty warmed the Syndicate");
+		bool heat_raised = false;
+		for (const lc::AppliedEffect& effect : runner.applied())
+		{
+			if (effect.type == "heat")
+			{
+				heat_raised = true;
+				expect_near(effect.delta, 1.0, 1e-9, "heat +1 routed");
+			}
+		}
+		expect(heat_raised, "the heat effect is in the applied list for the engine");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.shadow.test.loyal",
+			"the confession ends on Shadow's reply");
+	}
+	// --- phase condition ---------------------------------------------------------------
+	{
+		DialogueRunner runner;
+		std::string error;
+		expect(runner.load("{\"entry\":\"n\",\"nodes\":{\"n\":{\"text_key\":\"t\","
+			"\"conditions\":[{\"type\":\"phase\",\"id\":\"Night\"}],\"end\":true}}}", &error),
+			"a phase condition parses");
+		DialogueWorld day;
+		expect(!runner.start(day), "an unset phase does not match");
+		day.phase = "Shift";
+		expect(!runner.start(day), "the wrong phase keeps the node closed");
+		day.phase = "Night";
+		expect(runner.start(day), "the right phase opens the node");
+	}
+
 	// --- strict refusals -------------------------------------------------------------------
 	expect(refuses("{}"), "missing entry refused");
 	expect(refuses("{\"entry\":\"a\"}"), "missing nodes refused");
@@ -174,6 +281,19 @@ int main()
 	expect(refuses("{\"entry\":\"a\",\"nodes\":{\"a\":{\"text_key\":\"x\","
 		"\"effects\":[{\"type\":\"karma\",\"delta\":1}]}}}"),
 		"unknown effect type refused");
+	expect(refuses("{\"entry\":\"a\",\"nodes\":{\"a\":{\"text_key\":\"x\","
+		"\"conditions\":[{\"type\":\"phase\"}]}}}"),
+		"phase condition without id refused");
+	expect(refuses("{\"entry\":\"a\",\"nodes\":{\"a\":{\"text_key\":\"x\","
+		"\"conditions\":[{\"type\":\"phase\",\"id\":\"Night\"},"
+		"{\"type\":\"phase\",\"id\":\"Shift\"}]}}}"),
+		"two phase conditions on one owner refused");
+	expect(refuses("{\"entry\":\"a\",\"nodes\":{\"a\":{\"text_key\":\"x\","
+		"\"effects\":[{\"type\":\"item\"}]}}}"),
+		"item effect without id refused");
+	expect(refuses("{\"entry\":\"a\",\"nodes\":{\"a\":{\"text_key\":\"x\","
+		"\"effects\":[{\"type\":\"heat\"}]}}}"),
+		"heat effect without delta refused");
 	expect(refuses("not json"), "garbage refused");
 
 	return lc_test::report("dialogue runner");

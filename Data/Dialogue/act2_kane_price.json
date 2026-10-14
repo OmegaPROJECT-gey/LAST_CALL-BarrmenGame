@@ -1,0 +1,74 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act2_kane_price",
+	"act": 2,
+	"participants": ["player", "kane"],
+	"entry": "greet",
+	"nodes": {
+		"greet": {
+			"speaker": "kane",
+			"text_key": "dlg.kane.price.greet",
+			"next": "offer"
+		},
+		"offer": {
+			"speaker": "kane",
+			"text_key": "dlg.kane.price.offer",
+			"choices": [
+				{
+					"id": "answer",
+					"text_key": "dlg.kane.price.choice.answer",
+					"conditions": [],
+					"effects": [
+						{ "type": "mood", "target": "kane", "delta": 0.2 },
+						{ "type": "faction_standing", "faction": "civilian", "delta": 1 },
+						{ "type": "item", "id": "fragment_03", "value": 1 },
+						{ "type": "story_flag", "flag": "kane_price_paid", "value": true }
+					],
+					"next": "paid"
+				},
+				{
+					"id": "counter",
+					"text_key": "dlg.kane.price.choice.counter",
+					"conditions": [{ "type": "skill", "id": "psychology_1", "owned": true }],
+					"effects": [
+						{ "type": "mood", "target": "kane", "delta": 0.1 },
+						{ "type": "item", "id": "fragment_03", "value": 1 },
+						{ "type": "story_flag", "flag": "kane_price_read", "value": true }
+					],
+					"next": "countered"
+				},
+				{
+					"id": "refuse",
+					"text_key": "dlg.kane.price.choice.refuse",
+					"conditions": [],
+					"effects": [
+						{ "type": "mood", "target": "kane", "delta": -0.2 },
+						{ "type": "faction_standing", "faction": "civilian", "delta": -1 },
+						{ "type": "story_flag", "flag": "kane_price_refused", "value": true }
+					],
+					"next": "refused"
+				}
+			]
+		},
+		"paid": {
+			"speaker": "kane",
+			"text_key": "dlg.kane.price.paid",
+			"end": true
+		},
+		"countered": {
+			"speaker": "kane",
+			"text_key": "dlg.kane.price.countered",
+			"end": true
+		},
+		"refused": {
+			"speaker": "kane",
+			"text_key": "dlg.kane.price.refused",
+			"end": true
+		}
+	},
+	"interruptible": true,
+	"interrupt_recording": {
+		"on_ignored": "ignored_kane_price",
+		"on_heard": "heard_kane_price"
+	}
+}

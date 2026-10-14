@@ -1,0 +1,74 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act2_shadow_test",
+	"act": 2,
+	"participants": ["player", "shadow"],
+	"entry": "greet",
+	"nodes": {
+		"greet": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.test.greet",
+			"next": "offer"
+		},
+		"offer": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.test.offer",
+			"choices": [
+				{
+					"id": "serve",
+					"text_key": "dlg.shadow.test.choice.serve",
+					"conditions": [{ "type": "has_item", "id": "black_manhattan", "owned": true }],
+					"effects": [
+						{ "type": "mood", "target": "shadow", "delta": 0.2 },
+						{ "type": "faction_standing", "faction": "syndicate", "delta": 1 },
+						{ "type": "quest", "id": "shadow_shield", "state": "advanced" },
+						{ "type": "story_flag", "flag": "shadow_test_passed", "value": true }
+					],
+					"next": "served"
+				},
+				{
+					"id": "confess",
+					"text_key": "dlg.shadow.test.choice.confess",
+					"conditions": [],
+					"effects": [
+						{ "type": "faction_standing", "faction": "syndicate", "delta": 2 },
+						{ "type": "heat", "delta": 1 },
+						{ "type": "story_flag", "flag": "shadow_loyalty_offered", "value": true }
+					],
+					"next": "loyal"
+				},
+				{
+					"id": "fail",
+					"text_key": "dlg.shadow.test.choice.fail",
+					"conditions": [],
+					"effects": [
+						{ "type": "mood", "target": "shadow", "delta": -0.4 },
+						{ "type": "faction_standing", "faction": "syndicate", "delta": -3 },
+						{ "type": "story_flag", "flag": "shadow_test_failed", "value": true }
+					],
+					"next": "failed"
+				}
+			]
+		},
+		"served": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.test.served",
+			"end": true
+		},
+		"loyal": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.test.loyal",
+			"end": true
+		},
+		"failed": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.test.failed",
+			"end": true
+		}
+	},
+	"interruptible": true,
+	"interrupt_recording": {
+		"on_ignored": "ignored_shadow_test",
+		"on_heard": "heard_shadow_test"
+	}
+}
