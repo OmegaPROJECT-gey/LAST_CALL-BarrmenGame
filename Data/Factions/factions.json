@@ -1,0 +1,59 @@
+{
+	"$schema": "../schemas/factions.schema.json",
+	"factions": {
+		"syndicate": {
+			"display_name": { "en": "The Syndicate", "ru": "Синдикат" },
+			"initial_standing": 0
+		},
+		"ring": {
+			"display_name": { "en": "The Ring", "ru": "Кольцо" },
+			"initial_standing": 0
+		},
+		"bureau": {
+			"display_name": { "en": "The Bureau", "ru": "Бюро" },
+			"initial_standing": 0
+		},
+		"station": {
+			"display_name": { "en": "The Station", "ru": "Участок" },
+			"initial_standing": 0
+		},
+		"civilian": {
+			"display_name": { "en": "The Room", "ru": "Зал" },
+			"initial_standing": 0
+		}
+	},
+	"reactions": [
+		{
+			"flag": "heard_harris_case",
+			"standing": { "syndicate": -1 },
+			"note": {
+				"en": "The Syndicate hears you sat with a detective's case.",
+				"ru": "Синдикат узнал, что вы слушали дело детектива."
+			}
+		},
+		{
+			"flag": "poured_harris_before_talk",
+			"standing": { "civilian": 1 },
+			"note": {
+				"en": "Pouring before promising: the room notices good manners.",
+				"ru": "Налить до обещаний: зал замечает хорошее воспитание."
+			}
+		},
+		{
+			"flag": "heard_harris_meeting",
+			"standing": { "bureau": 1 },
+			"note": {
+				"en": "You let him finish; the Bureau counts it as keeping your ear open.",
+				"ru": "Вы дали ему договорить; в Бюро записали, что у вас открыты уши."
+			}
+		},
+		{
+			"flag": "ignored_harris_meeting",
+			"standing": { "bureau": -1, "civilian": -1 },
+			"note": {
+				"en": "A guest left unheard - the Bureau and the room both remember.",
+				"ru": "Гостя не выслушали — и в Бюро, и в зале это запомнили."
+			}
+		}
+	]
+}

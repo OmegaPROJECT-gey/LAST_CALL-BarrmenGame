@@ -1,0 +1,52 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "factions.schema.json",
+	"title": "LAST CALL factions and their reactions",
+	"type": "object",
+	"required": ["factions"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"factions": {
+			"type": "object",
+			"minProperties": 1,
+			"additionalProperties": {
+				"type": "object",
+				"required": ["display_name", "initial_standing"],
+				"additionalProperties": false,
+				"properties": {
+					"display_name": { "$ref": "#/$defs/localized" },
+					"initial_standing": { "type": "number" }
+				}
+			}
+		},
+		"reactions": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": ["flag", "standing", "note"],
+				"additionalProperties": false,
+				"properties": {
+					"flag": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+					"standing": {
+						"type": "object",
+						"minProperties": 1,
+						"additionalProperties": { "type": "number" }
+					},
+					"note": { "$ref": "#/$defs/localized" }
+				}
+			}
+		}
+	},
+	"$defs": {
+		"localized": {
+			"type": "object",
+			"required": ["en", "ru"],
+			"additionalProperties": false,
+			"properties": {
+				"en": { "type": "string", "minLength": 1 },
+				"ru": { "type": "string", "minLength": 1 }
+			}
+		}
+	}
+}

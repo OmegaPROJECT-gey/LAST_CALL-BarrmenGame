@@ -80,3 +80,6 @@ jobs:
 
       - name: Customer library unit tests (personas -> threat)
         run: ./scripts/test-customer-library.sh
+
+      - name: Social consequences unit tests (flags -> standing)
+        run: ./scripts/test-social.sh
