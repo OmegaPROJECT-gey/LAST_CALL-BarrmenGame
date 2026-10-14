@@ -1,0 +1,44 @@
+{
+	"$schema": "../schemas/intel.schema.json",
+	"intel": [
+		{
+			"id": "docks_meet",
+			"display_name": {
+				"en": "Who meets at the docks",
+				"ru": "Кто встречается на доках"
+			},
+			"cost": 3,
+			"grants_flag": "intel_docks_meet",
+			"note": {
+				"en": "The Ring trades there every third night. Say it to the right ear.",
+				"ru": "Кольцо торгует там каждую третью ночь. Скажите тому, кому нужно."
+			}
+		},
+		{
+			"id": "shipment",
+			"display_name": {
+				"en": "The shipment route",
+				"ru": "Маршрут поставки"
+			},
+			"cost": 5,
+			"grants_flag": "intel_shipment",
+			"note": {
+				"en": "One truck, one bought guard, one night a week worth watching.",
+				"ru": "Один грузовик, один подкупленный охранник, одна ночь в неделю, за которой стоит следить."
+			}
+		},
+		{
+			"id": "bought_cop",
+			"display_name": {
+				"en": "The bought cop",
+				"ru": "Коп на содержании"
+			},
+			"cost": 4,
+			"grants_flag": "intel_cop_bought",
+			"note": {
+				"en": "A name, a precinct, and a price list. Worth more than a bottle at his head.",
+				"ru": "Имя, участок и прайс. Ценнее, чем бутылка по голове."
+			}
+		}
+	]
+}

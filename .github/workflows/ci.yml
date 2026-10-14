@@ -101,3 +101,6 @@ jobs:
 
       - name: Raid director unit tests (evidence -> heat/fines)
         run: ./scripts/test-raid.sh
+
+      - name: Investigations unit tests (tokens -> intel)
+        run: ./scripts/test-intel.sh
