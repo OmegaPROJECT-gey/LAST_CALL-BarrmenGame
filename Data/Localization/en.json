@@ -51,5 +51,21 @@
 	"dlg.shadow.test.choice.fail": "(You pour from memory, not from the wall. He watches the chalk.)",
 	"dlg.shadow.test.served": "The hand remembers. The shield holds another week.",
 	"dlg.shadow.test.loyal": "(He writes nothing down. That is the point.) You said more than I asked. Words like that raise heat.",
-	"dlg.shadow.test.failed": "The wall wrote it down and you didn't remember. Next Thursday there may be no test - only an answer."
+	"dlg.shadow.test.failed": "The wall wrote it down and you didn't remember. Next Thursday there may be no test - only an answer.",
+	"dlg.shadow.unmasked.greet": "He waits until the shutter is half down. Sit. The Thursday talk is not about drinks tonight.",
+	"dlg.shadow.unmasked.reveal": "You followed the ledger, so you earn the rest of it: I am not the top. I carry the name so nobody looks above me.",
+	"dlg.shadow.unmasked.choice.press": "Then who does the room never serve?",
+	"dlg.shadow.unmasked.choice.accept": "Whatever sits above you, the shield you promised still holds.",
+	"dlg.shadow.unmasked.choice.refuse": "Then we are done until someone above you says otherwise.",
+	"dlg.shadow.unmasked.named": "(He never points. He never has to.) Look at who sits longest and orders least. That one never complains about the pour.",
+	"dlg.shadow.unmasked.kept": "It holds. You poured what was written and asked for nothing. The whole deal, kept.",
+	"dlg.shadow.unmasked.refused": "Understood. Keep the shutter half down on Thursdays. The answer will keep.",
+	"dlg.harris.breakin.greet": "Morning paper says a bar was burgled and nothing was taken. That's your bar, isn't it.",
+	"dlg.harris.breakin.report": "So: nothing taken, a photograph of your chalk gone. Say something I can write down.",
+	"dlg.harris.breakin.choice.tell": "A photograph of the wall, nothing else. Someone wanted me to know they read it.",
+	"dlg.harris.breakin.choice.withhold": "Nothing happened. I'd like it to stay that way in your book too.",
+	"dlg.harris.breakin.choice.quiet": "Off the record: a photograph of the wall. Keep it out of the book and I'll keep pouring before we talk.",
+	"dlg.harris.breakin.told": "That I can write. Which makes it a case now, and cases have paperwork that asks for you.",
+	"dlg.harris.breakin.withheld": "Nothing happened. Fine. When something finally does happen, don't come late to my door.",
+	"dlg.harris.breakin.quiet": "Off the record stays off - for now. The room hears you chose me over the book; mind how that reads."
 }

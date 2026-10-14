@@ -1,0 +1,72 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act3_shadow_unmasked",
+	"act": 3,
+	"participants": ["player", "shadow"],
+	"entry": "greet",
+	"nodes": {
+		"greet": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.unmasked.greet",
+			"next": "reveal"
+		},
+		"reveal": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.unmasked.reveal",
+			"choices": [
+				{
+					"id": "press",
+					"text_key": "dlg.shadow.unmasked.choice.press",
+					"conditions": [{ "type": "faction_standing", "faction": "syndicate", "min": 2 }],
+					"effects": [
+						{ "type": "mood", "target": "shadow", "delta": 0.1 },
+						{ "type": "story_flag", "flag": "shadow_named_chain", "value": true }
+					],
+					"next": "named"
+				},
+				{
+					"id": "accept",
+					"text_key": "dlg.shadow.unmasked.choice.accept",
+					"conditions": [],
+					"effects": [
+						{ "type": "faction_standing", "faction": "syndicate", "delta": 1 },
+						{ "type": "quest", "id": "shadow_shield", "state": "completed" },
+						{ "type": "story_flag", "flag": "shadow_shield_kept", "value": true }
+					],
+					"next": "kept"
+				},
+				{
+					"id": "refuse",
+					"text_key": "dlg.shadow.unmasked.choice.refuse",
+					"conditions": [],
+					"effects": [
+						{ "type": "mood", "target": "shadow", "delta": -0.3 },
+						{ "type": "faction_standing", "faction": "syndicate", "delta": -3 },
+						{ "type": "story_flag", "flag": "shadow_unmasked_refused", "value": true }
+					],
+					"next": "refused"
+				}
+			]
+		},
+		"named": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.unmasked.named",
+			"end": true
+		},
+		"kept": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.unmasked.kept",
+			"end": true
+		},
+		"refused": {
+			"speaker": "shadow",
+			"text_key": "dlg.shadow.unmasked.refused",
+			"end": true
+		}
+	},
+	"interruptible": true,
+	"interrupt_recording": {
+		"on_ignored": "ignored_shadow_unmasked",
+		"on_heard": "heard_shadow_unmasked"
+	}
+}

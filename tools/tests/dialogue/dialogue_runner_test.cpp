@@ -162,8 +162,9 @@ int main()
 		std::vector<std::string> errors;
 		const int loaded = library.load_directory(
 			lc_test::repo_root() + "/Data/Dialogue", &errors);
-		expect(loaded >= 5 && errors.empty(), "every dialogue in Data/Dialogue loads");
-		expect(library.id() == "act2_shadow_test", "load order is sorted, the last stays loaded");
+		expect(loaded >= 7 && errors.empty(), "every dialogue in Data/Dialogue loads");
+		expect(library.id() == "act3_shadow_unmasked",
+			"load order is sorted, the newest act stays loaded");
 
 		DialogueRunner missing;
 		errors.clear();
@@ -247,6 +248,39 @@ int main()
 		expect(heat_raised, "the heat effect is in the applied list for the engine");
 		expect(runner.at_end() && runner.current_text_key() == "dlg.shadow.test.loyal",
 			"the confession ends on Shadow's reply");
+	}
+	// --- act 1, beat 7 aftermath: Harris and the break-in (C2) ----------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act1_harris_breakin.json"), nullptr)
+			&& runner.start(world), "act1_harris_breakin loads and starts");
+		runner.advance(world); // into the report
+		expect(runner.available_choices(world).size() == 3,
+			"the break-in report has three answers");
+		expect(runner.choose("withhold", world), "the quiet refusal is taken");
+		expect(world.has_flag("harris_withheld_breakin"), "withholding is recorded");
+		expect_near(world.standing_of("bureau"), -1.0, 1e-9,
+			"withholding cost bureau standing");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.harris.breakin.withheld",
+			"Harris ends on the warning");
+	}
+	// --- act 3, beat 19: the unmasking, gated by syndicate trust (C2) ---------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act3_shadow_unmasked.json"), nullptr)
+			&& runner.start(world), "act3_shadow_unmasked loads and starts");
+		runner.advance(world); // into the reveal
+		expect(runner.available_choices(world).size() == 2,
+			"without syndicate trust the press choice is hidden");
+		world.add_standing("syndicate", 2.0);
+		expect(runner.available_choices(world).size() == 3, "trust reveals the press choice");
+		expect(runner.choose("press", world), "you press for the name");
+		expect(world.has_flag("shadow_named_chain"),
+			"the hint about who is really above Shadow is recorded");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.shadow.unmasked.named",
+			"the press route ends on the hint");
 	}
 	// --- phase condition ---------------------------------------------------------------
 	{

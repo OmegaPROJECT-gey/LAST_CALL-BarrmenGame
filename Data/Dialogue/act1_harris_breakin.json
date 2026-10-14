@@ -1,0 +1,72 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act1_harris_breakin",
+	"act": 1,
+	"participants": ["player", "harris"],
+	"entry": "greet",
+	"nodes": {
+		"greet": {
+			"speaker": "harris",
+			"text_key": "dlg.harris.breakin.greet",
+			"next": "report"
+		},
+		"report": {
+			"speaker": "harris",
+			"text_key": "dlg.harris.breakin.report",
+			"choices": [
+				{
+					"id": "tell",
+					"text_key": "dlg.harris.breakin.choice.tell",
+					"conditions": [],
+					"effects": [
+						{ "type": "mood", "target": "harris", "delta": 0.1 },
+						{ "type": "faction_standing", "faction": "bureau", "delta": 1 },
+						{ "type": "story_flag", "flag": "harris_told_breakin", "value": true }
+					],
+					"next": "told"
+				},
+				{
+					"id": "withhold",
+					"text_key": "dlg.harris.breakin.choice.withhold",
+					"conditions": [],
+					"effects": [
+						{ "type": "mood", "target": "harris", "delta": -0.1 },
+						{ "type": "faction_standing", "faction": "bureau", "delta": -1 },
+						{ "type": "story_flag", "flag": "harris_withheld_breakin", "value": true }
+					],
+					"next": "withheld"
+				},
+				{
+					"id": "quiet",
+					"text_key": "dlg.harris.breakin.choice.quiet",
+					"conditions": [],
+					"effects": [
+						{ "type": "faction_standing", "faction": "bureau", "delta": 1 },
+						{ "type": "story_flag", "flag": "harris_quiet_report", "value": true }
+					],
+					"next": "quiet"
+				}
+			]
+		},
+		"told": {
+			"speaker": "harris",
+			"text_key": "dlg.harris.breakin.told",
+			"end": true
+		},
+		"withheld": {
+			"speaker": "harris",
+			"text_key": "dlg.harris.breakin.withheld",
+			"end": true
+		},
+		"quiet": {
+			"speaker": "harris",
+			"text_key": "dlg.harris.breakin.quiet",
+			"end": true
+		}
+	},
+	"interruptible": true,
+	"interrupt_recording": {
+		"on_ignored": "ignored_harris_breakin",
+		"on_heard": "heard_harris_breakin"
+	}
+}
