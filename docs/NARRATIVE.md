@@ -20,7 +20,7 @@ Alex inherits a bar in the center of the metropolis from an uncle they barely kn
 
 Endings (6) are computed from **faction standing × information collected × venue tier**. No good/evil axis (PHILOSOPHY §6).
 
-### 2.1 Beat sheet (draft, ROADMAP C1 — awaiting owner approval)
+### 2.1 Beat sheet (approved by the owner, 2026-10-14 — ROADMAP C1)
 
 Beats reference the systems that already carry their weight in data: story flags (`heard_harris_case`, `poured_harris_before_talk`, `heard_harris_meeting`, `ignored_harris_meeting`), the secret fragments on the wall (`secret.fragment 1..13`), intel rows (`docks_meet`, `shipment`, `bought_cop`), night activities (to-go orders, debt runs, investigations) and the raid rules.
 
@@ -70,7 +70,7 @@ Beats reference the systems that already carry their weight in data: story flags
 | 25 | **Last call.** The final shift is a service, not a battle: who gets served, who gets refused, what gets poured decides who walks out of the bar. | the ending reads the consequence log, not a combat result |
 | 26 | **Six endings.** Standing × collected information × venue tier; each ending has its own last night and its own morning after. | C4, replayability from decisions, not difficulty |
 
-Drafted 2026-10-14; approval requested from the owner (ROADMAP C1).
+Approved by the owner on 2026-10-14 (ROADMAP C1 closed); changes after approval follow the CHANGELOG discipline.
 
 ## 3. Major characters
 
@@ -130,7 +130,7 @@ Standing is a number per faction; heat (police attention) is separate. Both are 
 
 ## 8. Content checklist for v1.0
 
-- [~] Act I–IV beat sheet: drafted in EN and RU (§2.1), awaiting owner approval (ROADMAP C1)
+- [x] Act I–IV beat sheet: written in EN and RU and approved by the owner (§2.1, ROADMAP C1)
 - [ ] 3 major characters: full trees + schedules (C2)
 - [ ] 12 regulars: 3–6 scenes each (C3)
 - [ ] 4 factions: standing events + reaction tables (C3)
