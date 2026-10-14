@@ -69,7 +69,7 @@ int main()
 	std::string error;
 	expect(library.load(read_repo_file("Data/Liquids/liquids.json"), &error),
 		"Data/Liquids/liquids.json loads");
-	expect(library.ids().size() == 5, "five liquids on tap");
+	expect(library.ids().size() == 8, "eight liquids on tap (five stock + three crafted)");
 
 	const LiquidSpec* whiskey = library.find("whiskey_rye");
 	expect(whiskey != nullptr, "whiskey_rye is stocked");
