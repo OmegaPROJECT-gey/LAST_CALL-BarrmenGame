@@ -1,0 +1,125 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "endings.schema.json",
+	"title": "LAST CALL endings: information axis, selection rules, six endings",
+	"type": "object",
+	"required": ["information", "selection", "endings"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"information": {
+			"type": "object",
+			"required": ["items"],
+			"additionalProperties": false,
+			"properties": {
+				"items": {
+					"type": "array",
+					"minItems": 1,
+					"uniqueItems": true,
+					"items": { "type": "string", "pattern": "^[a-z0-9_]+$" }
+				}
+			}
+		},
+		"selection": {
+			"description": "Ordered rules, first match wins; the last one must be `always` (enforced by EndingsCore).",
+			"type": "array",
+			"minItems": 2,
+			"items": { "$ref": "#/$defs/rule" }
+		},
+		"endings": {
+			"description": "Exactly six endings (NARRATIVE beat 26); each carries five last nights and five mornings after - one pair per venue tier.",
+			"type": "array",
+			"minItems": 6,
+			"maxItems": 6,
+			"items": { "$ref": "#/$defs/ending" }
+		}
+	},
+	"$defs": {
+		"id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+		"key": { "type": "string", "pattern": "^[a-z0-9_]+(\\.[a-z0-9_]+)+$" },
+		"localized": {
+			"type": "object",
+			"required": ["en", "ru"],
+			"additionalProperties": false,
+			"properties": {
+				"en": { "type": "string", "minLength": 1 },
+				"ru": { "type": "string", "minLength": 1 }
+			}
+		},
+		"rule": {
+			"oneOf": [
+				{
+					"type": "object",
+					"required": ["type", "min", "ending"],
+					"additionalProperties": false,
+					"properties": {
+						"type": { "const": "info_at_least" },
+						"min": { "type": "integer", "minimum": 0 },
+						"ending": { "$ref": "#/$defs/id" }
+					}
+				},
+				{
+					"type": "object",
+					"required": ["type", "max", "ending"],
+					"additionalProperties": false,
+					"properties": {
+						"type": { "const": "max_standing_at_most" },
+						"max": { "type": "number" },
+						"ending": { "$ref": "#/$defs/id" }
+					}
+				},
+				{
+					"type": "object",
+					"required": ["type", "factions", "min", "ending"],
+					"additionalProperties": false,
+					"properties": {
+						"type": { "const": "dominant_any" },
+						"factions": {
+							"type": "array",
+							"minItems": 1,
+							"uniqueItems": true,
+							"items": { "$ref": "#/$defs/id" }
+						},
+						"min": { "type": "number", "exclusiveMinimum": 0 },
+						"min_tier": { "type": "integer", "minimum": 1, "maximum": 5 },
+						"max_tier": { "type": "integer", "minimum": 1, "maximum": 5 },
+						"ending": { "$ref": "#/$defs/id" }
+					}
+				},
+				{
+					"type": "object",
+					"required": ["type", "ending"],
+					"additionalProperties": false,
+					"properties": {
+						"type": { "const": "always" },
+						"ending": { "$ref": "#/$defs/id" }
+					}
+				}
+			]
+		},
+		"ending": {
+			"type": "object",
+			"required": ["id", "name", "tiers"],
+			"additionalProperties": false,
+			"properties": {
+				"id": { "$ref": "#/$defs/id" },
+				"name": { "$ref": "#/$defs/localized" },
+				"tiers": {
+					"type": "array",
+					"minItems": 5,
+					"maxItems": 5,
+					"items": {
+						"type": "object",
+						"required": ["tier", "night_key", "morning_key"],
+						"additionalProperties": false,
+						"properties": {
+							"tier": { "type": "integer", "minimum": 1, "maximum": 5 },
+							"night_key": { "$ref": "#/$defs/key" },
+							"morning_key": { "$ref": "#/$defs/key" }
+						}
+					}
+				}
+			}
+		}
+	}
+}

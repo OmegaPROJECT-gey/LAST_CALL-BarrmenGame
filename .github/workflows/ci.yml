@@ -107,3 +107,6 @@ jobs:
 
       - name: Investigations unit tests (tokens -> intel)
         run: ./scripts/test-intel.sh
+
+      - name: Endings unit tests (standing x information x tier)
+        run: ./scripts/test-endings.sh

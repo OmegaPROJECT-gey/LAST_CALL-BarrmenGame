@@ -136,5 +136,5 @@ Standing is a number per faction; heat (police attention) is separate. Both are 
 - [~] 3 major characters: full trees + schedules (C2)
 - [x] 12 regulars: records + all twelve arcs complete — establishment, favor, fork each (C3)
 - [~] 4 factions: standing events + reaction tables (C3)
-- [ ] 6 endings, each with a distinct last night (C4)
+- [~] 6 endings, each with a distinct last night (C4) — selected as data + core across all five venue tiers; the engine-side ending screen is open
 - [ ] RU pass by a native editor, not machine-only (P3)

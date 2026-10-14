@@ -1,0 +1,220 @@
+{
+	"$schema": "../schemas/endings.schema.json",
+	"information": {
+		"items": [
+			"fragment_01",
+			"fragment_02",
+			"fragment_03",
+			"fragment_04",
+			"fragment_05",
+			"fragment_06",
+			"fragment_07",
+			"fragment_08",
+			"fragment_09",
+			"fragment_10",
+			"fragment_11",
+			"fragment_12",
+			"fragment_13"
+		]
+	},
+	"selection": [
+		{ "type": "info_at_least", "min": 9, "ending": "archive" },
+		{ "type": "max_standing_at_most", "max": 0, "ending": "closed" },
+		{ "type": "dominant_any", "factions": ["civilian"], "min": 0.5, "ending": "keeper" },
+		{ "type": "dominant_any", "factions": ["syndicate"], "min": 0.5, "max_tier": 1, "ending": "syndicate" },
+		{ "type": "dominant_any", "factions": ["ring"], "min": 0.5, "max_tier": 1, "ending": "ring" },
+		{ "type": "dominant_any", "factions": ["bureau", "station"], "min": 0.5, "max_tier": 1, "ending": "precinct" },
+		{ "type": "dominant_any", "factions": ["syndicate"], "min": 1, "ending": "syndicate" },
+		{ "type": "dominant_any", "factions": ["ring"], "min": 1, "ending": "ring" },
+		{ "type": "dominant_any", "factions": ["bureau", "station"], "min": 1, "ending": "precinct" },
+		{ "type": "always", "ending": "keeper" }
+	],
+	"endings": [
+		{
+			"id": "archive",
+			"name": { "en": "The Archive Opens", "ru": "Архив открывается" },
+			"tiers": [
+				{
+					"tier": 1,
+					"night_key": "ending.archive.t1.night",
+					"morning_key": "ending.archive.t1.morning"
+				},
+				{
+					"tier": 2,
+					"night_key": "ending.archive.t2.night",
+					"morning_key": "ending.archive.t2.morning"
+				},
+				{
+					"tier": 3,
+					"night_key": "ending.archive.t3.night",
+					"morning_key": "ending.archive.t3.morning"
+				},
+				{
+					"tier": 4,
+					"night_key": "ending.archive.t4.night",
+					"morning_key": "ending.archive.t4.morning"
+				},
+				{
+					"tier": 5,
+					"night_key": "ending.archive.t5.night",
+					"morning_key": "ending.archive.t5.morning"
+				}
+			]
+		},
+		{
+			"id": "closed",
+			"name": { "en": "Boarded Up", "ru": "Заколочено" },
+			"tiers": [
+				{
+					"tier": 1,
+					"night_key": "ending.closed.t1.night",
+					"morning_key": "ending.closed.t1.morning"
+				},
+				{
+					"tier": 2,
+					"night_key": "ending.closed.t2.night",
+					"morning_key": "ending.closed.t2.morning"
+				},
+				{
+					"tier": 3,
+					"night_key": "ending.closed.t3.night",
+					"morning_key": "ending.closed.t3.morning"
+				},
+				{
+					"tier": 4,
+					"night_key": "ending.closed.t4.night",
+					"morning_key": "ending.closed.t4.morning"
+				},
+				{
+					"tier": 5,
+					"night_key": "ending.closed.t5.night",
+					"morning_key": "ending.closed.t5.morning"
+				}
+			]
+		},
+		{
+			"id": "keeper",
+			"name": { "en": "Owner's Hours", "ru": "Часы хозяина" },
+			"tiers": [
+				{
+					"tier": 1,
+					"night_key": "ending.keeper.t1.night",
+					"morning_key": "ending.keeper.t1.morning"
+				},
+				{
+					"tier": 2,
+					"night_key": "ending.keeper.t2.night",
+					"morning_key": "ending.keeper.t2.morning"
+				},
+				{
+					"tier": 3,
+					"night_key": "ending.keeper.t3.night",
+					"morning_key": "ending.keeper.t3.morning"
+				},
+				{
+					"tier": 4,
+					"night_key": "ending.keeper.t4.night",
+					"morning_key": "ending.keeper.t4.morning"
+				},
+				{
+					"tier": 5,
+					"night_key": "ending.keeper.t5.night",
+					"morning_key": "ending.keeper.t5.morning"
+				}
+			]
+		},
+		{
+			"id": "precinct",
+			"name": { "en": "On the Record", "ru": "Под протокол" },
+			"tiers": [
+				{
+					"tier": 1,
+					"night_key": "ending.precinct.t1.night",
+					"morning_key": "ending.precinct.t1.morning"
+				},
+				{
+					"tier": 2,
+					"night_key": "ending.precinct.t2.night",
+					"morning_key": "ending.precinct.t2.morning"
+				},
+				{
+					"tier": 3,
+					"night_key": "ending.precinct.t3.night",
+					"morning_key": "ending.precinct.t3.morning"
+				},
+				{
+					"tier": 4,
+					"night_key": "ending.precinct.t4.night",
+					"morning_key": "ending.precinct.t4.morning"
+				},
+				{
+					"tier": 5,
+					"night_key": "ending.precinct.t5.night",
+					"morning_key": "ending.precinct.t5.morning"
+				}
+			]
+		},
+		{
+			"id": "ring",
+			"name": { "en": "Thursdays", "ru": "Четверги" },
+			"tiers": [
+				{
+					"tier": 1,
+					"night_key": "ending.ring.t1.night",
+					"morning_key": "ending.ring.t1.morning"
+				},
+				{
+					"tier": 2,
+					"night_key": "ending.ring.t2.night",
+					"morning_key": "ending.ring.t2.morning"
+				},
+				{
+					"tier": 3,
+					"night_key": "ending.ring.t3.night",
+					"morning_key": "ending.ring.t3.morning"
+				},
+				{
+					"tier": 4,
+					"night_key": "ending.ring.t4.night",
+					"morning_key": "ending.ring.t4.morning"
+				},
+				{
+					"tier": 5,
+					"night_key": "ending.ring.t5.night",
+					"morning_key": "ending.ring.t5.morning"
+				}
+			]
+		},
+		{
+			"id": "syndicate",
+			"name": { "en": "Quiet Hours", "ru": "Тихие часы" },
+			"tiers": [
+				{
+					"tier": 1,
+					"night_key": "ending.syndicate.t1.night",
+					"morning_key": "ending.syndicate.t1.morning"
+				},
+				{
+					"tier": 2,
+					"night_key": "ending.syndicate.t2.night",
+					"morning_key": "ending.syndicate.t2.morning"
+				},
+				{
+					"tier": 3,
+					"night_key": "ending.syndicate.t3.night",
+					"morning_key": "ending.syndicate.t3.morning"
+				},
+				{
+					"tier": 4,
+					"night_key": "ending.syndicate.t4.night",
+					"morning_key": "ending.syndicate.t4.morning"
+				},
+				{
+					"tier": 5,
+					"night_key": "ending.syndicate.t5.night",
+					"morning_key": "ending.syndicate.t5.morning"
+				}
+			]
+		}
+	]
+}
