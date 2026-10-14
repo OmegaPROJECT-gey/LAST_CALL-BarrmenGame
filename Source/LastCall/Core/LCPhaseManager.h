@@ -1,13 +1,18 @@
 // LAST CALL - the phase clock.
-// ULCLocalPhaseManager is the ONLY owner of the current phase of the day
+// ULCPhaseManager is the ONLY owner of the current phase of the day
 // (docs/ARCHITECTURE.md, section 2). Subsystems declare the phases they live
 // in and are enabled/disabled on transition; UI, music and AI listen to
 // FOnPhaseChanged. Phase boundaries are the only loading points in the game
 // (PHILOSOPHY.md, section 8) and the only place the save file is written.
+//
+// The state machine itself is the engine-independent lc::DayClock
+// (Core/DayScheduleCore - unit-tested as F2 groundwork); this class is the
+// thin UE half: Blueprint API, delegates, and the save hook at boundaries.
 
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Core/DayScheduleCore.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "LCPhaseManager.generated.h"
 
@@ -34,18 +39,20 @@ public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
-	/** Current phase. Never set directly outside this class - use RequestPhase. */
+	/** Current phase. */
 	UFUNCTION(BlueprintPure, Category = "Day")
-	ELCPhase GetPhase() const { return Phase; }
+	ELCPhase GetPhase() const;
 
 	/** Current in-game day, 1-based. */
 	UFUNCTION(BlueprintPure, Category = "Day")
-	int32 GetDay() const { return Day; }
+	int32 GetDay() const;
 
 	/**
-	 * Request a transition. Returns false for an illegal jump (phases only move
-	 * forward within a day; Summary wraps to Morning of the next day and writes
-	 * the save at the boundary).
+	 * Request a transition. Skipping forward within the day is allowed
+	 * (GAME-DESIGN 2: phases are skippable); backward jumps and no-op
+	 * requests are refused - the day moves forward only, consequences
+	 * stick (PHILOSOPHY 3.2). Summary -> Morning of the next day is only
+	 * reachable through AdvancePhase or Tick.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Day")
 	bool RequestPhase(ELCPhase NewPhase);
@@ -53,6 +60,21 @@ public:
 	/** Convenience: advance one phase along the loop. */
 	UFUNCTION(BlueprintCallable, Category = "Day")
 	bool AdvancePhase();
+
+	/**
+	 * Advance time: a timed phase (morning prep, summary) auto-advances
+	 * when its duration runs out; untimed phases (shift, night) just
+	 * accumulate. Returns how many boundaries fired.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Day")
+	int32 Tick(float DtSeconds);
+
+	/**
+	 * Share of the current phase's time spent (>= 1 means done); untimed
+	 * phases report 0 - the shift ends when the bar closes, not by clock.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Day")
+	float GetPhaseProgress() const;
 
 	/** Fired after the phase actually changed. Bind UI, music, AI here. */
 	UPROPERTY(BlueprintAssignable, Category = "Day")
@@ -62,19 +84,28 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Day")
 	FOnLCDayAdvanced OnDayAdvanced;
 
+	/**
+	 * Apply a loaded save without writing one back (ULCSaveSystem on
+	 * boot): resets the phase timers and broadcasts the change when it is
+	 * one. Plain C++ - the save subsystem calls it, not Blueprint.
+	 */
+	void ApplyLoadedState(int32 InDay, ELCPhase InPhase);
+
+	/** ELCPhase <-> lc::Phase, for code talking to the cores. */
+	static ELCPhase ToEngine(lc::Phase InPhase);
+	static lc::Phase ToCore(ELCPhase InPhase);
+
 private:
-	UPROPERTY(VisibleAnywhere, Category = "Day")
-	ELCPhase Phase = ELCPhase::Morning;
+	/** The state machine itself: the engine half runs the tested core. */
+	lc::DayClock Clock;
+	lc::DayScheduleSpec Spec;
 
-	UPROPERTY(VisibleAnywhere, Category = "Day")
-	int32 Day = 1;
-
-	/** Next phase in the loop; Summary -> Morning of Day+1. */
-	static ELCPhase NextPhase(ELCPhase InPhase);
+	/** Common tail of every accepted transition: day log, save, delegates. */
+	void FinishTransition(const lc::PhaseTransition& Transition);
 
 	/**
-	 * Phase boundary hook: this is where ULCSaveSystem writes (ARCHITECTURE.md 9).
-	 * F0 records the intent; the save system itself lands in milestone F2.
+	 * Phase boundary hook: this is where ULCSaveSystem writes
+	 * (ARCHITECTURE.md 9) - consumes the core's save_requested flag.
 	 */
-	void NotifyPhaseBoundary(ELCPhase OldPhase, ELCPhase NewPhase);
+	void NotifyPhaseBoundary();
 };
