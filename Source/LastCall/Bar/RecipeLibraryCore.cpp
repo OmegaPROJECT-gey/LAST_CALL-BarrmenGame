@@ -47,6 +47,24 @@ namespace lc {
 			return refuse(error, "missing or empty `glass`");
 		}
 
+		const JsonValue* display_name = doc.find("display_name");
+		if (display_name)
+		{
+			if (display_name->kind != JsonValue::Kind::Object)
+			{
+				return refuse(error, "`display_name` must be an object");
+			}
+			const JsonValue* name_en = display_name->find("en");
+			const JsonValue* name_ru = display_name->find("ru");
+			if (!name_en || name_en->kind != JsonValue::Kind::String || name_en->string.empty()
+				|| !name_ru || name_ru->kind != JsonValue::Kind::String || name_ru->string.empty())
+			{
+				return refuse(error, "`display_name` needs non-empty `en` and `ru`");
+			}
+			record.name_en = name_en->string;
+			record.name_ru = name_ru->string;
+		}
+
 		const JsonValue* steps = doc.find("steps");
 		if (!steps || steps->kind != JsonValue::Kind::Array || steps->array.empty())
 		{

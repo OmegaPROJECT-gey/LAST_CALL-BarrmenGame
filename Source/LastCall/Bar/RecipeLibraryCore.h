@@ -34,6 +34,12 @@ namespace lc {
 		int secret_of = 0;                      // total fragments on the wall
 		std::string secret_text_key;            // localization key of the fragment
 		std::string secret_reveal_flag;         // world flag that unlocks reading it ("" = always)
+
+		// Bilingual display name: the data schema requires both languages and
+		// the loader enforces it whenever the block is present (documents
+		// without one stay legal for minimal packs and tests).
+		std::string name_en;
+		std::string name_ru;
 	};
 
 	/**

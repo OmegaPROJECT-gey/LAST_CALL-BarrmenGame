@@ -155,6 +155,21 @@ int main()
 		expect(runner.load(real_dialogue, nullptr) && runner.start(world), "reload");
 		expect(!runner.choose("no_such_choice", world), "unknown choice ids are refused");
 	}
+	// --- choice data by index (the UE wrapper reads text keys through it) -----------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(real_dialogue, nullptr) && runner.start(world), "reload");
+		runner.advance(world);
+		const std::vector<int> allowed = runner.available_choices(world);
+		expect(!allowed.empty(), "choices to read");
+		const lc::DialogueChoiceData* first = runner.choice(allowed.front());
+		expect(first != nullptr && first->id == "accept"
+			&& first->text_key == "dlg.harris.choice.accept",
+			"choice data reads by index");
+		expect(runner.choice(-1) == nullptr && runner.choice(99) == nullptr,
+			"choice data refuses out-of-range indices");
+	}
 
 	// --- the whole scene list on disk (mirror of the CI lint) ----------------------
 	{

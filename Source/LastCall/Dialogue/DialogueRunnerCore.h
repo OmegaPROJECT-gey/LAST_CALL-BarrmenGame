@@ -122,6 +122,9 @@ namespace lc {
 		/** Indices (into the node's choice list) of choices the world allows. */
 		std::vector<int> available_choices(const DialogueWorld& world) const;
 
+		/** The i-th choice of the current node; nullptr when out of range. */
+		const DialogueChoiceData* choice(int index) const;
+
 		/** Follow the linear `next`, applying node effects. False when there is none. */
 		bool advance(DialogueWorld& world);
 

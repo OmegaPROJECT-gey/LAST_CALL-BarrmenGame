@@ -121,6 +121,12 @@ int main()
 		expect(loaded >= 1 && errors.empty(), "Data/Recipes loads clean");
 		const RecipeRecord* noir = library.find("signature_noir");
 		expect(noir != nullptr, "signature_noir is findable");
+		if (noir)
+		{
+			expect(noir->name_en == "Signature Noir"
+				&& noir->name_ru == "Фирменный Нуар",
+				"the bilingual display name is parsed");
+		}
 		expect(!library.find("no_such_recipe"), "unknown ids read null");
 		const std::vector<std::string> ids = library.ids();
 		expect(ids.size() >= 4
@@ -148,6 +154,16 @@ int main()
 		const RecipeRecord* x = library.find("x");
 		expect(x && x->layers.size() == 1 && x->layers[0] == "base",
 			"a missing layer defaults to base");
+
+		// A display name, when present, must carry both languages.
+		RecipeRecord partial;
+		std::string partial_error;
+		expect(!lc::load_recipe("{\"id\":\"p\",\"glass\":\"rocks\","
+			"\"display_name\":{\"en\":\"Only English\"},"
+			"\"steps\":[{\"ingredient\":\"a\",\"flow_window\":[0.1,0.2]}]}",
+			partial, &partial_error)
+			&& !partial_error.empty(),
+			"a one-language display name is refused");
 	}
 
 	// --- the wall of recipes: secret fragments --------------------------------------------

@@ -646,6 +646,16 @@ namespace lc {
 		return available;
 	}
 
+	const DialogueChoiceData* DialogueRunner::choice(int index) const
+	{
+		const DialogueNodeData* n = node(current_);
+		if (!n || index < 0 || static_cast<std::size_t>(index) >= n->choices.size())
+		{
+			return nullptr;
+		}
+		return &n->choices[static_cast<std::size_t>(index)];
+	}
+
 	bool DialogueRunner::advance(DialogueWorld& world)
 	{
 		const DialogueNodeData* n = node(current_);
