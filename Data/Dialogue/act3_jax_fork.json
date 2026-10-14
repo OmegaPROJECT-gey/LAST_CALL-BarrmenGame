@@ -1,0 +1,63 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act3_jax_fork",
+	"act": 3,
+	"participants": ["player", "jax"],
+	"entry": "crates",
+	"nodes": {
+		"crates": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.crates.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act3_jax_fork_played", "value": false },
+				{ "type": "story_flag", "flag": "act2_jax_favor_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.crates.hint",
+			"choices": [
+				{
+					"id": "stop",
+					"text_key": "dlg.jax.crates.choice.stop",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "jax_crates_stopped", "value": true }],
+					"next": "stopped"
+				},
+				{
+					"id": "allow",
+					"text_key": "dlg.jax.crates.choice.allow",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "jax_crates_ok", "value": true }],
+					"next": "allowed"
+				},
+				{
+					"id": "cut",
+					"text_key": "dlg.jax.crates.choice.cut",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "jax_crates_cut", "value": true }],
+					"next": "cut_done"
+				}
+			]
+		},
+		"stopped": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.crates.stopped",
+			"effects": [{ "type": "story_flag", "flag": "act3_jax_fork_played", "value": true }],
+			"end": true
+		},
+		"allowed": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.crates.allowed",
+			"effects": [{ "type": "story_flag", "flag": "act3_jax_fork_played", "value": true }],
+			"end": true
+		},
+		"cut_done": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.crates.cut_done",
+			"effects": [{ "type": "story_flag", "flag": "act3_jax_fork_played", "value": true }],
+			"end": true
+		}
+	}
+}

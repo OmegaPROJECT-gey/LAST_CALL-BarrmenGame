@@ -1,0 +1,69 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act2_rosa_favor",
+	"act": 2,
+	"participants": ["player", "rosa"],
+	"entry": "patient",
+	"nodes": {
+		"patient": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.clinic.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act2_rosa_favor_played", "value": false },
+				{ "type": "story_flag", "flag": "act1_rosa_night_shift_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.clinic.hint",
+			"choices": [
+				{
+					"id": "help",
+					"text_key": "dlg.rosa.clinic.choice.help",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "rosa_clinic_ok", "value": true },
+						{ "type": "mood", "target": "rosa", "delta": 0.1 }
+					],
+					"next": "helped"
+				},
+				{
+					"id": "conditions",
+					"text_key": "dlg.rosa.clinic.choice.alley",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "rosa_clinic_alley", "value": true },
+						{ "type": "mood", "target": "rosa", "delta": -0.1 }
+					],
+					"next": "alley"
+				},
+				{
+					"id": "refuse",
+					"text_key": "dlg.rosa.clinic.choice.refuse",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "rosa_clinic_refused", "value": true }],
+					"next": "refused"
+				}
+			]
+		},
+		"helped": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.clinic.helped",
+			"effects": [{ "type": "story_flag", "flag": "act2_rosa_favor_played", "value": true }],
+			"end": true
+		},
+		"alley": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.clinic.alley",
+			"effects": [{ "type": "story_flag", "flag": "act2_rosa_favor_played", "value": true }],
+			"end": true
+		},
+		"refused": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.clinic.refused",
+			"effects": [{ "type": "story_flag", "flag": "act2_rosa_favor_played", "value": true }],
+			"end": true
+		}
+	}
+}

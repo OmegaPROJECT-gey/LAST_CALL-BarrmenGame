@@ -1,0 +1,69 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act2_jax_favor",
+	"act": 2,
+	"participants": ["player", "jax"],
+	"entry": "label",
+	"nodes": {
+		"label": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.label.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act2_jax_favor_played", "value": false },
+				{ "type": "story_flag", "flag": "act1_jax_booth_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.label.hint",
+			"choices": [
+				{
+					"id": "host",
+					"text_key": "dlg.jax.label.choice.host",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "jax_label_night", "value": true },
+						{ "type": "mood", "target": "jax", "delta": 0.1 }
+					],
+					"next": "hosted"
+				},
+				{
+					"id": "conditions",
+					"text_key": "dlg.jax.label.choice.quiet",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "jax_quiet_night", "value": true },
+						{ "type": "mood", "target": "jax", "delta": -0.1 }
+					],
+					"next": "quiet_night"
+				},
+				{
+					"id": "refuse",
+					"text_key": "dlg.jax.label.choice.refuse",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "jax_label_refused", "value": true }],
+					"next": "refused"
+				}
+			]
+		},
+		"hosted": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.label.hosted",
+			"effects": [{ "type": "story_flag", "flag": "act2_jax_favor_played", "value": true }],
+			"end": true
+		},
+		"quiet_night": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.label.quiet_night",
+			"effects": [{ "type": "story_flag", "flag": "act2_jax_favor_played", "value": true }],
+			"end": true
+		},
+		"refused": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.label.refused",
+			"effects": [{ "type": "story_flag", "flag": "act2_jax_favor_played", "value": true }],
+			"end": true
+		}
+	}
+}

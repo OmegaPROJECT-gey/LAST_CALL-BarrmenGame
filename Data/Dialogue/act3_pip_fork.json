@@ -1,0 +1,63 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act3_pip_fork",
+	"act": 3,
+	"participants": ["player", "pip"],
+	"entry": "hot",
+	"nodes": {
+		"hot": {
+			"speaker": "pip",
+			"text_key": "dlg.pip.hot.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act3_pip_fork_played", "value": false },
+				{ "type": "story_flag", "flag": "act2_pip_favor_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "pip",
+			"text_key": "dlg.pip.hot.hint",
+			"choices": [
+				{
+					"id": "return_it",
+					"text_key": "dlg.pip.hot.choice.return",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "pip_notebook_returned", "value": true }],
+					"next": "returned"
+				},
+				{
+					"id": "fence_it",
+					"text_key": "dlg.pip.hot.choice.fence",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "pip_notebook_sold", "value": true }],
+					"next": "sold"
+				},
+				{
+					"id": "burn_it",
+					"text_key": "dlg.pip.hot.choice.burn",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "pip_notebook_burned", "value": true }],
+					"next": "burned"
+				}
+			]
+		},
+		"returned": {
+			"speaker": "pip",
+			"text_key": "dlg.pip.hot.returned",
+			"effects": [{ "type": "story_flag", "flag": "act3_pip_fork_played", "value": true }],
+			"end": true
+		},
+		"sold": {
+			"speaker": "pip",
+			"text_key": "dlg.pip.hot.sold",
+			"effects": [{ "type": "story_flag", "flag": "act3_pip_fork_played", "value": true }],
+			"end": true
+		},
+		"burned": {
+			"speaker": "pip",
+			"text_key": "dlg.pip.hot.burned",
+			"effects": [{ "type": "story_flag", "flag": "act3_pip_fork_played", "value": true }],
+			"end": true
+		}
+	}
+}

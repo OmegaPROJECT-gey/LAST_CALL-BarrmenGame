@@ -831,6 +831,180 @@ int main()
 		expect_near(world.standing_of("syndicate"), 0.0, 1e-9,
 			"the scene moves no standing - the city's table does");
 	}
+	// --- act 1, C3: Rosa's night shift (arc 10 of 12) -----------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act1_rosa_night_shift.json"), nullptr)
+			&& runner.start(world), "act1_rosa_night_shift loads and starts cold");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the shift change");
+		expect(runner.choose("quiet_pour", world), "the refill lands wordlessly");
+		expect(world.has_flag("rosa_poured"), "the refill is recorded as a flag");
+		expect(world.has_flag("act1_rosa_night_shift_played"), "the evening records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.rosa.night.poured",
+			"the evening ends on four closed eyes");
+		expect_near(world.standing_of("civilian"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+		DialogueRunner fresh;
+		expect(fresh.load(read_repo_file("Data/Dialogue/act1_rosa_night_shift.json"), nullptr)
+			&& !fresh.start(world), "the evening does not play twice");
+	}
+	// --- act 2, C3: Rosa's favor - the clinic (arc 10) ----------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act2_rosa_favor.json"), nullptr)
+			&& !runner.start(world), "the favor waits for the night shift");
+		world.set_flag("act1_rosa_night_shift_played", true);
+		expect(runner.start(world), "act2_rosa_favor starts after the night shift");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the sink");
+		expect(runner.choose("help", world), "the sink is given");
+		expect(world.has_flag("rosa_clinic_ok"), "the clinic is recorded as a flag");
+		expect(world.has_flag("act2_rosa_favor_played"), "the favor records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.rosa.clinic.helped",
+			"the favor ends on the signed silence");
+		expect_near(world.standing_of("civilian"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+	}
+	// --- act 3, C3: Rosa's fork - the cooler (arc 10 ending) ----------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act3_rosa_fork.json"), nullptr)
+			&& !runner.start(world), "the cooler waits for the favor");
+		world.set_flag("act2_rosa_favor_played", true);
+		expect(runner.start(world), "act3_rosa_fork starts after the favor");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the package");
+		expect(runner.choose("report", world), "the report is filed");
+		expect(world.has_flag("rosa_package_reported"), "the report is recorded as a flag");
+		expect(world.has_flag("act3_rosa_fork_played"), "the fork records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.rosa.cooler.reported",
+			"the fork ends on the witness line");
+		expect_near(world.standing_of("ring"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+	}
+	// --- act 1, C3: Jax's booth (arc 11 of 12) ------------------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act1_jax_booth.json"), nullptr)
+			&& runner.start(world), "act1_jax_booth loads and starts cold");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the crates");
+		expect(runner.choose("give_set", world), "the booth is given");
+		expect(world.has_flag("jax_set_ok"), "the set is recorded as a flag");
+		expect(world.has_flag("act1_jax_booth_played"), "the evening records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.jax.booth.playing",
+			"the evening ends on the moving floor");
+		expect_near(world.standing_of("civilian"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+		DialogueRunner fresh;
+		expect(fresh.load(read_repo_file("Data/Dialogue/act1_jax_booth.json"), nullptr)
+			&& !fresh.start(world), "the evening does not play twice");
+	}
+	// --- act 2, C3: Jax's favor - the label night (arc 11) ------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act2_jax_favor.json"), nullptr)
+			&& !runner.start(world), "the favor waits for the booth");
+		world.set_flag("act1_jax_booth_played", true);
+		expect(runner.start(world), "act2_jax_favor starts after the booth");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the A&R man");
+		expect(runner.choose("host", world), "the night is thrown here");
+		expect(world.has_flag("jax_label_night"), "the host is recorded as a flag");
+		expect(world.has_flag("act2_jax_favor_played"), "the favor records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.jax.label.hosted",
+			"the favor ends on the rounding check");
+		expect_near(world.standing_of("civilian"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+	}
+	// --- act 3, C3: Jax's fork - the crates (arc 11 ending) -----------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act3_jax_fork.json"), nullptr)
+			&& !runner.start(world), "the crates wait for the favor");
+		world.set_flag("act2_jax_favor_played", true);
+		expect(runner.start(world), "act3_jax_fork starts after the favor");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the manifest");
+		expect(runner.choose("cut", world), "the door takes its cut");
+		expect(world.has_flag("jax_crates_cut"), "the cut is recorded as a flag");
+		expect(world.has_flag("act3_jax_fork_played"), "the fork records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.jax.crates.cut_done",
+			"the fork ends on the first envelope");
+		expect_near(world.standing_of("ring"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+	}
+	// --- act 1, C3: Pip's counter (arc 12 of 12) ----------------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act1_pip_counter.json"), nullptr)
+			&& runner.start(world), "act1_pip_counter loads and starts cold");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the coat");
+		expect(runner.choose("ignore_fingers", world), "the coat goes unseen");
+		expect(world.has_flag("pip_blind"), "the blind eye is recorded as a flag");
+		expect(world.has_flag("act1_pip_counter_played"), "the evening records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.pip.stool.blind",
+			"the evening ends on the wordless understanding");
+		expect_near(world.standing_of("ring"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+		DialogueRunner fresh;
+		expect(fresh.load(read_repo_file("Data/Dialogue/act1_pip_counter.json"), nullptr)
+			&& !fresh.start(world), "the evening does not play twice");
+	}
+	// --- act 2, C3: Pip's favor - the fence (arc 12) ------------------------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act2_pip_favor.json"), nullptr)
+			&& !runner.start(world), "the favor waits for the counter");
+		world.set_flag("act1_pip_counter_played", true);
+		expect(runner.start(world), "act2_pip_favor starts after the counter");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the fence");
+		expect(runner.choose("booth", world), "the booth is given for ten minutes");
+		expect(world.has_flag("pip_fence_ok"), "the booth is recorded as a flag");
+		expect(world.has_flag("act2_pip_favor_played"), "the favor records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.pip.fence.booth_given",
+			"the favor ends on the loose change");
+		expect_near(world.standing_of("ring"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+	}
+	// --- act 3, C3: Pip's fork - the hot notebook (arc 12 ending) -----------------
+	{
+		DialogueRunner runner;
+		DialogueWorld world;
+		expect(runner.load(read_repo_file("Data/Dialogue/act3_pip_fork.json"), nullptr)
+			&& !runner.start(world), "the notebook waits for the favor");
+		world.set_flag("act2_pip_favor_played", true);
+		expect(runner.start(world), "act3_pip_fork starts after the favor");
+		runner.advance(world); // into the choice
+		expect(runner.available_choices(world).size() == 3,
+			"three ways to answer the notebook");
+		expect(runner.choose("fence_it", world), "the notes are fenced");
+		expect(world.has_flag("pip_notebook_sold"), "the sale is recorded as a flag");
+		expect(world.has_flag("act3_pip_fork_played"), "the fork records itself done");
+		expect(runner.at_end() && runner.current_text_key() == "dlg.pip.hot.sold",
+			"the fork ends on the rewritten report");
+		expect_near(world.standing_of("bureau"), 0.0, 1e-9,
+			"the scene moves no standing - the city's table does");
+	}
 	// --- phase condition ---------------------------------------------------------------
 	{
 		DialogueRunner runner;

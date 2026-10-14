@@ -1,0 +1,66 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act1_pip_counter",
+	"act": 1,
+	"participants": ["player", "pip"],
+	"entry": "stool",
+	"nodes": {
+		"stool": {
+			"speaker": "pip",
+			"text_key": "dlg.pip.stool.entry",
+			"conditions": [{ "type": "story_flag", "flag": "act1_pip_counter_played", "value": false }],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "pip",
+			"text_key": "dlg.pip.stool.hint",
+			"choices": [
+				{
+					"id": "ignore_fingers",
+					"text_key": "dlg.pip.stool.choice.blind",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "pip_blind", "value": true },
+						{ "type": "mood", "target": "pip", "delta": 0.1 }
+					],
+					"next": "blind"
+				},
+				{
+					"id": "empty_coats",
+					"text_key": "dlg.pip.stool.choice.catch",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "pip_caught", "value": true },
+						{ "type": "mood", "target": "pip", "delta": -0.1 }
+					],
+					"next": "caught"
+				},
+				{
+					"id": "hire",
+					"text_key": "dlg.pip.stool.choice.hire",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "pip_employed", "value": true }],
+					"next": "employed"
+				}
+			]
+		},
+		"blind": {
+			"speaker": "pip",
+			"text_key": "dlg.pip.stool.blind",
+			"effects": [{ "type": "story_flag", "flag": "act1_pip_counter_played", "value": true }],
+			"end": true
+		},
+		"caught": {
+			"speaker": "pip",
+			"text_key": "dlg.pip.stool.caught",
+			"effects": [{ "type": "story_flag", "flag": "act1_pip_counter_played", "value": true }],
+			"end": true
+		},
+		"employed": {
+			"speaker": "pip",
+			"text_key": "dlg.pip.stool.employed",
+			"effects": [{ "type": "story_flag", "flag": "act1_pip_counter_played", "value": true }],
+			"end": true
+		}
+	}
+}

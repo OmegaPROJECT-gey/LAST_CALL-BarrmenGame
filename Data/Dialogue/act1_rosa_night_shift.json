@@ -1,0 +1,66 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act1_rosa_night_shift",
+	"act": 1,
+	"participants": ["player", "rosa"],
+	"entry": "arrival",
+	"nodes": {
+		"arrival": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.night.entry",
+			"conditions": [{ "type": "story_flag", "flag": "act1_rosa_night_shift_played", "value": false }],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.night.hint",
+			"choices": [
+				{
+					"id": "quiet_pour",
+					"text_key": "dlg.rosa.night.choice.pour",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "rosa_poured", "value": true },
+						{ "type": "mood", "target": "rosa", "delta": 0.1 }
+					],
+					"next": "poured"
+				},
+				{
+					"id": "ask_call",
+					"text_key": "dlg.rosa.night.choice.ask",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "rosa_asked", "value": true },
+						{ "type": "mood", "target": "rosa", "delta": -0.1 }
+					],
+					"next": "asked"
+				},
+				{
+					"id": "joke",
+					"text_key": "dlg.rosa.night.choice.joke",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "rosa_joked", "value": true }],
+					"next": "joked"
+				}
+			]
+		},
+		"poured": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.night.poured",
+			"effects": [{ "type": "story_flag", "flag": "act1_rosa_night_shift_played", "value": true }],
+			"end": true
+		},
+		"asked": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.night.asked",
+			"effects": [{ "type": "story_flag", "flag": "act1_rosa_night_shift_played", "value": true }],
+			"end": true
+		},
+		"joked": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.night.joked",
+			"effects": [{ "type": "story_flag", "flag": "act1_rosa_night_shift_played", "value": true }],
+			"end": true
+		}
+	}
+}

@@ -1,0 +1,66 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act1_jax_booth",
+	"act": 1,
+	"participants": ["player", "jax"],
+	"entry": "setup",
+	"nodes": {
+		"setup": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.booth.entry",
+			"conditions": [{ "type": "story_flag", "flag": "act1_jax_booth_played", "value": false }],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.booth.hint",
+			"choices": [
+				{
+					"id": "give_set",
+					"text_key": "dlg.jax.booth.choice.set",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "jax_set_ok", "value": true },
+						{ "type": "mood", "target": "jax", "delta": 0.1 }
+					],
+					"next": "playing"
+				},
+				{
+					"id": "terms_set",
+					"text_key": "dlg.jax.booth.choice.terms",
+					"conditions": [],
+					"effects": [
+						{ "type": "story_flag", "flag": "jax_terms", "value": true },
+						{ "type": "mood", "target": "jax", "delta": -0.1 }
+					],
+					"next": "terms_done"
+				},
+				{
+					"id": "refuse",
+					"text_key": "dlg.jax.booth.choice.refuse",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "jax_refused", "value": true }],
+					"next": "refused"
+				}
+			]
+		},
+		"playing": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.booth.playing",
+			"effects": [{ "type": "story_flag", "flag": "act1_jax_booth_played", "value": true }],
+			"end": true
+		},
+		"terms_done": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.booth.terms_done",
+			"effects": [{ "type": "story_flag", "flag": "act1_jax_booth_played", "value": true }],
+			"end": true
+		},
+		"refused": {
+			"speaker": "jax",
+			"text_key": "dlg.jax.booth.refused",
+			"effects": [{ "type": "story_flag", "flag": "act1_jax_booth_played", "value": true }],
+			"end": true
+		}
+	}
+}

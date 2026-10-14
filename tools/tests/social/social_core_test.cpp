@@ -63,7 +63,7 @@ int main()
 	}
 	expect(library.find("no_such_faction") == nullptr, "unknown factions read null");
 
-	expect(library.reactions().size() == 68, "sixty-eight reaction rows");
+	expect(library.reactions().size() == 89, "eighty-nine reaction rows");
 
 	const lc::Reaction* case_reaction = library.reaction_for("heard_harris_case");
 	expect(case_reaction != nullptr, "the detective's case has a reaction");
@@ -171,6 +171,32 @@ int main()
 			{"walter_index_burned", "station", -1.0, 4},
 			{"walter_index_burned", "bureau", -1.0, 4},
 			{"walter_index_kept", "civilian", 1.0, 1},
+			// Wave 4 arcs (the final three): Rosa (the paramedic),
+			// Jax (the DJ), Pip (the kid) - C3 batch 7.
+			{"rosa_poured", "civilian", 1.0, 1},
+			{"rosa_clinic_ok", "civilian", 1.0, 1},
+			{"rosa_clinic_refused", "civilian", -1.0, 1},
+			{"rosa_package_dumped", "ring", -1.0, 1},
+			{"rosa_package_reported", "ring", -2.0, 2},
+			{"rosa_package_reported", "bureau", 1.0, 2},
+			{"rosa_package_quiet", "ring", 1.0, 1},
+			{"jax_set_ok", "civilian", 1.0, 1},
+			{"jax_refused", "civilian", -1.0, 1},
+			{"jax_label_night", "civilian", 1.0, 1},
+			{"jax_label_refused", "civilian", -1.0, 1},
+			{"jax_crates_stopped", "ring", -1.0, 1},
+			{"jax_crates_ok", "ring", 1.0, 1},
+			{"jax_crates_cut", "syndicate", 1.0, 2},
+			{"jax_crates_cut", "ring", -1.0, 2},
+			{"pip_blind", "ring", 1.0, 1},
+			{"pip_caught", "ring", -1.0, 1},
+			{"pip_employed", "civilian", 1.0, 1},
+			{"pip_fence_ok", "ring", 1.0, 1},
+			{"pip_fence_refused", "ring", -1.0, 1},
+			{"pip_notebook_returned", "bureau", 1.0, 1},
+			{"pip_notebook_sold", "ring", 1.0, 2},
+			{"pip_notebook_sold", "bureau", -2.0, 2},
+			{"pip_notebook_burned", "bureau", -1.0, 1},
 		};
 		for (const Expected& want : expected)
 		{

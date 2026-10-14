@@ -1,0 +1,63 @@
+{
+	"$schema": "../schemas/dialogue.schema.json",
+	"id": "act3_rosa_fork",
+	"act": 3,
+	"participants": ["player", "rosa"],
+	"entry": "cooler",
+	"nodes": {
+		"cooler": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.cooler.entry",
+			"conditions": [
+				{ "type": "story_flag", "flag": "act3_rosa_fork_played", "value": false },
+				{ "type": "story_flag", "flag": "act2_rosa_favor_played", "value": true }
+			],
+			"next": "hint"
+		},
+		"hint": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.cooler.hint",
+			"choices": [
+				{
+					"id": "dump",
+					"text_key": "dlg.rosa.cooler.choice.dump",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "rosa_package_dumped", "value": true }],
+					"next": "dumped"
+				},
+				{
+					"id": "report",
+					"text_key": "dlg.rosa.cooler.choice.report",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "rosa_package_reported", "value": true }],
+					"next": "reported"
+				},
+				{
+					"id": "stay_quiet",
+					"text_key": "dlg.rosa.cooler.choice.quiet",
+					"conditions": [],
+					"effects": [{ "type": "story_flag", "flag": "rosa_package_quiet", "value": true }],
+					"next": "quiet"
+				}
+			]
+		},
+		"dumped": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.cooler.dumped",
+			"effects": [{ "type": "story_flag", "flag": "act3_rosa_fork_played", "value": true }],
+			"end": true
+		},
+		"reported": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.cooler.reported",
+			"effects": [{ "type": "story_flag", "flag": "act3_rosa_fork_played", "value": true }],
+			"end": true
+		},
+		"quiet": {
+			"speaker": "rosa",
+			"text_key": "dlg.rosa.cooler.quiet",
+			"effects": [{ "type": "story_flag", "flag": "act3_rosa_fork_played", "value": true }],
+			"end": true
+		}
+	}
+}

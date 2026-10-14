@@ -2,30 +2,47 @@
 	"$schema": "../schemas/factions.schema.json",
 	"factions": {
 		"syndicate": {
-			"display_name": { "en": "The Syndicate", "ru": "Синдикат" },
+			"display_name": {
+				"en": "The Syndicate",
+				"ru": "Синдикат"
+			},
 			"initial_standing": 0
 		},
 		"ring": {
-			"display_name": { "en": "The Ring", "ru": "Кольцо" },
+			"display_name": {
+				"en": "The Ring",
+				"ru": "Кольцо"
+			},
 			"initial_standing": 0
 		},
 		"bureau": {
-			"display_name": { "en": "The Bureau", "ru": "Бюро" },
+			"display_name": {
+				"en": "The Bureau",
+				"ru": "Бюро"
+			},
 			"initial_standing": 0
 		},
 		"station": {
-			"display_name": { "en": "The Station", "ru": "Участок" },
+			"display_name": {
+				"en": "The Station",
+				"ru": "Участок"
+			},
 			"initial_standing": 0
 		},
 		"civilian": {
-			"display_name": { "en": "The Room", "ru": "Зал" },
+			"display_name": {
+				"en": "The Room",
+				"ru": "Зал"
+			},
 			"initial_standing": 0
 		}
 	},
 	"reactions": [
 		{
 			"flag": "heard_harris_case",
-			"standing": { "syndicate": -1 },
+			"standing": {
+				"syndicate": -1
+			},
 			"note": {
 				"en": "The Syndicate hears you sat with a detective's case.",
 				"ru": "Синдикат узнал, что вы слушали дело детектива."
@@ -33,7 +50,9 @@
 		},
 		{
 			"flag": "poured_harris_before_talk",
-			"standing": { "civilian": 1 },
+			"standing": {
+				"civilian": 1
+			},
 			"note": {
 				"en": "Pouring before promising: the room notices good manners.",
 				"ru": "Налить до обещаний: зал замечает хорошее воспитание."
@@ -41,7 +60,9 @@
 		},
 		{
 			"flag": "heard_harris_meeting",
-			"standing": { "bureau": 1 },
+			"standing": {
+				"bureau": 1
+			},
 			"note": {
 				"en": "You let him finish; the Bureau counts it as keeping your ear open.",
 				"ru": "Вы дали ему договорить; в Бюро записали, что у вас открыты уши."
@@ -49,7 +70,10 @@
 		},
 		{
 			"flag": "ignored_harris_meeting",
-			"standing": { "bureau": -1, "civilian": -1 },
+			"standing": {
+				"bureau": -1,
+				"civilian": -1
+			},
 			"note": {
 				"en": "A guest left unheard - the Bureau and the room both remember.",
 				"ru": "Гостя не выслушали — и в Бюро, и в зале это запомнили."
@@ -57,7 +81,9 @@
 		},
 		{
 			"flag": "harris_told_breakin",
-			"standing": { "syndicate": -1 },
+			"standing": {
+				"syndicate": -1
+			},
 			"note": {
 				"en": "The break-in went straight to a detective. The Syndicate hears everything.",
 				"ru": "О взломе сразу узнал детектив. Синдикат слышит всё."
@@ -65,7 +91,9 @@
 		},
 		{
 			"flag": "harris_withheld_breakin",
-			"standing": { "syndicate": 1 },
+			"standing": {
+				"syndicate": 1
+			},
 			"note": {
 				"en": "You kept the break-in off the detective's desk. The Syndicate likes a quiet bar.",
 				"ru": "Вы не дали взлому дойти до стола детектива. Синдикат любит тихий бар."
@@ -73,7 +101,9 @@
 		},
 		{
 			"flag": "harris_quiet_report",
-			"standing": { "station": 1 },
+			"standing": {
+				"station": 1
+			},
 			"note": {
 				"en": "A report that never touched paperwork. The Station trades in exactly that.",
 				"ru": "Доклад, который не коснулся бумажек. Ровно этим и торгуют на Участке."
@@ -81,7 +111,9 @@
 		},
 		{
 			"flag": "kane_first_fact_heard",
-			"standing": { "civilian": 1 },
+			"standing": {
+				"civilian": 1
+			},
 			"note": {
 				"en": "A fact traded for a martini, in front of witnesses. The room likes a straight deal.",
 				"ru": "Факт, обменянный на мартини, при свидетелях. Зал любит честный обмен."
@@ -89,7 +121,9 @@
 		},
 		{
 			"flag": "kane_knew_uncle",
-			"standing": { "bureau": 1 },
+			"standing": {
+				"bureau": 1
+			},
 			"note": {
 				"en": "The uncle's name surfaces at the counter again. The Bureau wants his ledger on record.",
 				"ru": "Имя дяди снова звучит у стойки. Бюро хочет его книгу под протокол."
@@ -97,7 +131,9 @@
 		},
 		{
 			"flag": "kane_price_read",
-			"standing": { "civilian": 1 },
+			"standing": {
+				"civilian": 1
+			},
 			"note": {
 				"en": "An honest answer for a fragment. The room keeps books like that.",
 				"ru": "Честный ответ за фрагмент. Зал ведёт такие книги."
@@ -105,7 +141,9 @@
 		},
 		{
 			"flag": "shadow_deferred",
-			"standing": { "syndicate": -1 },
+			"standing": {
+				"syndicate": -1
+			},
 			"note": {
 				"en": "You made the Syndicate's man wait for his drink. Waiting gets remembered.",
 				"ru": "Вы заставили человека Синдиката ждать коктейль. Ожидание запоминают."
@@ -113,7 +151,9 @@
 		},
 		{
 			"flag": "syndicate_drop_taken",
-			"standing": { "syndicate": 1 },
+			"standing": {
+				"syndicate": 1
+			},
 			"note": {
 				"en": "The drop came and went through your bar without a word. The Syndicate notes who keeps quiet.",
 				"ru": "Дроп прошёл через ваш бар и ушёл без лишних слов. Синдикат записывает, кто молчит."
@@ -121,7 +161,9 @@
 		},
 		{
 			"flag": "syndicate_drop_asked",
-			"standing": { "syndicate": -1 },
+			"standing": {
+				"syndicate": -1
+			},
 			"note": {
 				"en": "You asked what the folded bill was for. Questions have a smell; yours reached the Syndicate.",
 				"ru": "Вы спросили, зачем сложенная купюра. У вопросов есть запах; ваш дошёл до Синдиката."
@@ -129,7 +171,9 @@
 		},
 		{
 			"flag": "syndicate_drop_refused",
-			"standing": { "syndicate": -1 },
+			"standing": {
+				"syndicate": -1
+			},
 			"note": {
 				"en": "The Syndicate's money came back untouched. Untouched reads as unread.",
 				"ru": "Деньги Синдиката вернулись нетронутыми. Нетронутое читается как не прочитанное."
@@ -137,7 +181,9 @@
 		},
 		{
 			"flag": "ring_delivery_accepted",
-			"standing": { "ring": 1 },
+			"standing": {
+				"ring": 1
+			},
 			"note": {
 				"en": "The Ring's crate spent a night under your ice. Loyalty starts in the dark.",
 				"ru": "Ящик Кольца провёл ночь под вашим льдом. Верность начинается в темноте."
@@ -145,7 +191,9 @@
 		},
 		{
 			"flag": "ring_delivery_asked",
-			"standing": { "ring": -1 },
+			"standing": {
+				"ring": -1
+			},
 			"note": {
 				"en": "You asked what was in the crate. The Ring pays for silence and charges for curiosity.",
 				"ru": "Вы спросили, что в ящике. Кольцо платит за молчание и берёт за любопытство."
@@ -153,7 +201,9 @@
 		},
 		{
 			"flag": "ring_delivery_refused",
-			"standing": { "ring": -1 },
+			"standing": {
+				"ring": -1
+			},
 			"note": {
 				"en": "The Ring's delivery found another door. The count of refusals started at your bar.",
 				"ru": "Доставка Кольца нашла другую дверь. Счёт отказов начался в вашем баре."
@@ -161,7 +211,9 @@
 		},
 		{
 			"flag": "station_understood",
-			"standing": { "station": 1 },
+			"standing": {
+				"station": 1
+			},
 			"note": {
 				"en": "You understood the arrangement without saying it. The Station likes tenants who read quietly.",
 				"ru": "Вы поняли договорённость, не говоря её вслух. Участок любит жильцов, которые читают молча."
@@ -169,7 +221,9 @@
 		},
 		{
 			"flag": "station_blind_eye_refused",
-			"standing": { "station": -1 },
+			"standing": {
+				"station": -1
+			},
 			"note": {
 				"en": "You said the quiet part out loud. The blind eye keeps a list; your name is on it.",
 				"ru": "Вы произнесли вслух то, что молчат. Слепой глаз ведёт список; ваше имя в нём есть."
@@ -177,7 +231,9 @@
 		},
 		{
 			"flag": "vera_launder_helped",
-			"standing": { "syndicate": 1 },
+			"standing": {
+				"syndicate": 1
+			},
 			"note": {
 				"en": "Your till rang up a night that never happened. The Syndicate counts in round numbers.",
 				"ru": "Ваша касса пробила вечер, которого не было. Синдикат считает круглыми числами."
@@ -185,7 +241,9 @@
 		},
 		{
 			"flag": "vera_launder_refused",
-			"standing": { "syndicate": -1 },
+			"standing": {
+				"syndicate": -1
+			},
 			"note": {
 				"en": "Your till told the truth. The Syndicate finds honest arithmetic loud.",
 				"ru": "Ваша касса сказала правду. Синдикату честная арифметика кажется шумом."
@@ -193,7 +251,9 @@
 		},
 		{
 			"flag": "vera_book_burned",
-			"standing": { "syndicate": 1 },
+			"standing": {
+				"syndicate": 1
+			},
 			"note": {
 				"en": "The count book went to ash instead of paper. Ash keeps secrets better than desks.",
 				"ru": "Книга счёта пошла в пепел, а не на столы. Пепел хранит секреты лучше столов."
@@ -201,7 +261,10 @@
 		},
 		{
 			"flag": "vera_book_sold",
-			"standing": { "syndicate": -2, "bureau": 1 },
+			"standing": {
+				"syndicate": -2,
+				"bureau": 1
+			},
 			"note": {
 				"en": "Vera's ink turned up in a detective's folder. The Syndicate loses a book; the Bureau gains one.",
 				"ru": "Почерк Веры оказался в папке детектива. Синдикат теряет книгу; Бюро приобретает."
@@ -209,7 +272,9 @@
 		},
 		{
 			"flag": "sal_meeting_hosted",
-			"standing": { "ring": 1 },
+			"standing": {
+				"ring": 1
+			},
 			"note": {
 				"en": "A union vote met under your roof and left no minutes. The Ring remembers roofs.",
 				"ru": "Профсоюзное голосование прошло под вашей крышей и не оставило протокола. Кольцо помнит крыши."
@@ -217,7 +282,9 @@
 		},
 		{
 			"flag": "sal_meeting_refused",
-			"standing": { "ring": -1 },
+			"standing": {
+				"ring": -1
+			},
 			"note": {
 				"en": "The Ring asked for two hours of shelter and got a closed door. Doors get counted.",
 				"ru": "Кольцо попросило два часа укрытия и получило закрытую дверь. Двери считают."
@@ -225,7 +292,9 @@
 		},
 		{
 			"flag": "sal_crate_week",
-			"standing": { "ring": 1 },
+			"standing": {
+				"ring": 1
+			},
 			"note": {
 				"en": "The Ring's season crate stayed a week under your ice. Cold storage is worth warm words.",
 				"ru": "Сезонный ящик Кольца неделю отлеживался под вашим льдом. Холодный склад дороже тёплых слов."
@@ -233,7 +302,9 @@
 		},
 		{
 			"flag": "sal_crate_refused",
-			"standing": { "ring": -2 },
+			"standing": {
+				"ring": -2
+			},
 			"note": {
 				"en": "The Ring heard no again. Refusals are currency; yours just depreciated.",
 				"ru": "Кольцо снова услышало отказ. Отказы - валюта; ваша только что подешевела."
@@ -241,7 +312,9 @@
 		},
 		{
 			"flag": "agnes_lease_signed",
-			"standing": { "station": 1 },
+			"standing": {
+				"station": 1
+			},
 			"note": {
 				"en": "You signed the line about the sealed basement. The Station likes tenants who don't renovate.",
 				"ru": "Вы подписали строку о закрытом подвале. Участок любит жильцов, которые не делают ремонт."
@@ -249,7 +322,9 @@
 		},
 		{
 			"flag": "agnes_lease_refused",
-			"standing": { "station": -1 },
+			"standing": {
+				"station": -1
+			},
 			"note": {
 				"en": "You wouldn't sign the landlady's line. The Station remembers tenants who read too closely.",
 				"ru": "Вы не подписали строку хозяйки. Участок запоминает жильцов, которые читают слишком внимательно."
@@ -257,7 +332,9 @@
 		},
 		{
 			"flag": "agnes_covered",
-			"standing": { "station": 1 },
+			"standing": {
+				"station": 1
+			},
 			"note": {
 				"en": "When the notebook came asking, you closed the notebook. The Station pays in rent and memory.",
 				"ru": "Когда к вам пришёл блокнот, вы закрыли блокнот. Участок платит рентой и памятью."
@@ -265,7 +342,10 @@
 		},
 		{
 			"flag": "agnes_envelope_sold",
-			"standing": { "station": -2, "bureau": 1 },
+			"standing": {
+				"station": -2,
+				"bureau": 1
+			},
 			"note": {
 				"en": "The precinct's envelope story walked to a detective. The Station pays debts double; the Bureau pays for talk.",
 				"ru": "История конверта участка дошла до детектива. Участок платит долги вдвойне; Бюро платит за разговоры."
@@ -273,7 +353,9 @@
 		},
 		{
 			"flag": "dana_quote_given",
-			"standing": { "civilian": 1 },
+			"standing": {
+				"civilian": 1
+			},
 			"note": {
 				"en": "Your bar's first night-column quote was a line about lying. The room likes words that travel well.",
 				"ru": "Первая цитата для ночной колонки вашего бара была про ложь. Зал любит слова, которые хорошо путешествуют."
@@ -281,7 +363,9 @@
 		},
 		{
 			"flag": "mack_watch_ok",
-			"standing": { "civilian": 1 },
+			"standing": {
+				"civilian": 1
+			},
 			"note": {
 				"en": "A boxer stood your door for free and nothing happened. Nothing happening is worth something.",
 				"ru": "Боксёр бесплатно дежурил у вашей двери, и ничего не случилось. То, что ничего не случилось, стоит чего-то."
@@ -289,7 +373,9 @@
 		},
 		{
 			"flag": "denny_welcomed",
-			"standing": { "civilian": 1 },
+			"standing": {
+				"civilian": 1
+			},
 			"note": {
 				"en": "You poured an ex-partner's whiskey before he asked. The room keeps that kind of book.",
 				"ru": "Вы налили бывшему партнёру до просьбы. Зал ведёт такие книги."
@@ -297,7 +383,9 @@
 		},
 		{
 			"flag": "denny_wounded",
-			"standing": { "civilian": -1 },
+			"standing": {
+				"civilian": -1
+			},
 			"note": {
 				"en": "You told an old failure to its face. The room forgives money, not memory.",
 				"ru": "Вы сказали старой неудаче в лицо. Зал прощает деньги, но не память."
@@ -305,7 +393,9 @@
 		},
 		{
 			"flag": "dana_uncle_talked",
-			"standing": { "bureau": 1 },
+			"standing": {
+				"bureau": 1
+			},
 			"note": {
 				"en": "Your uncle's name reached a notebook that reads for the Bureau. The Bureau reads everything.",
 				"ru": "Имя дяди дошло до блокнота, который пишет для Бюро. Бюро читает всё."
@@ -313,7 +403,9 @@
 		},
 		{
 			"flag": "dana_uncle_refused",
-			"standing": { "bureau": -1 },
+			"standing": {
+				"bureau": -1
+			},
 			"note": {
 				"en": "The Bureau's journalist got declined to comment. The Bureau files the decline.",
 				"ru": "Журналистке Бюро ответили отказ от комментариев. Бюро записывает отказы."
@@ -321,7 +413,9 @@
 		},
 		{
 			"flag": "mack_sponsored",
-			"standing": { "syndicate": 1 },
+			"standing": {
+				"syndicate": 1
+			},
 			"note": {
 				"en": "Your signature vouched for the Syndicate's boxer-doorman. Paper likes other paper.",
 				"ru": "Ваша подпись поручилась за боксёра-дверня Синдиката. Бумага любит другую бумагу."
@@ -329,7 +423,9 @@
 		},
 		{
 			"flag": "mack_sponsor_refused",
-			"standing": { "syndicate": -1 },
+			"standing": {
+				"syndicate": -1
+			},
 			"note": {
 				"en": "You wouldn't sign the Syndicate's man. Names not signed get remembered unsigned.",
 				"ru": "Вы не подписали человека Синдиката. Неподписанные имена запоминают как неподписанные."
@@ -337,7 +433,9 @@
 		},
 		{
 			"flag": "denny_hired",
-			"standing": { "civilian": 1 },
+			"standing": {
+				"civilian": 1
+			},
 			"note": {
 				"en": "The ex-partner got his early shift back. The room believes in second shifts.",
 				"ru": "Бывший партнёр вернул раннюю смену. Зал верит во вторые смены."
@@ -345,7 +443,9 @@
 		},
 		{
 			"flag": "denny_refused",
-			"standing": { "civilian": -1 },
+			"standing": {
+				"civilian": -1
+			},
 			"note": {
 				"en": "You turned your own away at the ice. The room counts who turns away whom.",
 				"ru": "Вы отвернули своего у льда. Зал считает, кто кого отворачивает."
@@ -353,7 +453,9 @@
 		},
 		{
 			"flag": "dana_story_killed",
-			"standing": { "syndicate": 1 },
+			"standing": {
+				"syndicate": 1
+			},
 			"note": {
 				"en": "The wall photo died in a drawer. The Syndicate loves a bar that knows what a drawer is for.",
 				"ru": "Фото стены умерло в ящике. Синдикат любит бар, который знает, зачем ящики."
@@ -361,7 +463,10 @@
 		},
 		{
 			"flag": "dana_story_printed",
-			"standing": { "bureau": 1, "civilian": -1 },
+			"standing": {
+				"bureau": 1,
+				"civilian": -1
+			},
 			"note": {
 				"en": "Six columns of night prose put your chalk on every doorstep. The Bureau reads; the room squints.",
 				"ru": "Шесть колонок ночной прозы положили ваш мел на каждый порог. Бюро читает; зал щурится."
@@ -369,7 +474,9 @@
 		},
 		{
 			"flag": "dana_photo_bought",
-			"standing": { "syndicate": 1 },
+			"standing": {
+				"syndicate": 1
+			},
 			"note": {
 				"en": "Negatives changed hands for cash. The Syndicate calls that romance.",
 				"ru": "Негативы сменили карманы за наличные. Синдикат называет это романтикой."
@@ -377,7 +484,10 @@
 		},
 		{
 			"flag": "mack_named",
-			"standing": { "syndicate": -2, "bureau": 1 },
+			"standing": {
+				"syndicate": -2,
+				"bureau": 1
+			},
 			"note": {
 				"en": "You gave the doorman's name to a notebook. The Syndicate loses a soldier; the Bureau gains a witness.",
 				"ru": "Вы отдали имя дверня блокноту. Синдикат теряет солдата; Бюро приобретает свидетеля."
@@ -385,7 +495,9 @@
 		},
 		{
 			"flag": "mack_defended",
-			"standing": { "syndicate": 1 },
+			"standing": {
+				"syndicate": 1
+			},
 			"note": {
 				"en": "The till backed the boxer's alibi. The Syndicate believes in alibis that cost something.",
 				"ru": "Касса подтвердила алиби боксёра. Синдикат верит в алиби, которые стоят денег."
@@ -393,7 +505,9 @@
 		},
 		{
 			"flag": "denny_sold",
-			"standing": { "bureau": 1 },
+			"standing": {
+				"bureau": 1
+			},
 			"note": {
 				"en": "Your uncle's memories walked to the Bureau in an envelope. The Bureau pays for the past.",
 				"ru": "Воспоминания о дяде ушли в Бюро конвертом. Бюро платит за прошлое."
@@ -401,7 +515,9 @@
 		},
 		{
 			"flag": "denny_protected",
-			"standing": { "civilian": 1 },
+			"standing": {
+				"civilian": 1
+			},
 			"note": {
 				"en": "You covered a friend's old debt instead of selling it. The room writes that down in invisible ink.",
 				"ru": "Вы покрыли старый долг друга, вместо чтобы продать его. Зал записывает это невидимыми чернилами."
@@ -409,7 +525,9 @@
 		},
 		{
 			"flag": "amos_sermon_ok",
-			"standing": { "civilian": 1 },
+			"standing": {
+				"civilian": 1
+			},
 			"note": {
 				"en": "You gave a preacher the floor on a slow Sunday. The room likes a bar that has room.",
 				"ru": "Вы отдали проповеднику пол в тихое воскресенье. Зал любит бар, в котором есть место."
@@ -417,7 +535,9 @@
 		},
 		{
 			"flag": "amos_heckled",
-			"standing": { "civilian": -1 },
+			"standing": {
+				"civilian": -1
+			},
 			"note": {
 				"en": "You heckled scripture at your own counter. The room forgives bad pours, not bad manners.",
 				"ru": "Вы перебили писание у собственной стойки. Зал прощает плохие налитые, но не плохие манеры."
@@ -425,7 +545,9 @@
 		},
 		{
 			"flag": "amos_shelter_ok",
-			"standing": { "civilian": 1 },
+			"standing": {
+				"civilian": 1
+			},
 			"note": {
 				"en": "Six strangers slept under your roof and asked no questions. The room keeps that kind of weather report.",
 				"ru": "Шесть незнакомцев проспали под вашей крышей и не задали вопросов. Зал ведёт такие сводки погоды."
@@ -433,7 +555,9 @@
 		},
 		{
 			"flag": "amos_shelter_refused",
-			"standing": { "civilian": -1 },
+			"standing": {
+				"civilian": -1
+			},
 			"note": {
 				"en": "You sent the preacher's flock to the porch. The room counts every door that stayed shut.",
 				"ru": "Вы отправили стадо проповедника на крыльцо. Зал считает каждую закрытую дверь."
@@ -441,7 +565,10 @@
 		},
 		{
 			"flag": "amos_log_broken",
-			"standing": { "station": -1, "civilian": 1 },
+			"standing": {
+				"station": -1,
+				"civilian": 1
+			},
 			"note": {
 				"en": "The faces notebook burned in your sink. The Station loses its Sunday eye; the room keeps its privacy.",
 				"ru": "Тетрадь лиц сгорела в вашей раковине. Участок теряет свой воскресный глаз; зал сохраняет приватность."
@@ -449,7 +576,9 @@
 		},
 		{
 			"flag": "amos_log_kept",
-			"standing": { "station": 1 },
+			"standing": {
+				"station": 1
+			},
 			"note": {
 				"en": "The notebook kept writing names after ten. The Station buys eyes either way.",
 				"ru": "Тетрадь продолжала писать имена после десяти. Участку всё равно, с какой совестью."
@@ -457,7 +586,9 @@
 		},
 		{
 			"flag": "amos_log_mine",
-			"standing": { "civilian": -1 },
+			"standing": {
+				"civilian": -1
+			},
 			"note": {
 				"en": "You took the preacher's notebook for yourself. The room watches who turns confessions into property.",
 				"ru": "Вы забрали тетрадь проповедника себе. Зал наблюдает, кто превращает исповеди в собственность."
@@ -465,7 +596,9 @@
 		},
 		{
 			"flag": "ivy_wifi_ok",
-			"standing": { "ring": 1 },
+			"standing": {
+				"ring": 1
+			},
 			"note": {
 				"en": "The Ring's girl kept her outlet and her network name. The Ring notes who leaves their people alone.",
 				"ru": "Девочка Кольца сохранила свою розетку и имя сети. Кольцо записывает, кто не трогает их людей."
@@ -473,7 +606,9 @@
 		},
 		{
 			"flag": "ivy_warned",
-			"standing": { "ring": -1 },
+			"standing": {
+				"ring": -1
+			},
 			"note": {
 				"en": "You threatened the Ring's girl over a router. Threats travel on the Ring's wires first.",
 				"ru": "Вы пригрозили девочке Кольца из-за роутера. Угрозы идут по проводам Кольца первыми."
@@ -481,7 +616,9 @@
 		},
 		{
 			"flag": "ivy_drop_held",
-			"standing": { "ring": 1 },
+			"standing": {
+				"ring": 1
+			},
 			"note": {
 				"en": "A drive rested four hours in your ice and nobody saw it breathe. The Ring remembers cold hands.",
 				"ru": "Диск четыре часа лежал в вашем льду, и никто не видел, как он дышит. Кольцо помнит холодные руки."
@@ -489,7 +626,9 @@
 		},
 		{
 			"flag": "ivy_drop_refused",
-			"standing": { "ring": -1 },
+			"standing": {
+				"ring": -1
+			},
 			"note": {
 				"en": "You refused the Ring's courier your ice. Couriers talk to each other in a language of doors.",
 				"ru": "Вы не пустили диск Кольца в свой лёд. Курьеры разговаривают между собой языком дверей."
@@ -497,7 +636,9 @@
 		},
 		{
 			"flag": "ivy_drop_opened",
-			"standing": { "ring": -2 },
+			"standing": {
+				"ring": -2
+			},
 			"note": {
 				"en": "You read the Ring's drive. Trust, once read, never fits back in the case.",
 				"ru": "Вы прочитали диск Кольца. Доверие, однажды прочитанное, больше не влезает в футляр."
@@ -505,7 +646,10 @@
 		},
 		{
 			"flag": "ivy_hidden",
-			"standing": { "ring": -2, "civilian": 1 },
+			"standing": {
+				"ring": -2,
+				"civilian": 1
+			},
 			"note": {
 				"en": "The Ring's asset disappeared into your stockroom. The Ring loses a tool; the room gains proof you hide people.",
 				"ru": "Актив Кольца исчез на вашем складе. Кольцо теряет инструмент; зал получает доказательство, что вы прячете людей."
@@ -513,7 +657,9 @@
 		},
 		{
 			"flag": "ivy_handed",
-			"standing": { "ring": 1 },
+			"standing": {
+				"ring": 1
+			},
 			"note": {
 				"en": "You returned the Ring's girl to the Ring. Loyalty delivered in person is worth double.",
 				"ru": "Вы вернули девочку Кольцу обратно. Верность, доставленная лично, стоит вдвое."
@@ -521,7 +667,10 @@
 		},
 		{
 			"flag": "ivy_flipped",
-			"standing": { "bureau": 1, "ring": -2 },
+			"standing": {
+				"bureau": 1,
+				"ring": -2
+			},
 			"note": {
 				"en": "You sold the Ring's asset to the Bureau. One faction's tool becomes another faction's witness.",
 				"ru": "Вы продали актив Кольца Бюро. Инструмент одной группировки становится свидетелем другой."
@@ -529,7 +678,9 @@
 		},
 		{
 			"flag": "walter_signature_poured",
-			"standing": { "civilian": 1 },
+			"standing": {
+				"civilian": 1
+			},
 			"note": {
 				"en": "The uncle's recipe poured exactly as chalked. The room likes old contracts honored at the counter.",
 				"ru": "Рецепт дяди налит ровно как мелом. Зал любит старые контракты, честные у стойки."
@@ -537,7 +688,9 @@
 		},
 		{
 			"flag": "walter_altered",
-			"standing": { "civilian": -1 },
+			"standing": {
+				"civilian": -1
+			},
 			"note": {
 				"en": "You improved a dead man's recipe. The room forgives money, not memory.",
 				"ru": "Вы улучшили рецепт покойного. Зал прощает деньги, но не память."
@@ -545,7 +698,9 @@
 		},
 		{
 			"flag": "walter_index_sold",
-			"standing": { "bureau": 2 },
+			"standing": {
+				"bureau": 2
+			},
 			"note": {
 				"en": "The drink-keyed index of the uncle's archive went to the Bureau whole. The Bureau pays double for a master key.",
 				"ru": "Ключевой к архиву дяди указатель целиком ушёл в Бюро. Бюро платит вдвое за ключ от всех замков."
@@ -553,7 +708,12 @@
 		},
 		{
 			"flag": "walter_index_burned",
-			"standing": { "syndicate": -1, "ring": -1, "station": -1, "bureau": -1 },
+			"standing": {
+				"syndicate": -1,
+				"ring": -1,
+				"station": -1,
+				"bureau": -1
+			},
 			"note": {
 				"en": "The archive's index burned. Four factions lose one prize; nobody gains the secret.",
 				"ru": "Указатель архива сгорел. Четыре группировки теряют по призу; никто не получает тайну."
@@ -561,10 +721,225 @@
 		},
 		{
 			"flag": "walter_index_kept",
-			"standing": { "civilian": 1 },
+			"standing": {
+				"civilian": 1
+			},
 			"note": {
 				"en": "You kept an old partner's word instead of spending it. The room saw the handshake.",
 				"ru": "Вы сдержали слово старого партнёра, вместо чтобы потратить. Зал видел рукопожатие."
+			}
+		},
+		{
+			"flag": "rosa_poured",
+			"standing": {
+				"civilian": 1
+			},
+			"note": {
+				"en": "You refilled a paramedic without being asked. The room likes quiet kindness made visible.",
+				"ru": "Вы долили фельдшеру, не дожидаясь просьбы. Зал любит тихую доброту, которую видно."
+			}
+		},
+		{
+			"flag": "rosa_clinic_ok",
+			"standing": {
+				"civilian": 1
+			},
+			"note": {
+				"en": "A kid walked out of your back room whole. The room doesn't ask what he walked out of.",
+				"ru": "Парень вышел из вашей подсобки целиком. Зал не спрашивает, из чего он вышел."
+			}
+		},
+		{
+			"flag": "rosa_clinic_refused",
+			"standing": {
+				"civilian": -1
+			},
+			"note": {
+				"en": "You turned a sink away from a wounded kid. The room counts doors that stayed shut.",
+				"ru": "Вы не пустили к раковине раненого парня. Зал считает двери, которые остались закрыты."
+			}
+		},
+		{
+			"flag": "rosa_package_dumped",
+			"standing": {
+				"ring": -1
+			},
+			"note": {
+				"en": "The Ring's shipment died in a hospital bin. Couriers trace dead drops back to the last stop.",
+				"ru": "Груз Кольца умер в больничной урне. Курьеры вычисляют мёртвые дропы до последней остановки."
+			}
+		},
+		{
+			"flag": "rosa_package_reported",
+			"standing": {
+				"ring": -2,
+				"bureau": 1
+			},
+			"note": {
+				"en": "The cooler's package went to a clerk with your name attached. The Ring loses the shipment; the Bureau gains a witness.",
+				"ru": "Пакет из холодильника ушёл к клерсу с вашим именем. Кольцо теряет груз; Бюро приобретает свидетеля."
+			}
+		},
+		{
+			"flag": "rosa_package_quiet",
+			"standing": {
+				"ring": 1
+			},
+			"note": {
+				"en": "The cooler stayed sealed and the trail died at your rail. The Ring credits silence with interest.",
+				"ru": "Холодильник остался запечатан, а след оборвался у вашей стойки. Кольцо записывает молчание под процент."
+			}
+		},
+		{
+			"flag": "jax_set_ok",
+			"standing": {
+				"civilian": 1
+			},
+			"note": {
+				"en": "You gave a stranger one set and the floor answered. The room likes nights that move.",
+				"ru": "Вы дали незнакомцу один сет, и пол ответил. Зал любит ночи, которые двигаются."
+			}
+		},
+		{
+			"flag": "jax_refused",
+			"standing": {
+				"civilian": -1
+			},
+			"note": {
+				"en": "You packed a DJ out before the first record warmed. The room forgives money, not silence.",
+				"ru": "Вы выгнали диджея до того, как первая пластинка прогрелась. Зал прощает деньги, но не тишину."
+			}
+		},
+		{
+			"flag": "jax_label_night",
+			"standing": {
+				"civilian": 1
+			},
+			"note": {
+				"en": "Thirty bodies and a check that rounded the week up. The room remembers which door paid for the round.",
+				"ru": "Тридцать тел и чек, округливший неделю вверх. Зал помнит, какая дверь заплатила за круг."
+			}
+		},
+		{
+			"flag": "jax_label_refused",
+			"standing": {
+				"civilian": -1
+			},
+			"note": {
+				"en": "You sent the loud night to somebody else's room. The room counts the fun it didn't have.",
+				"ru": "Вы отправили громкую ночь в чужую комнату. Зал считает веселье, которого не было."
+			}
+		},
+		{
+			"flag": "jax_crates_stopped",
+			"standing": {
+				"ring": -1
+			},
+			"note": {
+				"en": "The Ring's crates stopped at your threshold. Deliveries refused three times turn - the count grows.",
+				"ru": "Ящики Кольца остановились на вашем пороге. Три отказа - и Кольцо поворачивает; счёт растёт."
+			}
+		},
+		{
+			"flag": "jax_crates_ok",
+			"standing": {
+				"ring": 1
+			},
+			"note": {
+				"en": "The Ring's Thursdays stayed open and nobody saw anything. Trust, unloaded in person, is worth double.",
+				"ru": "Четверги Кольца остались открытыми, и никто ничего не видел. Доверие, выгруженное лично, стоит вдвое."
+			}
+		},
+		{
+			"flag": "jax_crates_cut",
+			"standing": {
+				"syndicate": 1,
+				"ring": -1
+			},
+			"note": {
+				"en": "You taxed the Ring's crates through your door. The Syndicate likes a bar that collects; the Ring pays nobody's toll.",
+				"ru": "Вы взяли пошлину с ящиков Кольца у своей двери. Синдикату нравится бар, который собирает; Кольцо не платит чужих дорожных."
+			}
+		},
+		{
+			"flag": "pip_blind",
+			"standing": {
+				"ring": 1
+			},
+			"note": {
+				"en": "You didn't see the Ring's kid's coat. The Ring notes who is convenient to have around.",
+				"ru": "Вы не видели пальто ребёнка Кольца. Кольцо записывает, кто удобен рядом."
+			}
+		},
+		{
+			"flag": "pip_caught",
+			"standing": {
+				"ring": -1
+			},
+			"note": {
+				"en": "You shook the Ring's prospect down at the counter. Prospects are the Ring's to correct, not yours.",
+				"ru": "Вы обыскали перспективу Кольца у стойки. Перспективы Кольцо исправляет само, а не вы."
+			}
+		},
+		{
+			"flag": "pip_employed",
+			"standing": {
+				"civilian": 1
+			},
+			"note": {
+				"en": "The kid got a job and the door got a show. The room likes both.",
+				"ru": "Мальчишка получил работу, а дверь - спектакль. Залу нравится и то, и другое."
+			}
+		},
+		{
+			"flag": "pip_fence_ok",
+			"standing": {
+				"ring": 1
+			},
+			"note": {
+				"en": "A fence got your corner booth for ten minutes. The Ring's economy runs on tables like yours.",
+				"ru": "Скупщик получил вашу угловую будку на десять минут. Экономика Кольца держится на таких столах."
+			}
+		},
+		{
+			"flag": "pip_fence_refused",
+			"standing": {
+				"ring": -1
+			},
+			"note": {
+				"en": "You refused the Ring's trade your tables. Tables get remembered empty.",
+				"ru": "Вы не дали сделке Кольца своих столов. Пустые столы запоминают."
+			}
+		},
+		{
+			"flag": "pip_notebook_returned",
+			"standing": {
+				"bureau": 1
+			},
+			"note": {
+				"en": "The detective's notes found their way home. The Bureau likes a case that closes itself.",
+				"ru": "Заметки детектива нашли дорогу домой. Бюро любит дело, которое закрывается само."
+			}
+		},
+		{
+			"flag": "pip_notebook_sold",
+			"standing": {
+				"ring": 1,
+				"bureau": -2
+			},
+			"note": {
+				"en": "The break-in notes went to the Ring under your rail. The Ring buys paper; the Bureau loses its chalk.",
+				"ru": "Заметки о взломе ушли Кольцу под вашей стойкой. Кольцо покупает бумагу; Бюро теряет свой мел."
+			}
+		},
+		{
+			"flag": "pip_notebook_burned",
+			"standing": {
+				"bureau": -1
+			},
+			"note": {
+				"en": "The detective's work stopped existing. The Bureau restarts the case from memory and guesses wrong.",
+				"ru": "Работа детектива перестала существовать. Бюро начинает дело заново по памяти и ошибается."
 			}
 		}
 	]
