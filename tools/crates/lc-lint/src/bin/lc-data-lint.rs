@@ -24,6 +24,7 @@ fn schema_for(dir: &str) -> Option<&'static str> {
         "Crafting" => Some("crafting.schema.json"),
         "Factions" => Some("factions.schema.json"),
         "Interactions" => Some("interactions.schema.json"),
+        "Night" => Some("night.schema.json"),
         "Balance" => Some("balance.schema.json"),
         "Localization" => Some("localization.schema.json"),
         _ => None,

@@ -1,0 +1,29 @@
+{
+	"$schema": "../schemas/night.schema.json",
+	"activities": [
+		{
+			"id": "orders_to_go",
+			"display_name": {
+				"en": "Orders to go",
+				"ru": "Заказы на вынос"
+			},
+			"required_flag": ""
+		},
+		{
+			"id": "debt_runs",
+			"display_name": {
+				"en": "Debt runs",
+				"ru": "Сбор долгов"
+			},
+			"required_flag": ""
+		},
+		{
+			"id": "investigations",
+			"display_name": {
+				"en": "Investigations",
+				"ru": "Расследования"
+			},
+			"required_flag": "heard_harris_case"
+		}
+	]
+}

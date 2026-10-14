@@ -89,3 +89,6 @@ jobs:
 
       - name: Destructibility unit tests (roles -> durability)
         run: ./scripts/test-interactions.sh
+
+      - name: Night mode unit tests (gating -> death consequences)
+        run: ./scripts/test-night.sh

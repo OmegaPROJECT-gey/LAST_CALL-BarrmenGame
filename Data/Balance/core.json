@@ -62,5 +62,10 @@
 		"usable_time_minutes": 6.0,
 		"usable_strength": 0.35,
 		"sloppy_quality": 0.5
+	},
+	"night": {
+		"death_heat": 3.0,
+		"death_standing": -2.0,
+		"death_hospital_days": 2
 	}
 }

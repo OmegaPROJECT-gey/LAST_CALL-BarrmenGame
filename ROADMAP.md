@@ -28,7 +28,7 @@ A milestone is closed only when its **user path runs end to end** — a scenario
 
 ## Track B: the night (action / stealth)
 
-- [ ] **B1. Night mode.** Own input set, cover, the bar as a level after closing.
+- [~] **B1. Night mode.** Own input set, cover, the bar as a level after closing. **Done (2026-10-14):** engine-independent groundwork — `Data/Night/activities.json` (orders to go, debt runs, investigations) gated by story flags from the consequence log (investigations open after `heard_harris_case`), and the night's hard rule as code + balance: death is consequences, not a reload (heat +3, standing -2, hospital days you sit out, resume on a later day) in the `night` section of `Data/Balance/core.json`; core `Source/LastCall/Night/NightCore` (`NightLibrary`, `available`/`available_activities`, `death_consequences`, `resume_day`); 28 unit checks in CI. **Open:** the UE night input set, cover mechanics, the closing-level layout, tying hospital days into `DayScheduleCore`.
 - [ ] **B2. Orders to go.** The armored window: rapid assembly under time pressure while the city waits outside.
 - [ ] **B3. Debt runs.** City blocks for collection; bar tools as weapons; non-lethal wins preferred.
 - [ ] **B4. Raid director.** Police search, evidence tags, NPC partner hiding them, distraction dialogue checks.

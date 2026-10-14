@@ -2,8 +2,8 @@
 //
 // The same interaction table serves the shift and the night: what in the
 // bar can be grabbed, swung, hidden behind, thrown or sprayed
-// (GAME-DESIGN 5/6: bottles as weapons, flipped tables as cover, the
-// siphon as an extinguisher). Each row of Data/Interactions/
+// (GAME-DESIGN 5.3 and the night rules: bottles as weapons, flipped
+// tables as cover, the siphon as an extinguisher). Each row of Data/Interactions/
 // interactions.json says which roles an object plays, how hard it hits
 // and how many uses it survives; the rules here answer the questions the
 // night layer asks: is this usable now, is it a weapon, what is the best
