@@ -20,6 +20,7 @@ fn schema_for(dir: &str) -> Option<&'static str> {
         "Dialogue" => Some("dialogue.schema.json"),
         "Skills" => Some("skills.schema.json"),
         "Liquids" => Some("liquids.schema.json"),
+        "Economy" => Some("economy.schema.json"),
         "Balance" => Some("balance.schema.json"),
         "Localization" => Some("localization.schema.json"),
         _ => None,

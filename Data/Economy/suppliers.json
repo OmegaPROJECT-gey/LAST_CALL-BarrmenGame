@@ -1,0 +1,29 @@
+{
+	"$schema": "../schemas/economy.schema.json",
+	"suppliers": {
+		"moonshine_pete": {
+			"display_name": { "en": "Moonshine Pete", "ru": "Лунный Пит" },
+			"tier": "cheap",
+			"price_mult": 0.75,
+			"stock_limit": 40,
+			"night_risk": 0.35,
+			"sells": ["whiskey_rye", "stout"]
+		},
+		"metro_wholesale": {
+			"display_name": { "en": "Metro Wholesale", "ru": "Метро Опт" },
+			"tier": "standard",
+			"price_mult": 1.0,
+			"stock_limit": 80,
+			"night_risk": 0.0,
+			"sells": ["whiskey_rye", "coffee_liqueur", "stout", "soda_water"]
+		},
+		"vieux_cru": {
+			"display_name": { "en": "Vieux Cru", "ru": "Вьё Крю" },
+			"tier": "premium",
+			"price_mult": 1.6,
+			"stock_limit": 30,
+			"night_risk": 0.0,
+			"sells": ["coffee_liqueur", "orange_oil", "soda_water"]
+		}
+	}
+}
