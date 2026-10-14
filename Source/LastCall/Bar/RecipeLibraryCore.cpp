@@ -118,6 +118,29 @@ namespace lc {
 			story->get_bool("act1_hook", record.act1_hook);
 		}
 
+		const JsonValue* secret = doc.find("secret");
+		if (secret)
+		{
+			if (secret->kind != JsonValue::Kind::Object)
+			{
+				return refuse(error, "`secret` must be an object");
+			}
+			if (!secret->get_int("fragment", record.secret_fragment)
+				|| !secret->get_int("of", record.secret_of)
+				|| record.secret_fragment < 1
+				|| record.secret_of < record.secret_fragment)
+			{
+				return refuse(error, "`secret` needs whole numbers with 1 <= fragment <= of");
+			}
+			if (!secret->get_string("text_key", record.secret_text_key)
+				|| record.secret_text_key.empty())
+			{
+				return refuse(error, "`secret` needs `text_key`");
+			}
+			secret->get_string("reveal_flag", record.secret_reveal_flag); // optional
+			record.has_secret = true;
+		}
+
 		out = std::move(record);
 		return true;
 	}
@@ -241,6 +264,57 @@ namespace lc {
 			out.push_back(record.id);
 		}
 		return out;
+	}
+
+	bool collect_secret_fragments(const RecipeLibrary& library,
+		std::vector<SecretFragment>& out, std::string* error)
+	{
+		std::vector<SecretFragment> fragments;
+		for (const RecipeRecord& record : library.recipes())
+		{
+			if (!record.has_secret)
+			{
+				continue;
+			}
+			SecretFragment fragment;
+			fragment.recipe_id = record.id;
+			fragment.index = record.secret_fragment;
+			fragment.of = record.secret_of;
+			fragment.text_key = record.secret_text_key;
+			fragment.reveal_flag = record.secret_reveal_flag;
+			fragments.push_back(std::move(fragment));
+		}
+
+		std::sort(fragments.begin(), fragments.end(),
+			[](const SecretFragment& a, const SecretFragment& b) { return a.index < b.index; });
+
+		for (std::size_t i = 0; i < fragments.size(); ++i)
+		{
+			if (i > 0 && fragments[i].index == fragments[i - 1].index)
+			{
+				if (error)
+				{
+					*error = "fragment " + std::to_string(fragments[i].index)
+						+ " is claimed by both `" + fragments[i - 1].recipe_id
+						+ "` and `" + fragments[i].recipe_id + "`";
+				}
+				return false;
+			}
+			if (fragments[i].of != fragments[0].of)
+			{
+				if (error)
+				{
+					*error = "`" + fragments[i].recipe_id + "` promises "
+						+ std::to_string(fragments[i].of)
+						+ " fragments, but the wall has "
+						+ std::to_string(fragments[0].of);
+				}
+				return false;
+			}
+		}
+
+		out = std::move(fragments);
+		return true;
 	}
 
 } // namespace lc

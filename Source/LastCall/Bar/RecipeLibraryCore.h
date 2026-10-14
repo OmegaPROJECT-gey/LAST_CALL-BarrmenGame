@@ -26,6 +26,14 @@ namespace lc {
 		double continuity_break_s = 4.0;
 		RecipeEffects effects;
 		bool act1_hook = false;                 // story: first recipe off the uncle's wall
+
+		// The wall-of-recipes twist (NARRATIVE.md): this recipe hides one
+		// fragment of the message the uncle chalked into the recipes.
+		bool has_secret = false;
+		int secret_fragment = 0;                // 1-based position of the fragment
+		int secret_of = 0;                      // total fragments on the wall
+		std::string secret_text_key;            // localization key of the fragment
+		std::string secret_reveal_flag;         // world flag that unlocks reading it ("" = always)
 	};
 
 	/**
@@ -61,5 +69,23 @@ namespace lc {
 	private:
 		std::vector<RecipeRecord> records_;
 	};
+
+	/** One secret fragment as the story layer sees it. */
+	struct SecretFragment
+	{
+		std::string recipe_id; // which recipe on the wall hides it
+		int index = 0;         // 1-based, unique across the library
+		int of = 0;            // total fragments the wall promises
+		std::string text_key;
+		std::string reveal_flag;
+	};
+
+	/**
+	 * Collect every recipe's `secret` block, sorted by fragment index.
+	 * Refused (false + error) when two recipes claim the same index or
+	 * disagree on the total - the wall must add up to one message.
+	 */
+	bool collect_secret_fragments(const RecipeLibrary& library,
+		std::vector<SecretFragment>& out, std::string* error = nullptr);
 
 } // namespace lc

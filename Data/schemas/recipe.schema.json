@@ -39,7 +39,18 @@
 				"xp_multiplier": { "type": "number", "minimum": 0 }
 			}
 		},
-		"story": { "type": "object" }
+		"story": { "type": "object" },
+		"secret": {
+			"type": "object",
+			"required": ["fragment", "of", "text_key"],
+			"additionalProperties": false,
+			"properties": {
+				"fragment": { "type": "integer", "minimum": 1 },
+				"of": { "type": "integer", "minimum": 1 },
+				"text_key": { "type": "string", "minLength": 1 },
+				"reveal_flag": { "type": "string", "pattern": "^[a-z0-9_]+$" }
+			}
+		}
 	},
 	"$defs": {
 		"localized": {

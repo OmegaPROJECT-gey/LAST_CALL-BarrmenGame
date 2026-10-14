@@ -147,5 +147,71 @@ int main()
 			"a missing layer defaults to base");
 	}
 
+	// --- the wall of recipes: secret fragments --------------------------------------------
+	{
+		RecipeRecord recipe;
+		std::string error;
+		expect(lc::load_recipe(read_repo_file("Data/Recipes/signature_noir.json"), recipe, &error)
+			&& recipe.has_secret, "the signature recipe hides a secret");
+		expect(recipe.secret_fragment == 1 && recipe.secret_of == 13,
+			"it carries fragment 1 of 13");
+		expect(recipe.secret_text_key == "secret.01"
+			&& recipe.secret_reveal_flag == "read_uncle_wall",
+			"with a localization key and a reveal flag");
+
+		RecipeLibrary wall;
+		std::vector<std::string> errors;
+		expect(wall.load_directory(lc_test::repo_root() + "/Data/Recipes", &errors) >= 1,
+			"the wall of recipes loads");
+		std::vector<lc::SecretFragment> fragments;
+		std::string collect_error;
+		expect(lc::collect_secret_fragments(wall, fragments, &collect_error)
+			&& fragments.size() == 1
+			&& fragments[0].index == 1 && fragments[0].of == 13
+			&& fragments[0].recipe_id == "signature_noir"
+			&& fragments[0].text_key == "secret.01",
+			"one fragment collected from the real wall, in order");
+
+		// Two recipes claiming the same fragment: refused.
+		RecipeLibrary clash;
+		const std::string fragment_two =
+			"\"glass\":\"rocks\",\"steps\":[{\"ingredient\":\"x\",\"flow_window\":[0.1,0.2]}],"
+			"\"secret\":{\"fragment\":2,\"of\":5,\"text_key\":\"k\"}";
+		const std::string fragment_two_other =
+			"\"glass\":\"rocks\",\"steps\":[{\"ingredient\":\"x\",\"flow_window\":[0.1,0.2]}],"
+			"\"secret\":{\"fragment\":2,\"of\":5,\"text_key\":\"k2\"}";
+		expect(clash.add("{\"id\":\"a\"," + fragment_two + "}", &errors), "recipe a loads");
+		expect(clash.add("{\"id\":\"b\"," + fragment_two_other + "}", &errors), "recipe b loads");
+		expect(!lc::collect_secret_fragments(clash, fragments, &collect_error)
+			&& collect_error.find("claimed") != std::string::npos,
+			"two recipes claiming one fragment are refused");
+
+		// Disagreeing totals: refused - the wall must be one message.
+		RecipeLibrary mismatch;
+		expect(mismatch.add("{\"id\":\"a\",\"glass\":\"rocks\","
+			"\"steps\":[{\"ingredient\":\"x\",\"flow_window\":[0.1,0.2]}],"
+			"\"secret\":{\"fragment\":1,\"of\":5,\"text_key\":\"k\"}}", &errors), "a: of 5");
+		expect(mismatch.add("{\"id\":\"b\",\"glass\":\"rocks\","
+			"\"steps\":[{\"ingredient\":\"x\",\"flow_window\":[0.1,0.2]}],"
+			"\"secret\":{\"fragment\":2,\"of\":7,\"text_key\":\"k2\"}}", &errors), "b: of 7");
+		expect(!lc::collect_secret_fragments(mismatch, fragments, &collect_error)
+			&& collect_error.find("promises") != std::string::npos,
+			"a wall that disagrees with itself is refused");
+
+		// Strict refusals at load time.
+		expect(refuses("{\"id\":\"x\",\"glass\":\"rocks\","
+			"\"steps\":[{\"ingredient\":\"a\",\"flow_window\":[0.1,0.2]}],"
+			"\"secret\":{\"fragment\":0,\"of\":5,\"text_key\":\"k\"}}"),
+			"fragment numbering starts at 1");
+		expect(refuses("{\"id\":\"x\",\"glass\":\"rocks\","
+			"\"steps\":[{\"ingredient\":\"a\",\"flow_window\":[0.1,0.2]}],"
+			"\"secret\":{\"fragment\":6,\"of\":5,\"text_key\":\"k\"}}"),
+			"fragment beyond the total refused");
+		expect(refuses("{\"id\":\"x\",\"glass\":\"rocks\","
+			"\"steps\":[{\"ingredient\":\"a\",\"flow_window\":[0.1,0.2]}],"
+			"\"secret\":{\"fragment\":1,\"of\":5}}"),
+			"secret without text_key refused");
+	}
+
 	return lc_test::report("recipe library");
 }

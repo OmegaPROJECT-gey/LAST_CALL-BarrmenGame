@@ -23,5 +23,11 @@
 			"en": "The first recipe from the uncle's wall that Alex can reproduce.",
 			"ru": "Первый рецепт со стены дяди, который Алекс может повторить."
 		}
+	},
+	"secret": {
+		"fragment": 1,
+		"of": 13,
+		"text_key": "secret.01",
+		"reveal_flag": "read_uncle_wall"
 	}
 }
