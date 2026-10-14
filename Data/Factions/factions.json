@@ -54,6 +54,62 @@
 				"en": "A guest left unheard - the Bureau and the room both remember.",
 				"ru": "Гостя не выслушали — и в Бюро, и в зале это запомнили."
 			}
+		},
+		{
+			"flag": "harris_told_breakin",
+			"standing": { "syndicate": -1 },
+			"note": {
+				"en": "The break-in went straight to a detective. The Syndicate hears everything.",
+				"ru": "О взломе сразу узнал детектив. Синдикат слышит всё."
+			}
+		},
+		{
+			"flag": "harris_withheld_breakin",
+			"standing": { "syndicate": 1 },
+			"note": {
+				"en": "You kept the break-in off the detective's desk. The Syndicate likes a quiet bar.",
+				"ru": "Вы не дали взлому дойти до стола детектива. Синдикат любит тихий бар."
+			}
+		},
+		{
+			"flag": "harris_quiet_report",
+			"standing": { "station": 1 },
+			"note": {
+				"en": "A report that never touched paperwork. The Station trades in exactly that.",
+				"ru": "Доклад, который не коснулся бумажек. Ровно этим и торгуют на Участке."
+			}
+		},
+		{
+			"flag": "kane_first_fact_heard",
+			"standing": { "civilian": 1 },
+			"note": {
+				"en": "A fact traded for a martini, in front of witnesses. The room likes a straight deal.",
+				"ru": "Факт, обменянный на мартини, при свидетелях. Зал любит честный обмен."
+			}
+		},
+		{
+			"flag": "kane_knew_uncle",
+			"standing": { "bureau": 1 },
+			"note": {
+				"en": "The uncle's name surfaces at the counter again. The Bureau wants his ledger on record.",
+				"ru": "Имя дяди снова звучит у стойки. Бюро хочет его книгу под протокол."
+			}
+		},
+		{
+			"flag": "kane_price_read",
+			"standing": { "civilian": 1 },
+			"note": {
+				"en": "An honest answer for a fragment. The room keeps books like that.",
+				"ru": "Честный ответ за фрагмент. Зал ведёт такие книги."
+			}
+		},
+		{
+			"flag": "shadow_deferred",
+			"standing": { "syndicate": -1 },
+			"note": {
+				"en": "You made the Syndicate's man wait for his drink. Waiting gets remembered.",
+				"ru": "Вы заставили человека Синдиката ждать коктейль. Ожидание запоминают."
+			}
 		}
 	]
 }

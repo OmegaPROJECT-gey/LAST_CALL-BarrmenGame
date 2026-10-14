@@ -63,7 +63,7 @@ int main()
 	}
 	expect(library.find("no_such_faction") == nullptr, "unknown factions read null");
 
-	expect(library.reactions().size() == 4, "four reaction rows");
+	expect(library.reactions().size() == 11, "eleven reaction rows");
 
 	const lc::Reaction* case_reaction = library.reaction_for("heard_harris_case");
 	expect(case_reaction != nullptr, "the detective's case has a reaction");
@@ -75,6 +75,36 @@ int main()
 			"hearing the case cools the Syndicate");
 		expect(!case_reaction->note_en.empty() && !case_reaction->note_ru.empty(),
 			"reaction notes are bilingual");
+	}
+
+	// The city's delayed reactions (C3 batch 1) - each complements the
+	// direct faction_standing effects the scenes fire themselves: the NPC
+	// reacts now, the room reacts days later (PHILOSOPHY 3.2).
+	{
+		struct Expected
+		{
+			const char* flag;
+			const char* faction;
+			double delta;
+		};
+		const Expected expected[] = {
+			{"harris_told_breakin", "syndicate", -1.0},
+			{"harris_withheld_breakin", "syndicate", 1.0},
+			{"harris_quiet_report", "station", 1.0},
+			{"kane_first_fact_heard", "civilian", 1.0},
+			{"kane_knew_uncle", "bureau", 1.0},
+			{"kane_price_read", "civilian", 1.0},
+			{"shadow_deferred", "syndicate", -1.0},
+		};
+		for (const Expected& want : expected)
+		{
+			const lc::Reaction* row = library.reaction_for(want.flag);
+			expect(row != nullptr && row->standing.size() == 1
+				&& row->standing[0].first == want.faction
+				&& row->standing[0].second == want.delta
+				&& !row->note_en.empty() && !row->note_ru.empty(),
+				want.flag);
+		}
 	}
 	expect(library.reaction_for("no_such_flag") == nullptr, "unknown flags read null");
 
