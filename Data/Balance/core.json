@@ -43,7 +43,8 @@
 	"economy": {
 		"daily_stand_cost": 200,
 		"bar_staff_wages": 350,
-		"starting_money": 2000
+		"starting_money": 2000,
+		"price_drift_amplitude": 0.15
 	},
 	"liquid": {
 		"foam_decay_per_s": 0.12

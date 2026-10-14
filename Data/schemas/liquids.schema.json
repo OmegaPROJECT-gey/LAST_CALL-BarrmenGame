@@ -12,11 +12,12 @@
 			"minProperties": 1,
 			"additionalProperties": {
 				"type": "object",
-				"required": ["display_name", "viscosity", "density", "foam", "color"],
+				"required": ["display_name", "viscosity", "density", "foam", "color", "base_price"],
 				"additionalProperties": false,
 				"properties": {
 					"display_name": { "$ref": "#/$defs/localized" },
 					"viscosity": { "type": "number", "exclusiveMinimum": 0 },
+				"base_price": { "type": "number", "exclusiveMinimum": 0 },
 					"density": { "type": "number", "minimum": 0.5, "maximum": 2.0 },
 					"foam": { "type": "number", "minimum": 0, "maximum": 1 },
 					"color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }

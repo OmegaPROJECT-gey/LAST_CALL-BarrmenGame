@@ -2,39 +2,59 @@
 	"$schema": "../schemas/liquids.schema.json",
 	"liquids": {
 		"whiskey_rye": {
-			"display_name": { "en": "Rye whiskey", "ru": "Ржаной виски" },
+			"display_name": {
+				"en": "Rye whiskey",
+				"ru": "Ржаной виски"
+			},
 			"viscosity": 1.2,
 			"density": 0.94,
 			"foam": 0.0,
-			"color": "#a8631e"
+			"color": "#a8631e",
+			"base_price": 18
 		},
 		"coffee_liqueur": {
-			"display_name": { "en": "Coffee liqueur", "ru": "Кофейный ликёр" },
+			"display_name": {
+				"en": "Coffee liqueur",
+				"ru": "Кофейный ликёр"
+			},
 			"viscosity": 3.5,
 			"density": 1.18,
 			"foam": 0.0,
-			"color": "#3a1d0c"
+			"color": "#3a1d0c",
+			"base_price": 22
 		},
 		"orange_oil": {
-			"display_name": { "en": "Orange oil", "ru": "Апельсиновое масло" },
+			"display_name": {
+				"en": "Orange oil",
+				"ru": "Апельсиновое масло"
+			},
 			"viscosity": 0.9,
 			"density": 0.84,
 			"foam": 0.0,
-			"color": "#e8a33d"
+			"color": "#e8a33d",
+			"base_price": 9
 		},
 		"stout": {
-			"display_name": { "en": "Stout", "ru": "Тёмное пиво" },
+			"display_name": {
+				"en": "Stout",
+				"ru": "Тёмное пиво"
+			},
 			"viscosity": 1.6,
 			"density": 1.01,
 			"foam": 0.35,
-			"color": "#2b1608"
+			"color": "#2b1608",
+			"base_price": 6
 		},
 		"soda_water": {
-			"display_name": { "en": "Soda water", "ru": "Содовая" },
+			"display_name": {
+				"en": "Soda water",
+				"ru": "Содовая"
+			},
 			"viscosity": 1.0,
 			"density": 1.0,
 			"foam": 0.5,
-			"color": "#cfe9ef"
+			"color": "#cfe9ef",
+			"base_price": 3
 		}
 	}
 }

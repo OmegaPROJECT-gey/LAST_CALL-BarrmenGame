@@ -74,3 +74,6 @@ jobs:
 
       - name: Liquid core unit tests (layering -> solver)
         run: ./scripts/test-liquids.sh
+
+      - name: Economy core unit tests (suppliers -> ledger)
+        run: ./scripts/test-economy.sh
