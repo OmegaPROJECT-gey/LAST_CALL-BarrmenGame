@@ -86,3 +86,6 @@ jobs:
 
       - name: Crafting unit tests (inputs -> outcomes)
         run: ./scripts/test-crafting.sh
+
+      - name: Destructibility unit tests (roles -> durability)
+        run: ./scripts/test-interactions.sh

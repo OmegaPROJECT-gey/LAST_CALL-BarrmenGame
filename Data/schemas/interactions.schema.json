@@ -1,0 +1,49 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "interactions.schema.json",
+	"title": "LAST CALL destructible interactions (shift and night)",
+	"type": "object",
+	"required": ["interactions"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"interactions": {
+			"type": "array",
+			"minItems": 1,
+			"items": {
+				"type": "object",
+				"required": ["id", "display_name", "kinds", "damage", "sturdiness", "phases"],
+				"additionalProperties": false,
+				"properties": {
+					"id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+					"display_name": { "$ref": "#/$defs/localized" },
+					"kinds": {
+						"type": "array",
+						"minItems": 1,
+						"uniqueItems": true,
+						"items": { "type": "string", "enum": ["weapon", "throwable", "cover", "extinguisher"] }
+					},
+					"damage": { "type": "number", "minimum": 0 },
+					"sturdiness": { "type": "integer", "minimum": 1 },
+					"phases": {
+						"type": "array",
+						"minItems": 1,
+						"uniqueItems": true,
+						"items": { "type": "string", "enum": ["Shift", "Night"] }
+					}
+				}
+			}
+		}
+	},
+	"$defs": {
+		"localized": {
+			"type": "object",
+			"required": ["en", "ru"],
+			"additionalProperties": false,
+			"properties": {
+				"en": { "type": "string", "minLength": 1 },
+				"ru": { "type": "string", "minLength": 1 }
+			}
+		}
+	}
+}

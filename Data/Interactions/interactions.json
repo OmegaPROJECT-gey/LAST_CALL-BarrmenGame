@@ -1,0 +1,49 @@
+{
+	"$schema": "../schemas/interactions.schema.json",
+	"interactions": [
+		{
+			"id": "bottle_rye",
+			"display_name": {
+				"en": "Rye bottle",
+				"ru": "Бутылка ржаного"
+			},
+			"kinds": ["weapon", "throwable"],
+			"damage": 12,
+			"sturdiness": 3,
+			"phases": ["Shift", "Night"]
+		},
+		{
+			"id": "barstool",
+			"display_name": {
+				"en": "Bar stool",
+				"ru": "Барный табурет"
+			},
+			"kinds": ["weapon", "cover"],
+			"damage": 8,
+			"sturdiness": 1,
+			"phases": ["Shift", "Night"]
+		},
+		{
+			"id": "table_heavy",
+			"display_name": {
+				"en": "Heavy table",
+				"ru": "Тяжёлый стол"
+			},
+			"kinds": ["cover"],
+			"damage": 0,
+			"sturdiness": 2,
+			"phases": ["Shift", "Night"]
+		},
+		{
+			"id": "siphon",
+			"display_name": {
+				"en": "Soda siphon",
+				"ru": "Содовый сифон"
+			},
+			"kinds": ["extinguisher"],
+			"damage": 0,
+			"sturdiness": 6,
+			"phases": ["Shift", "Night"]
+		}
+	]
+}
