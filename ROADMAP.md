@@ -22,7 +22,7 @@ A milestone is closed only when its **user path runs end to end** — a scenario
 - [ ] **A3. Economy.** Suppliers, daily stock, prices, wages, loans; the morning phase is a real decision, not a shop screen.
 - [ ] **A4. Customers as people.** Regulars with schedules and tastes, body-language tells, the sixth-sense threat scoring.
 - [ ] **A5. Social consequences.** Faction-visible flags for how you treated stories; reaction tables; no good/evil meter.
-- [ ] **A6. Skill tree.** Flair, Psychology, Steady hands, Alchemy — four branches, all feeding the pour or the read.
+- [~] **A6. Skill tree.** Flair, Psychology, Steady hands, Alchemy — four branches, all feeding the pour or the read. **Done (2026-10-14):** engine-independent skill tree core (`Source/LastCall/Core/SkillsCore`) — strict load of the real `Data/Skills/skills.json`, buy rules (requirements met, wallet covers cost, no re-buy), effect aggregation (multipliers compose, unlocks union, reveals flip), and a cross-check that dialogue skill conditions name real nodes; 41 unit checks in CI. **Open:** the UE skill panel UI and wiring multipliers into the pour/serve simulation.
 - [ ] **A7. Crafting.** Infusions and syrups as new data rows; experiments that can fail; the signature cocktail questline.
 - [ ] **A8. Destructibility.** Bottles as weapons, flipped tables, siphon as extinguisher — interaction set used by both shift and night.
 

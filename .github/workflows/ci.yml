@@ -68,3 +68,6 @@ jobs:
 
       - name: Dialogue runner unit tests (data -> world)
         run: ./scripts/test-dialogue.sh
+
+      - name: Skill tree unit tests (data -> wallet)
+        run: ./scripts/test-skills.sh
