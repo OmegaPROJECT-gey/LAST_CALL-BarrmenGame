@@ -36,7 +36,7 @@ A milestone is closed only when its **user path runs end to end** — a scenario
 
 ## Track C: the story
 
-- [ ] **C1. Narrative spine.** The uncle, the encrypted recipes, the city: beat sheet approved, written in EN and RU.
+- [~] **C1. Narrative spine.** The uncle, the encrypted recipes, the city: beat sheet approved, written in EN and RU. **Drafted (2026-10-14):** the full act-by-act beat sheet — 26 beats across the four acts (`docs/NARRATIVE.md` §2.1 and `NARRATIVE.ru.md` §2.1, authored natively in both languages) — tied to the systems that already exist in data: story flags, the 13 wall fragments, intel rows, night activities, raid rules, hospital consequences; act IV's last night is a service, and the six endings read standing × information × tier. **Open:** owner approval of the beat sheet; then C2–C4 write against it.
 - [ ] **C2. The three regulars.** Detective Harris, Miss Kane, the boss «Shadow» — full dialogue trees, schedules, consequences.
 - [ ] **C3. Faction arcs.** Three gangs + police: intersecting storylines, no single "correct" loyalty.
 - [ ] **C4. Ending set.** Multiple endings from standing + information + venue tier; each closes the loop of the day.
