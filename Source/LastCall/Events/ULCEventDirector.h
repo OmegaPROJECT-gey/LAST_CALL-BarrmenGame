@@ -47,6 +47,14 @@ struct FLCEventInfo
 	/** Additive weight per campaign day. */
 	UPROPERTY(BlueprintReadOnly, Category = "Events")
 	double PerDay = 0.0;
+
+	/** Bodies this pick adds to (or takes out of) the room. */
+	UPROPERTY(BlueprintReadOnly, Category = "Events")
+	int32 CrowdDelta = 0;
+
+	/** Flow of orders against the baseline (1.0 = untouched). */
+	UPROPERTY(BlueprintReadOnly, Category = "Events")
+	double OrdersMultiplier = 1.0;
 };
 
 /** What the morning picked: the subsystem found out, now you react. */

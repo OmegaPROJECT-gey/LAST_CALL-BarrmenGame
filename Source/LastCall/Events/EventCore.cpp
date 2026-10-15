@@ -115,7 +115,7 @@ namespace lc {
 				return refuse(error, "event is not an object");
 			}
 			if (!has_only(entry, { "id", "name", "weight_base", "standing_bias",
-				"per_heat", "per_day" }, "event: ", error))
+				"per_heat", "per_day", "effects" }, "event: ", error))
 			{
 				return false;
 			}
@@ -149,6 +149,28 @@ namespace lc {
 			if (!entry.get_number("per_day", spec.per_day))
 			{
 				return refuse(error, where + "`per_day` must be a number");
+			}
+
+			// What the pick does to the shift (GDD 5.2): bodies
+			// through the door and the flow of orders.
+			const JsonValue* effects = entry.find("effects");
+			if (!effects || effects->kind != JsonValue::Kind::Object)
+			{
+				return refuse(error, where + "`effects` must be an object");
+			}
+			if (!has_only(*effects, { "crowd_delta", "orders_multiplier" },
+				where + "`effects`: ", error))
+			{
+				return false;
+			}
+			if (!effects->get_int("crowd_delta", spec.effects.crowd_delta))
+			{
+				return refuse(error, where + "`effects.crowd_delta` must be an integer");
+			}
+			if (!effects->get_number("orders_multiplier", spec.effects.orders_multiplier)
+				|| spec.effects.orders_multiplier < 0.0)
+			{
+				return refuse(error, where + "`effects.orders_multiplier` must be a number >= 0");
 			}
 
 			const JsonValue* biases = entry.find("standing_bias");

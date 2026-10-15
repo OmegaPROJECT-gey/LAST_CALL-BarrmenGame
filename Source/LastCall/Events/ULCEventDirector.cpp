@@ -91,6 +91,8 @@ TArray<FLCEventInfo> ULCEventDirector::GetEvents() const
 		Row.WeightBase = Spec.weight_base;
 		Row.PerHeat = Spec.per_heat;
 		Row.PerDay = Spec.per_day;
+		Row.CrowdDelta = Spec.effects.crowd_delta;
+		Row.OrdersMultiplier = Spec.effects.orders_multiplier;
 		Rows.Add(Row);
 	}
 	return Rows;
@@ -120,6 +122,8 @@ FLCEventInfo ULCEventDirector::GetEvent(const FString& EventId) const
 	Row.WeightBase = Spec->weight_base;
 	Row.PerHeat = Spec->per_heat;
 	Row.PerDay = Spec->per_day;
+	Row.CrowdDelta = Spec->effects.crowd_delta;
+	Row.OrdersMultiplier = Spec->effects.orders_multiplier;
 	return Row;
 }
 

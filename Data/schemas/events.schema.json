@@ -27,7 +27,7 @@
 		},
 		"event": {
 			"type": "object",
-			"required": ["id", "name", "weight_base", "standing_bias", "per_heat", "per_day"],
+			"required": ["id", "name", "weight_base", "standing_bias", "per_heat", "per_day", "effects"],
 			"additionalProperties": false,
 			"properties": {
 				"id": { "$ref": "#/$defs/id" },
@@ -45,6 +45,23 @@
 				"per_day": {
 					"description": "Additive weight per campaign day - the city changes as days pass.",
 					"type": "number"
+				},
+				"effects": {
+					"description": "What the morning's pick does to the shift (GDD 5.2): bodies through the door and the flow of orders. The music shift waits on event music sets (content).",
+					"type": "object",
+					"required": ["crowd_delta", "orders_multiplier"],
+					"additionalProperties": false,
+					"properties": {
+						"crowd_delta": {
+							"description": "Bodies added to (or taken out of) the room for the day - negative during a raid.",
+							"type": "integer"
+						},
+						"orders_multiplier": {
+							"description": "Flow of orders against the baseline: 1.0 untouched, above it a busier bar, below it a slower one.",
+							"type": "number",
+							"minimum": 0
+						}
+					}
 				}
 			}
 		},

@@ -170,6 +170,50 @@ int main()
 			"a weight clamps at zero, never below");
 	}
 
+	// --- the pick's effects on the shift (GDD 5.2) --------------------------------
+	{
+		struct Expected
+		{
+			const char* id;
+			int crowd;
+			double orders;
+		};
+		const Expected expected[] = {
+			{ "quiet_day", 0, 1.0 },
+			{ "raid", -3, 0.6 },
+			{ "celebrity_visit", 6, 1.4 },
+			{ "rival_opening", -4, 0.75 },
+			{ "blackout", -2, 0.65 },
+			{ "gang_meetup", 3, 1.25 },
+		};
+		bool effects_seen = false;
+		for (const Expected& row : expected)
+		{
+			const EventSpec* spec = library.find(row.id);
+			expect(spec != nullptr, "every row of the pool is addressable");
+			if (!spec)
+			{
+				continue;
+			}
+			effects_seen = true;
+			expect(spec->effects.crowd_delta == row.crowd,
+				"the pick moves the room's bodies as the data says");
+			expect_near(spec->effects.orders_multiplier, row.orders, 1e-9,
+				"the pick moves the flow of orders as the data says");
+			expect(spec->effects.orders_multiplier >= 0.0,
+				"an orders multiplier is never negative");
+		}
+		expect(effects_seen, "every event carries its effects");
+		// The quiet day is the baseline everything else is read against.
+		const EventSpec* quiet = library.find("quiet_day");
+		if (quiet)
+		{
+			expect(quiet->effects.crowd_delta == 0
+				&& quiet->effects.orders_multiplier == 1.0,
+				"the quiet day changes nothing");
+		}
+	}
+
 	// --- selection ------------------------------------------------------------------
 	{
 		const std::vector<std::pair<std::string, double>> world = neutral_standing();
@@ -246,14 +290,16 @@ int main()
 		const std::string dead_doc =
 			"{\"events\":[{\"id\":\"only_heat\",\"name\":{\"en\":\"Heat Only\","
 			"\"ru\":\"Только жара\"},\"weight_base\":0.0,\"standing_bias\":[],"
-			"\"per_heat\":0.0,\"per_day\":0.0}]}";
+			"\"per_heat\":0.0,\"per_day\":0.0,\"effects\":{\"crowd_delta\":0,"
+			"\"orders_multiplier\":1.0}}]}";
 		// weight_base 0 with no slope at all is refused at load ...
 		expect(refuses(dead_doc), "a row that can never fire is refused");
 		// ... but a row that can fire in some world loads and answers "".
 		const std::string slope_doc =
 			"{\"events\":[{\"id\":\"only_heat\",\"name\":{\"en\":\"Heat Only\","
 			"\"ru\":\"Только жара\"},\"weight_base\":0.0,\"standing_bias\":[],"
-			"\"per_heat\":1.0,\"per_day\":0.0}]}";
+			"\"per_heat\":1.0,\"per_day\":0.0,\"effects\":{\"crowd_delta\":0,"
+			"\"orders_multiplier\":1.0}}]}";
 		expect(dead.load(slope_doc, &error), "a slope-only row loads");
 		expect(dead.select(neutral_standing(), 0.0, 1, 0.5).empty(),
 			"a morning where nothing weighs anything selects nothing");
@@ -293,6 +339,28 @@ int main()
 		"an unknown field refused");
 	expect(refuses(replace_first(doc_text, "\"events\": [", "\"pool\": [")),
 		"a document without `events` refused");
+	// The shift effects (GDD 5.2) are as strict as the rest.
+	expect(refuses(replace_first(doc_text, "\"effects\"", "\"shift\"")),
+		"an event without `effects` refused");
+	expect(refuses(replace_first(doc_text,
+		"\"effects\": { \"crowd_delta\": 0, \"orders_multiplier\": 1.0 }",
+		"\"effects\": {}")),
+		"effects without a crowd delta refused");
+	expect(refuses(replace_first(doc_text,
+		"\"effects\": { \"crowd_delta\": -3, \"orders_multiplier\": 0.6 }",
+		"\"effects\": { \"bodies\": -3, \"orders_multiplier\": 0.6 }")),
+		"an unknown field inside effects refused");
+	expect(refuses(replace_first(doc_text,
+		"\"effects\": { \"crowd_delta\": -3, \"orders_multiplier\": 0.6 }",
+		"\"effects\": \"busy\"")),
+		"effects as a string refused");
+	expect(refuses(replace_first(doc_text, "\"crowd_delta\": 6", "\"crowd_delta\": 6.5")),
+		"a fractional crowd delta refused");
+	expect(refuses(replace_first(doc_text, "\"crowd_delta\": -4", "\"crowd_delta\": \"-4\"")),
+		"a string crowd delta refused");
+	expect(refuses(replace_first(doc_text,
+		"\"orders_multiplier\": 1.4", "\"orders_multiplier\": -1.0")),
+		"a negative orders multiplier refused");
 	expect(refuses(replace_first(doc_text, "\"weight_base\": 0.2,",
 		"\"weight_base\": 0.2,\n\t\t\t\"surprise\": true,")),
 		"an unknown field inside an event refused");

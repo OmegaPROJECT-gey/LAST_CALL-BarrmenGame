@@ -4,7 +4,8 @@
 // the outcomes GDD 5.2 names - a police raid, a rival bar opening, a
 // gang meetup, a celebrity visit, a blackout - plus the quiet day that
 // keeps the pool honest. Each row carries a base weight, an additive
-// bias per standing point of a faction, a per-heat and a per-day slope.
+// bias per standing point of a faction, a per-heat and a per-day slope,
+// and the effects of the pick on the shift (bodies and order flow).
 // The weight of the morning is
 //
 //   weight = base + sum(per_point x faction standing)
@@ -32,6 +33,17 @@ namespace lc {
 		double per_point = 0.0;
 	};
 
+	/**
+	 * What the pick does to the shift (GAME-DESIGN 5.2: it shifts the
+	 * crowd and the orders; the music shift waits on event music sets
+	 * as content lands).
+	 */
+	struct EventEffects
+	{
+		int crowd_delta = 0;           // bodies through the door (may be negative)
+		double orders_multiplier = 1.0; // flow of orders against the baseline
+	};
+
 	/** One row of the morning pool. */
 	struct EventSpec
 	{
@@ -42,6 +54,7 @@ namespace lc {
 		std::vector<EventStandingBias> standing_bias;
 		double per_heat = 0.0;
 		double per_day = 0.0;
+		EventEffects effects;
 	};
 
 	/** The pool of Data/Events/events.json. */
@@ -51,9 +64,10 @@ namespace lc {
 		/**
 		 * Parse the document. Strict: known fields only, bilingual
 		 * names, unique event ids, base weight >= 0, at most one bias
-		 * per faction per event, and a row that can actually fire
-		 * (base or a slope or a bias). A refusal leaves the previous
-		 * pool intact.
+		 * per faction per event, the shift effects (integer crowd
+		 * delta, orders multiplier >= 0), and a row that can actually
+		 * fire (base or a slope or a bias). A refusal leaves the
+		 * previous pool intact.
 		 */
 		bool load(const std::string& json_text, std::string* error = nullptr);
 
