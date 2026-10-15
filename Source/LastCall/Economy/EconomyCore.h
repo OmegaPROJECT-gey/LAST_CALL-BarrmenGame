@@ -7,10 +7,11 @@
 // and keeps a morning ledger that refuses wares a supplier does not sell,
 // stock beyond the supplier's limit and money the wallet does not have.
 // The morning opens with the day's standing charges (stand + wages,
-// GAME-DESIGN 5.4): the wallet may go red, which is the loan.
+// GAME-DESIGN 5.4): the wallet may go red, which is the loan; the five
+// bar upgrades (GAME-DESIGN 2) are bought once through the same wallet.
 //
-// Ice, upgrades and loan terms stay future rows; this is the buying loop
-// the morning screen needs to be a real decision (GAME-DESIGN 2).
+// Ice and loan terms stay future rows; this is the buying loop the
+// morning screen needs to be a real decision (GAME-DESIGN 2).
 //
 // Engine-independent C++17: the UE side owns the screen; the rules live
 // here. License: MIT (LICENSE).
@@ -79,6 +80,35 @@ namespace lc {
 	double unit_price(double base_price, const SupplierSpec& supplier, int day,
 		const PriceTuning& tuning);
 
+	// --- upgrades --------------------------------------------------------------
+
+	/**
+	 * One bar upgrade named by GAME-DESIGN 2 (tap repair, mixer, VIP
+	 * zone, lighting, jukebox): bought once, money first, each has a
+	 * visible state in the bar. What it unlocks lands with the mechanic
+	 * it unlocks - this row is the purchase.
+	 */
+	struct UpgradeSpec
+	{
+		std::string id;
+		std::string name_en;
+		std::string name_ru;
+		int cost = 0;
+	};
+
+	/** Every upgrade the morning can buy, from Data/Upgrades/upgrades.json. */
+	class UpgradeLibrary
+	{
+	public:
+		bool load(const std::string& json_text, std::string* error = nullptr);
+
+		const UpgradeSpec* find(const std::string& upgrade_id) const;
+		const std::vector<UpgradeSpec>& upgrades() const { return upgrades_; }
+
+	private:
+		std::vector<UpgradeSpec> upgrades_;
+	};
+
 	/**
 	 * One morning's shopping: wallet plus per-supplier stock limits.
 	 * purchase() refuses wares outside the supplier's list, stock beyond
@@ -94,10 +124,20 @@ namespace lc {
 		 * 5.4) land before any shopping. The wallet may open in the
 		 * red - a run in the red is the loan the design allows - and
 		 * every later purchase then refuses what the red wallet
-		 * cannot cover. The charges are not shopping: spent() stays
-		 * stock-only.
+		 * cannot cover. The charges are not shopping: spent() keeps
+		 * counting purchases only.
 		 */
 		void open_day(const DayCostTuning& costs);
+
+		/**
+		 * One-time bar upgrade (GDD 2): refuses an id the run
+		 * already owns (in `owned`, which the save persists) and a
+		 * cost the wallet cannot cover (naming the shortfall).
+		 * Otherwise the cost leaves the wallet and joins spent();
+		 * on success the caller records the id into `owned`.
+		 */
+		bool buy_upgrade(const UpgradeSpec& spec,
+			const std::vector<std::string>& owned, std::string* error = nullptr);
 
 		bool purchase(const SupplierSpec& supplier, const std::string& liquid_id,
 			double base_price, int units, int day, std::string* error = nullptr);

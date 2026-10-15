@@ -1,0 +1,35 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "upgrades.schema.json",
+	"title": "LAST CALL bar upgrades",
+	"type": "object",
+	"required": ["upgrades"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"upgrades": {
+			"type": "object",
+			"minProperties": 1,
+			"additionalProperties": {
+				"type": "object",
+				"required": ["name", "cost"],
+				"additionalProperties": false,
+				"properties": {
+					"name": { "$ref": "#/$defs/localized" },
+					"cost": { "type": "integer", "minimum": 1 }
+				}
+			}
+		}
+	},
+	"$defs": {
+		"localized": {
+			"type": "object",
+			"required": ["en", "ru"],
+			"additionalProperties": false,
+			"properties": {
+				"en": { "type": "string", "minLength": 1 },
+				"ru": { "type": "string", "minLength": 1 }
+			}
+		}
+	}
+}

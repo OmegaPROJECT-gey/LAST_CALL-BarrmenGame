@@ -39,6 +39,13 @@ namespace {
 		return !scratch.load(text, &error) && !error.empty();
 	}
 
+	bool upgrade_refuses(const std::string& text)
+	{
+		lc::UpgradeLibrary scratch;
+		std::string error;
+		return !scratch.load(text, &error) && !error.empty();
+	}
+
 	std::string supplier(const std::string& id, const std::string& tier,
 		double price_mult, int stock_limit, double night_risk,
 		const std::string& sells)
@@ -206,7 +213,7 @@ int main()
 		expect_near(ledger.money(), 1450.0, 1e-9,
 			"the charges land when the morning opens");
 		expect_near(ledger.spent(), 0.0, 1e-9,
-			"charges are not shopping - spent() stays stock-only");
+			"charges are not shopping - spent() still counts purchases only");
 		const SupplierSpec* metro_spec = library.find("metro_wholesale");
 		expect(ledger.purchase(*metro_spec, "whiskey_rye", 18.0, 1, 1, &error),
 			"shopping against the charged wallet goes through");
@@ -223,6 +230,56 @@ int main()
 		expect_near(red.money(), -250.0, 1e-9, "the refused sale changed nothing");
 	}
 
+	// --- upgrades (GDD 2: named in the design, bought once) -------------------
+	{
+		lc::UpgradeLibrary upgrades;
+		error.clear();
+		expect(upgrades.load(read_repo_file("Data/Upgrades/upgrades.json"), &error)
+			&& error.empty(),
+			"the real upgrade file loads");
+		expect(upgrades.upgrades().size() == 5,
+			"the five upgrades the design names are all there");
+		expect(upgrades.find("tap_repair") != nullptr, "GDD names `tap_repair`");
+		expect(upgrades.find("mixer") != nullptr, "GDD names `mixer`");
+		expect(upgrades.find("vip_zone") != nullptr, "GDD names `vip_zone`");
+		expect(upgrades.find("lighting") != nullptr, "GDD names `lighting`");
+		expect(upgrades.find("jukebox") != nullptr, "GDD names `jukebox`");
+		expect(upgrades.find("nope") == nullptr, "an unknown id finds nothing");
+		for (const lc::UpgradeSpec& spec : upgrades.upgrades())
+		{
+			expect(spec.cost >= 1 && !spec.name_en.empty() && !spec.name_ru.empty(),
+				"every row has a whole cost and both languages");
+		}
+
+		const lc::UpgradeSpec* tap = upgrades.find("tap_repair");
+		const double starting = lc_test::balance_number("starting_money");
+		expect(tap && tap->cost <= starting,
+			"the first upgrade is affordable on the starting treasury");
+
+		// A funded purchase.
+		MorningLedger ledger(starting, tuning);
+		expect(ledger.buy_upgrade(*tap, {}, &error),
+			"a funded upgrade is bought");
+		expect_near(ledger.money(), starting - tap->cost, 1e-9,
+			"the cost leaves the wallet");
+		expect_near(ledger.spent(), tap->cost, 1e-9,
+			"and joins what the morning spent");
+
+		// Bought once: the owned set (the save's) refuses the second one.
+		expect(!ledger.buy_upgrade(*tap, { tap->id }, &error)
+			&& error.find("already bought") != std::string::npos,
+			"an owned upgrade is refused");
+
+		// A wallet the standing charges opened in the red.
+		MorningLedger red(100.0, tuning);
+		red.open_day(lc::DayCostTuning{});
+		expect(!red.buy_upgrade(*tap, {}, &error)
+			&& error.find("wallet") != std::string::npos,
+			"a red wallet buys nothing extra");
+		expect_near(red.money(), 100.0 - 550.0, 1e-9,
+			"the refused upgrade changed nothing");
+	}
+
 	// --- strict refusals -------------------------------------------------------------------
 	expect(refuses("{}"), "missing suppliers refused");
 	expect(refuses("{\"suppliers\":{}}"), "empty suppliers refused");
@@ -234,6 +291,20 @@ int main()
 		"negative stock limit refused");
 	expect(refuses(supplier("x", "cheap", 1.0, 10, 1.5, "[\"a\"]")),
 		"night risk above 1 refused");
+
+	// --- upgrade data refusals ---------------------------------------------------------------
+	expect(upgrade_refuses("{}"), "upgrades: a missing `upgrades` object refused");
+	expect(upgrade_refuses("{\"upgrades\":{}}"), "upgrades: an empty set refused");
+	expect(upgrade_refuses("garbage"), "upgrades: garbage refused");
+	expect(upgrade_refuses(
+		"{\"upgrades\":{\"x\":{\"name\":{\"en\":\"X\",\"ru\":\"Х\"},\"cost\":0}}}"),
+		"upgrades: a zero cost refused");
+	expect(upgrade_refuses(
+		"{\"upgrades\":{\"x\":{\"name\":{\"en\":\"X\"},\"cost\":10}}}"),
+		"upgrades: a name without both languages refused");
+	expect(upgrade_refuses(
+		"{\"upgrades\":{\"x\":{\"name\":{\"en\":\"X\",\"ru\":\"Х\"},\"cost\":\"lots\"}}}"),
+		"upgrades: a non-integer cost refused");
 	expect(refuses(supplier("x", "cheap", 1.0, 10, 0.0, "[]")),
 		"empty wares refused");
 	expect(refuses(supplier("x", "cheap", 1.0, 10, 0.0, "[\"a\",\"a\"]")),

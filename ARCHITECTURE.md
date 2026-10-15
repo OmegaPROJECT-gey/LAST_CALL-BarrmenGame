@@ -109,6 +109,7 @@ Data/
   Dialogue/*.json       trees, conditions, interruptions
   Endings/*.json        six endings: selection rules (standing x information x tier), per-tier texts
   Venue/*.json          five growth tiers: layout/music refs, capacity, risk, price to climb
+  Upgrades/*.json       five bar upgrades (tap, mixer, VIP, lighting, jukebox): one-time morning purchases
   Coop/*.json           co-op bounds (2-4 players) and the four roles with their job split
   Events/*.json         the morning's weighted event pool (standing x heat x day)
   Skills/*.json         skill tree edges and costs

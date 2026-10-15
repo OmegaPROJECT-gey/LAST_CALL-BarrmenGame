@@ -207,6 +207,88 @@ namespace lc {
 		money_ -= costs.stand_cost + costs.wages;
 	}
 
+	// --- upgrades --------------------------------------------------------------
+
+	bool UpgradeLibrary::load(const std::string& json_text, std::string* error)
+	{
+		JsonValue doc;
+		std::string parse_error;
+		if (!json_parse(json_text, doc, &parse_error))
+		{
+			return refuse(error, "bad JSON: " + parse_error);
+		}
+		if (doc.kind != JsonValue::Kind::Object)
+		{
+			return refuse(error, "upgrade document is not an object");
+		}
+
+		const JsonValue* upgrades = doc.find("upgrades");
+		if (!upgrades || upgrades->kind != JsonValue::Kind::Object
+			|| upgrades->object.empty())
+		{
+			return refuse(error, "`upgrades` must be a non-empty object");
+		}
+
+		for (const auto& member : upgrades->object)
+		{
+			UpgradeSpec spec;
+			spec.id = member.first;
+			const std::string where = "upgrade `" + spec.id + "`: ";
+			const JsonValue& body = member.second;
+			if (body.kind != JsonValue::Kind::Object)
+			{
+				return refuse(error, where + "not an object");
+			}
+
+			const JsonValue* name = body.find("name");
+			if (!name || name->kind != JsonValue::Kind::Object
+				|| !name->get_string("en", spec.name_en) || spec.name_en.empty()
+				|| !name->get_string("ru", spec.name_ru) || spec.name_ru.empty())
+			{
+				return refuse(error, where + "`name` needs en and ru");
+			}
+			if (!body.get_int("cost", spec.cost) || spec.cost < 1)
+			{
+				return refuse(error, where + "`cost` must be a positive whole number");
+			}
+
+			upgrades_.push_back(std::move(spec));
+		}
+		return true;
+	}
+
+	const UpgradeSpec* UpgradeLibrary::find(const std::string& upgrade_id) const
+	{
+		for (const UpgradeSpec& spec : upgrades_)
+		{
+			if (spec.id == upgrade_id)
+			{
+				return &spec;
+			}
+		}
+		return nullptr;
+	}
+
+	bool MorningLedger::buy_upgrade(const UpgradeSpec& spec,
+		const std::vector<std::string>& owned, std::string* error)
+	{
+		for (const std::string& id : owned)
+		{
+			if (id == spec.id)
+			{
+				return refuse(error, "upgrade `" + spec.id + "` is already bought");
+			}
+		}
+		if (spec.cost > money_)
+		{
+			return refuse(error, "need " + money_string(static_cast<double>(spec.cost))
+				+ ", wallet has " + money_string(money_));
+		}
+		money_ -= static_cast<double>(spec.cost);
+		spent_ += static_cast<double>(spec.cost);
+		return true;
+	}
+
 	int MorningLedger::stock_used(const std::string& supplier_id) const
 	{
 		for (const auto& entry : stock_)

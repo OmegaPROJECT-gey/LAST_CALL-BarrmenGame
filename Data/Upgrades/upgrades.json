@@ -1,0 +1,25 @@
+{
+	"$schema": "../schemas/upgrades.schema.json",
+	"upgrades": {
+		"tap_repair": {
+			"name": { "en": "Tap Repair", "ru": "Ремонт кранов" },
+			"cost": 400
+		},
+		"mixer": {
+			"name": { "en": "Mixer", "ru": "Миксер" },
+			"cost": 750
+		},
+		"vip_zone": {
+			"name": { "en": "VIP Zone", "ru": "VIP-зона" },
+			"cost": 2500
+		},
+		"lighting": {
+			"name": { "en": "New Lighting", "ru": "Новый свет" },
+			"cost": 600
+		},
+		"jukebox": {
+			"name": { "en": "Jukebox", "ru": "Джукбокс" },
+			"cost": 900
+		}
+	}
+}
