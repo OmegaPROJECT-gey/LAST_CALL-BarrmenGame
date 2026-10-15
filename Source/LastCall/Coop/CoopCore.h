@@ -37,6 +37,7 @@ namespace lc {
 		std::string job_en;
 		std::string job_ru;
 		std::vector<std::string> actions; // vocabulary: pour, seat, door, ...
+		int crowd = 0;                   // bodies this role keeps up with
 	};
 
 	/** The roles of Data/Coop/roles.json. */
@@ -73,6 +74,22 @@ namespace lc {
 		 */
 		std::string assign_blocker(int player_count,
 			const std::vector<std::string>& role_ids) const;
+
+		/**
+		 * Bodies the assigned crew keeps up with - the sum of its
+		 * roles' crowd (GDD 5.5: under load the roles split). An
+		 * unknown role reads 0: an illegal crew handles nobody. The
+		 * venue ladder is the yardstick - a duo runs a dive, the full
+		 * crew runs the casino.
+		 */
+		int crowd_capacity(const std::vector<std::string>& role_ids) const;
+
+		/**
+		 * crowd / capacity - how hard that crew works. 0.0 is an empty
+		 * room, 1.0 the crew at its limit, above 1.0 overrun (the
+		 * engine scales mood decay and the room's music on it).
+		 */
+		double crowd_load(int crowd, const std::vector<std::string>& role_ids) const;
 
 	private:
 		std::vector<RoleSpec> roles_;

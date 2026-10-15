@@ -2,12 +2,14 @@
 //
 // Runs without Unreal: scripts/test-coop.sh compiles this against the
 // roles core, the JSON reader and the harness. Drives the real file
-// Data/Coop/roles.json and cross-checks the action vocabulary against
-// Data/schemas/coop.schema.json.
+// Data/Coop/roles.json, cross-checks the action vocabulary against
+// Data/schemas/coop.schema.json and the crowd load against the venue
+// ladder in Data/Venue/venue.json.
 
 #include "Coop/CoopCore.h"
 
 #include "Core/JsonCore.h"
+#include "Venue/VenueCore.h"
 
 #include "test_support.h"
 
@@ -20,6 +22,7 @@
 namespace {
 
 	using lc_test::expect;
+	using lc_test::expect_near;
 
 	using lc::RoleLibrary;
 
@@ -81,6 +84,7 @@ int main()
 		expect(!role.job_en.empty() && !role.job_ru.empty(),
 			"the role has a bilingual job line");
 		expect(!role.actions.empty(), "the role works at least one action");
+		expect(role.crowd >= 1, "the role keeps up with bodies");
 		for (const std::string& action : role.actions)
 		{
 			expect(std::find(lc::action_vocabulary().begin(),
@@ -141,6 +145,78 @@ int main()
 	expect(library.find("bouncer") != nullptr && library.find("ghost") == nullptr,
 		"find() by id");
 
+	// --- crowd load: the crew against the venue ladder ----------------------------
+	{
+		lc::VenueLibrary venue;
+		expect(venue.load(read_repo_file("Data/Venue/venue.json"), &error),
+			"Data/Venue/venue.json loads for the crowd cross-check");
+
+		const std::vector<std::string> quad = { "bartender", "waiter", "bouncer", "dj" };
+		expect(library.crowd_capacity({ "ghost" }) == 0,
+			"an unknown role carries nobody");
+
+		// Every legal duo (someone must pour) clears the dive and the
+		// VIP floor, none reaches the second floor; every legal trio
+		// runs the second floor, none the casino; only the full crew
+		// handles the underground casino. Retune Data/Coop and
+		// Data/Venue together - this is the progression story.
+		std::vector<std::string> ids;
+		for (const lc::RoleSpec& role : library.roles())
+		{
+			ids.push_back(role.id);
+		}
+		int best_duo = 0;
+		int worst_duo = -1;
+		int best_trio = 0;
+		int worst_trio = -1;
+		for (std::size_t i = 0; i < ids.size(); ++i)
+		{
+			for (std::size_t j = i + 1; j < ids.size(); ++j)
+			{
+				const std::vector<std::string> crew = { ids[i], ids[j] };
+				if (library.assign_blocker(2, crew).empty())
+				{
+					const int capacity = library.crowd_capacity(crew);
+					best_duo = std::max(best_duo, capacity);
+					worst_duo = worst_duo < 0 ? capacity : std::min(worst_duo, capacity);
+				}
+			}
+		}
+		for (std::size_t i = 0; i < ids.size(); ++i)
+		{
+			for (std::size_t j = i + 1; j < ids.size(); ++j)
+			{
+				for (std::size_t k = j + 1; k < ids.size(); ++k)
+				{
+					const std::vector<std::string> crew = { ids[i], ids[j], ids[k] };
+					if (library.assign_blocker(3, crew).empty())
+					{
+						const int capacity = library.crowd_capacity(crew);
+						best_trio = std::max(best_trio, capacity);
+						worst_trio = worst_trio < 0 ? capacity : std::min(worst_trio, capacity);
+					}
+				}
+			}
+		}
+		expect(worst_duo >= venue.tier(3)->capacity,
+			"every legal duo clears the VIP floor");
+		expect(best_duo < venue.tier(4)->capacity,
+			"no legal duo reaches the second floor");
+		expect(worst_trio >= venue.tier(4)->capacity,
+			"every legal trio runs the second floor");
+		expect(best_trio < venue.tier(5)->capacity,
+			"no legal trio runs the casino");
+		expect(library.crowd_capacity(quad) >= venue.tier(5)->capacity,
+			"the full crew runs the casino");
+
+		expect_near(library.crowd_load(0, quad), 0.0, 1e-9,
+			"an empty room is no load");
+		expect_near(library.crowd_load(51, quad), 1.0, 1e-9,
+			"at capacity is exactly 1.0 - the crew at its limit");
+		expect_near(library.crowd_load(102, quad), 2.0, 1e-9,
+			"overrun doubles past 1.0 for the engine to scale on");
+	}
+
 	// --- a legal crew -------------------------------------------------------------
 	expect(blocker_mentions(library, 2, { "bartender", "waiter" }).empty(),
 		"bottle and plates: a legal two-player crew");
@@ -189,6 +265,12 @@ int main()
 		"an unknown field refused");
 	expect(refuses(replace_first(doc_text, "\"players\":", "\"gamers\":")),
 		"a document without `players` refused");
+	expect(refuses(replace_first(doc_text, "\"crowd\": 10", "\"crowd\": 0")),
+		"a zero crowd refused");
+	expect(refuses(replace_first(doc_text, "\"crowd\": 15", "\"crowd\": \"many\"")),
+		"a non-integer crowd refused");
+	expect(refuses(replace_first(doc_text, ",\n\t\t\t\"crowd\": 15", "")),
+		"a missing crowd refused");
 	expect(refuses("not json"), "garbage refused");
 	expect(refuses("[1,2]"), "an array document refused");
 

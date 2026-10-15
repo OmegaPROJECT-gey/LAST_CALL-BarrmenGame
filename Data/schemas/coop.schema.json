@@ -40,7 +40,7 @@
 		},
 		"role": {
 			"type": "object",
-			"required": ["id", "name", "job", "actions"],
+			"required": ["id", "name", "job", "actions", "crowd"],
 			"additionalProperties": false,
 			"properties": {
 				"id": { "$ref": "#/$defs/id" },
@@ -52,6 +52,11 @@
 					"minItems": 1,
 					"uniqueItems": true,
 					"items": { "$ref": "#/$defs/action" }
+				},
+				"crowd": {
+					"description": "Bodies this role keeps up with; the crew's crowd load is the sum over its assigned roles (GDD 5.5: under load the roles split).",
+					"type": "integer",
+					"minimum": 1
 				}
 			}
 		}

@@ -148,7 +148,7 @@ namespace lc {
 			{
 				return refuse(error, "role is not an object");
 			}
-			if (!has_only(entry, { "id", "name", "job", "actions" }, "role: ", error))
+			if (!has_only(entry, { "id", "name", "job", "actions", "crowd" }, "role: ", error))
 			{
 				return false;
 			}
@@ -196,6 +196,11 @@ namespace lc {
 					return refuse(error, where + "action `" + action_id + "` listed twice");
 				}
 				role.actions.push_back(action_id);
+			}
+
+			if (!entry.get_int("crowd", role.crowd) || role.crowd < 1)
+			{
+				return refuse(error, where + "`crowd` must be an integer >= 1");
 			}
 
 			loaded.push_back(std::move(role));
@@ -281,6 +286,32 @@ namespace lc {
 			return "someone must pour: no assigned role works `pour`";
 		}
 		return std::string();
+	}
+
+	int RoleLibrary::crowd_capacity(const std::vector<std::string>& role_ids) const
+	{
+		int capacity = 0;
+		for (const std::string& role_id : role_ids)
+		{
+			const RoleSpec* role = find(role_id);
+			if (!role)
+			{
+				return 0; // an illegal crew handles nobody
+			}
+			capacity += role->crowd;
+		}
+		return capacity;
+	}
+
+	double RoleLibrary::crowd_load(int crowd,
+		const std::vector<std::string>& role_ids) const
+	{
+		const int capacity = crowd_capacity(role_ids);
+		if (capacity < 1 || crowd < 1)
+		{
+			return 0.0;
+		}
+		return static_cast<double>(crowd) / static_cast<double>(capacity);
 	}
 
 } // namespace lc
