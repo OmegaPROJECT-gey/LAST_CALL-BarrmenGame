@@ -14,6 +14,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Core/LCPhaseManager.h"
 #include "Events/EventCore.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ULCEventDirector.generated.h"
@@ -108,10 +109,66 @@ public:
 	FString TriggerMorning(const TMap<FString, double>& Standing, double Heat, int32 Day,
 		double Roll);
 
+	/**
+	 * The phase-flow trigger: the day, heat and standing this director
+	 * already knows, rolled against the stream, broadcast on the
+	 * OnMorningEvent above. Bound to ULCPhaseManager's Morning below;
+	 * callable for a manual replay.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Events")
+	FString RunMorning();
+
+	/**
+	 * Where the standing comes from while there is no faction system
+	 * yet (interim state in the ULCSaveSystem sense: the owner binds
+	 * later and nothing here changes shape).
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Events|Interim")
+	void SetStanding(const TMap<FString, double>& InStanding);
+
+	/** One faction's standing, for the reaction that just moved it. */
+	UFUNCTION(BlueprintCallable, Category = "Events|Interim")
+	void SetStandingPoint(const FString& FactionId, double Value);
+
+	UFUNCTION(BlueprintPure, Category = "Events|Interim")
+	TMap<FString, double> GetStanding() const;
+
+	/** What the last morning picked (invalid struct = nothing yet). */
+	UFUNCTION(BlueprintPure, Category = "Events")
+	FLCEventInfo GetLastEvent() const;
+
+	/**
+	 * Fix the morning's roll for a reproducible run (0 = a fresh seed
+	 * from the clock). The engine owns the roll; this is the engine's
+	 * hand on it.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Events")
+	void SetRandomSeed(int32 Seed);
+
 	/** Broadcast by TriggerMorning when the morning names an event. */
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnLCMorningEvent OnMorningEvent;
 
 private:
+	/** ULCPhaseManager's Morning boundary is where the day opens. */
+	UFUNCTION()
+	void HandlePhaseChanged(ELCPhase OldPhase, ELCPhase NewPhase);
+
+	/** Subsystem the day clock lives in (lazily: init order is free). */
+	class ULCPhaseManager* PhaseManager() const;
+
+	/** Interim heat until the heat meter owns it (ULCSaveSystem). */
+	class ULCSaveSystem* SaveSystem() const;
+
 	lc::EventLibrary Library;
+
+	/** Interim standing (see SetStanding). */
+	TMap<FString, double> StandingState;
+
+	/** The event the last morning picked, kept for the summary UI. */
+	FLCEventInfo LastEvent;
+
+	/** The engine's roll: same seed, same morning. */
+	FRandomStream Stream;
+	bool Seeded = false;
 };

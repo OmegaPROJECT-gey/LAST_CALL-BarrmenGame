@@ -2,6 +2,7 @@
 
 #include "Events/ULCEventDirector.h"
 
+#include "Core/ULCSaveSystem.h"
 #include "LastCall.h"
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
@@ -40,8 +41,18 @@ namespace
 
 void ULCEventDirector::Initialize(FSubsystemCollectionBase& Collection)
 {
+	// The phase clock opens the morning; make sure it exists before we
+	// listen (init order between the two is free otherwise).
 	Super::Initialize(Collection);
+	ULCPhaseManager* Phases = Collection.InitializeDependency<ULCPhaseManager>();
 	LoadEvents();
+
+	if (Phases)
+	{
+		Phases->OnPhaseChanged.AddDynamic(this, &ULCEventDirector::HandlePhaseChanged);
+		UE_LOG(LogLastCall, Verbose, TEXT("Event director bound to the phase clock (day %d)"),
+			Phases->GetDay());
+	}
 }
 
 int32 ULCEventDirector::LoadEvents()
@@ -132,6 +143,8 @@ FString ULCEventDirector::SelectEvent(const TMap<FString, double>& Standing,
 FString ULCEventDirector::TriggerMorning(const TMap<FString, double>& Standing,
 	double Heat, int32 Day, double Roll)
 {
+	LastEvent = FLCEventInfo(); // this morning starts knowing nothing
+
 	const FString Picked = SelectEvent(Standing, Heat, Day, Roll);
 	if (Picked.IsEmpty())
 	{
@@ -143,6 +156,68 @@ FString ULCEventDirector::TriggerMorning(const TMap<FString, double>& Standing,
 	{
 		return FString(); // the core picked something the reload lost
 	}
+	LastEvent = Event;
 	OnMorningEvent.Broadcast(Picked, Event);
 	return Picked;
+}
+
+FString ULCEventDirector::RunMorning()
+{
+	if (!Seeded)
+	{
+		Stream.Initialize(static_cast<int32>(FDateTime::UtcNow().GetTicks() & 0x7fffffff));
+		Seeded = true;
+	}
+
+	const ULCPhaseManager* Phases = PhaseManager();
+	const ULCSaveSystem* Save = SaveSystem();
+	const int32 Day = Phases ? FMath::Max(Phases->GetDay(), 1) : 1;
+	const double Heat = Save ? FMath::Max(static_cast<double>(Save->GetHeat()), 0.0) : 0.0;
+	return TriggerMorning(StandingState, Heat, Day, Stream.FRand());
+}
+
+void ULCEventDirector::SetStanding(const TMap<FString, double>& InStanding)
+{
+	StandingState = InStanding;
+}
+
+void ULCEventDirector::SetStandingPoint(const FString& FactionId, double Value)
+{
+	StandingState.Add(FactionId, Value);
+}
+
+TMap<FString, double> ULCEventDirector::GetStanding() const
+{
+	return StandingState;
+}
+
+FLCEventInfo ULCEventDirector::GetLastEvent() const
+{
+	return LastEvent;
+}
+
+void ULCEventDirector::SetRandomSeed(int32 Seed)
+{
+	Stream.Initialize(Seed);
+	Seeded = true;
+}
+
+void ULCEventDirector::HandlePhaseChanged(ELCPhase /*OldPhase*/, ELCPhase NewPhase)
+{
+	if (NewPhase == ELCPhase::Morning)
+	{
+		RunMorning();
+	}
+}
+
+ULCPhaseManager* ULCEventDirector::PhaseManager() const
+{
+	UGameInstance* GameInstance = GetGameInstance();
+	return GameInstance ? GameInstance->GetSubsystem<ULCPhaseManager>() : nullptr;
+}
+
+ULCSaveSystem* ULCEventDirector::SaveSystem() const
+{
+	UGameInstance* GameInstance = GetGameInstance();
+	return GameInstance ? GameInstance->GetSubsystem<ULCSaveSystem>() : nullptr;
 }
