@@ -1,0 +1,65 @@
+{
+	"$schema": "../schemas/events.schema.json",
+	"events": [
+		{
+			"id": "quiet_day",
+			"name": { "en": "A Quiet Day", "ru": "Тихий день" },
+			"weight_base": 3.0,
+			"standing_bias": [],
+			"per_heat": 0.0,
+			"per_day": 0.0
+		},
+		{
+			"id": "raid",
+			"name": { "en": "Police Raid", "ru": "Полицейский обыск" },
+			"weight_base": 0.2,
+			"standing_bias": [
+				{ "faction": "bureau", "per_point": -1.0 }
+			],
+			"per_heat": 4.0,
+			"per_day": 0.1
+		},
+		{
+			"id": "celebrity_visit",
+			"name": { "en": "Celebrity Visit", "ru": "Визит знаменитости" },
+			"weight_base": 1.0,
+			"standing_bias": [
+				{ "faction": "civilian", "per_point": 0.6 },
+				{ "faction": "ring", "per_point": 0.3 }
+			],
+			"per_heat": 0.0,
+			"per_day": 0.0
+		},
+		{
+			"id": "rival_opening",
+			"name": { "en": "Rival Bar Opening", "ru": "Открытие конкурента" },
+			"weight_base": 1.0,
+			"standing_bias": [
+				{ "faction": "civilian", "per_point": -0.5 }
+			],
+			"per_heat": 0.0,
+			"per_day": 0.2
+		},
+		{
+			"id": "blackout",
+			"name": { "en": "Blackout", "ru": "Отключение света" },
+			"weight_base": 0.8,
+			"standing_bias": [
+				{ "faction": "station", "per_point": -0.6 }
+			],
+			"per_heat": 0.0,
+			"per_day": 0.0
+		},
+		{
+			"id": "gang_meetup",
+			"name": { "en": "Gang Meetup", "ru": "Встреча группировки" },
+			"weight_base": 0.8,
+			"standing_bias": [
+				{ "faction": "syndicate", "per_point": 0.5 },
+				{ "faction": "ring", "per_point": 0.4 }
+			],
+			"per_heat": 0.0,
+			"per_day": 0.1
+		}
+	]
+}

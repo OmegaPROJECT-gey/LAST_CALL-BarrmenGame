@@ -116,3 +116,6 @@ jobs:
 
       - name: Co-op role unit tests (assignment -> job split)
         run: ./scripts/test-coop.sh
+
+      - name: Dynamic events unit tests (standing x heat x day -> morning pick)
+        run: ./scripts/test-events.sh
