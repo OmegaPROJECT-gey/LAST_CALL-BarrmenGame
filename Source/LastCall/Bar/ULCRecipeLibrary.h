@@ -99,10 +99,15 @@ public:
 	 * only, never from input (PHILOSOPHY.md 3.3). An unknown recipe reads
 	 * Ruined with bWrongIngredient - you cannot serve what the book does
 	 * not know.
+	 *
+	 * `ComboWindowMult` is Steady hands' skill multiplier (A6, GAME-DESIGN
+	 * 5.1's "longer combo windows"): 1.0 rates the windows as written,
+	 * 1.2 widens them the way the bought node promises; the core does the
+	 * arithmetic (SkillsCore::apply_combo_windows, unit-tested).
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Recipes")
 	FLCComboResult EvaluateCombo(const FString& RecipeId,
-		const TArray<FLCPourSample>& Samples) const;
+		const TArray<FLCPourSample>& Samples, float ComboWindowMult = 1.0f) const;
 
 private:
 	lc::RecipeLibrary Library;

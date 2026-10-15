@@ -324,4 +324,36 @@ namespace lc {
 		return summary;
 	}
 
+	RecipeSpec apply_combo_windows(const SkillSummary& skills, const RecipeSpec& spec)
+	{
+		RecipeSpec out = spec;
+		const double mult = skills.combo_window_mult;
+		if (mult == 1.0 || !(mult > 0.0))
+		{
+			return out; // nothing bought, or a hand-built summary we refuse to judge
+		}
+		for (MixStep& step : out.steps)
+		{
+			if (step.flow_max <= step.flow_min)
+			{
+				continue;
+			}
+			// Grow away from the window's own center: symmetric for
+			// widening and tightening alike, then clamped to the
+			// solver's physical 0..1 (the flow cannot leave the bottle).
+			const double center = (step.flow_min + step.flow_max) * 0.5;
+			const double half = (step.flow_max - step.flow_min) * 0.5 * mult;
+			step.flow_min = std::max(0.0, center - half);
+			step.flow_max = std::min(1.0, center + half);
+		}
+		return out;
+	}
+
+	ServeOutcome apply_skill_tips(const SkillSummary& skills, const ServeOutcome& outcome)
+	{
+		ServeOutcome out = outcome;
+		out.tip_multiplier *= skills.tip_multiplier;
+		return out;
+	}
+
 } // namespace lc

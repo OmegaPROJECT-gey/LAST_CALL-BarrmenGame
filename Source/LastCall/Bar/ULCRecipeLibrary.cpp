@@ -2,6 +2,7 @@
 
 #include "Bar/ULCRecipeLibrary.h"
 
+#include "Core/SkillsCore.h"
 #include "LastCall.h"
 #include "Misc/Paths.h"
 
@@ -124,7 +125,7 @@ TArray<FLCWallFragment> ULCRecipeLibrary::GetWallFragments() const
 }
 
 FLCComboResult ULCRecipeLibrary::EvaluateCombo(const FString& RecipeId,
-	const TArray<FLCPourSample>& Samples) const
+	const TArray<FLCPourSample>& Samples, float ComboWindowMult) const
 {
 	FLCComboResult Result;
 
@@ -148,7 +149,12 @@ FLCComboResult ULCRecipeLibrary::EvaluateCombo(const FString& RecipeId,
 		CoreSamples.push_back(std::move(Core));
 	}
 
-	const lc::ComboResult Combo = lc::evaluate_combo(lc::to_solver_spec(*Record), CoreSamples);
+	// A6: the skill multiplier rides into the rating (1.0 = as written).
+	lc::SkillSummary Skills;
+	Skills.combo_window_mult = ComboWindowMult;
+	const lc::RecipeSpec Spec =
+		lc::apply_combo_windows(Skills, lc::to_solver_spec(*Record));
+	const lc::ComboResult Combo = lc::evaluate_combo(Spec, CoreSamples);
 	switch (Combo.quality)
 	{
 	case lc::ComboQuality::Ruined:   Result.Quality = ELCComboQuality::Ruined;   break;

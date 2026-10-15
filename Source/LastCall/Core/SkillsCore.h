@@ -2,8 +2,10 @@
 //
 // The engine-independent half of skill progression: loads Data/Skills/
 // skills.json with the shared JSON reader, answers what a player can buy
-// with a set of owned nodes and a money amount, and aggregates the owned
-// nodes' effects (multipliers compose, unlocks union, reveals flip).
+// with a set of owned nodes and a money amount, aggregates the owned
+// nodes' effects (multipliers compose, unlocks union, reveals flip), and
+// applies them to the pour/serve simulation the way GAME-DESIGN 5.1
+// names them - longer combo windows, higher tips (A6).
 // Engine-independent C++17: the UE side owns the UI and the wallet; the
 // rules live here, tested against the real data file.
 //
@@ -13,6 +15,9 @@
 
 #include <string>
 #include <vector>
+
+#include "Bar/PourSolverCore.h"
+#include "Customers/OrderCore.h"
 
 namespace lc {
 
@@ -78,5 +83,24 @@ namespace lc {
 	private:
 		std::vector<SkillNode> nodes_;
 	};
+
+	// --- A6: the summary as the pour/serve simulation feels it -----------------
+
+	/**
+	 * Steady hands' longer combo windows (GAME-DESIGN 5.1): every flow
+	 * window grows away from its own center by combo_window_mult (>1
+	 * wider, <1 tighter, clamped to the solver's 0..1), so a player who
+	 * bought the nodes hits the speed windows the purchase promised.
+	 * A mult of 1.0 returns the spec unchanged; input is never touched.
+	 */
+	RecipeSpec apply_combo_windows(const SkillSummary& skills, const RecipeSpec& spec);
+
+	/**
+	 * Flair's higher tips (GAME-DESIGN 5.1): the skill multiplier lands
+	 * on whatever the recipe and the substitute already did to the
+	 * payout - a wrong serve still pays nothing (0 x anything = 0).
+	 * Input is never touched.
+	 */
+	ServeOutcome apply_skill_tips(const SkillSummary& skills, const ServeOutcome& outcome);
 
 } // namespace lc

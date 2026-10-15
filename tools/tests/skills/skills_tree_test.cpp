@@ -115,6 +115,92 @@ int main()
 			"the dialogue's skill condition names a real skill node");
 	}
 
+	// --- A6: the summary as the pour/serve simulation feels it ---------------------
+	{
+		// Real nodes, real multipliers: steady_2 widens the speed
+		// windows by 1.2 - GAME-DESIGN 5.1's "longer combo windows".
+		const SkillSummary steady = tree.summarize({ "steady_1", "steady_2" });
+		expect_near(steady.combo_window_mult, 1.2, 1e-9,
+			"steady_2 composes to 1.2x windows");
+
+		lc::RecipeSpec spec;
+		spec.id = "wired";
+		spec.continuity_break_s = 4.0;
+		spec.steps = { { "gin", 0.4, 0.7 }, { "tonic", 0.0, 0.5 }, { "lime", 0.8, 1.0 } };
+		const lc::RecipeSpec wide = lc::apply_combo_windows(steady, spec);
+
+		// Center 0.55, half 0.15 x 1.2 = 0.18 -> [0.37, 0.73].
+		expect_near(wide.steps[0].flow_min, 0.37, 1e-9,
+			"the window opens on the low side");
+		expect_near(wide.steps[0].flow_max, 0.73, 1e-9,
+			"and on the high side");
+		// Center 0.25, half 0.3 -> [-0.05, 0.55], clamped at the floor.
+		expect_near(wide.steps[1].flow_min, 0.0, 1e-9,
+			"a window cannot pour below zero");
+		expect_near(wide.steps[1].flow_max, 0.55, 1e-9,
+			"the rest of the growth lands above");
+		// Center 0.9, half 0.12 -> [0.78, 1.02], clamped at the brim.
+		expect_near(wide.steps[2].flow_min, 0.78, 1e-9,
+			"the growth lands below");
+		expect_near(wide.steps[2].flow_max, 1.0, 1e-9,
+			"a window cannot pour past the brim");
+		expect(wide.id == spec.id && wide.continuity_break_s == spec.continuity_break_s,
+			"the rest of the recipe is untouched");
+		expect(spec.steps[0].flow_min == 0.4 && spec.steps[0].flow_max == 0.7,
+			"the input spec is never touched");
+	}
+	{
+		// Nothing bought: the simulation feels nothing.
+		const SkillSummary plain = tree.summarize({});
+		lc::RecipeSpec spec;
+		spec.steps = { { "gin", 0.4, 0.7 } };
+		const lc::RecipeSpec unchanged = lc::apply_combo_windows(plain, spec);
+		expect(unchanged.steps[0].flow_min == 0.4 && unchanged.steps[0].flow_max == 0.7,
+			"an empty summary leaves the windows alone");
+	}
+	{
+		// Hand-built summaries are not judged, but a tightening must
+		// not invert the window it shrinks.
+		SkillSummary tight;
+		tight.combo_window_mult = 0.5;
+		lc::RecipeSpec spec;
+		spec.steps = { { "gin", 0.4, 0.7 } }; // center 0.55, half 0.075
+		const lc::RecipeSpec shrunk = lc::apply_combo_windows(tight, spec);
+		expect_near(shrunk.steps[0].flow_min, 0.475, 1e-9,
+			"half the width off the low side");
+		expect_near(shrunk.steps[0].flow_max, 0.625, 1e-9,
+			"and off the high side");
+		expect(shrunk.steps[0].flow_min < shrunk.steps[0].flow_max,
+			"a tighter window is still a window");
+		SkillSummary broken;
+		broken.combo_window_mult = 0.0;
+		const lc::RecipeSpec untouched = lc::apply_combo_windows(broken, spec);
+		expect(untouched.steps[0].flow_min == 0.4 && untouched.steps[0].flow_max == 0.7,
+			"a non-positive multiplier moves nothing");
+	}
+	{
+		// Flair's tips: 15% on top of whatever the serve earned -
+		// GAME-DESIGN 5.1's "higher tips".
+		const SkillSummary flair = tree.summarize({ "flair_1", "flair_2" });
+		expect_near(flair.tip_multiplier, 1.15, 1e-9,
+			"flair_2 composes to 1.15x tips");
+
+		lc::ServeOutcome correct;
+		correct.correct = true;
+		correct.tip_multiplier = 1.4; // a good recipe on top
+		const lc::ServeOutcome paid = lc::apply_skill_tips(flair, correct);
+		expect_near(paid.tip_multiplier, 1.61, 1e-9, "1.4 x 1.15");
+		expect(paid.correct && paid.mood_bonus == correct.mood_bonus,
+			"only the payout moves");
+
+		lc::ServeOutcome wrong;
+		wrong.tip_multiplier = 0.0;
+		expect(lc::apply_skill_tips(flair, wrong).tip_multiplier == 0.0,
+			"a wrong serve still pays nothing");
+		expect_near(lc::apply_skill_tips(SkillSummary{}, correct).tip_multiplier, 1.4, 1e-9,
+			"skills nobody bought change no tips");
+	}
+
 	// --- strict refusals -------------------------------------------------------------------
 	expect(refuses("{}"), "missing branches refused");
 	expect(refuses("{\"branches\":{}}"), "empty branches refused");
