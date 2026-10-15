@@ -1,0 +1,48 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "venue.schema.json",
+	"title": "LAST CALL venue progression tiers (growth ladder)",
+	"type": "object",
+	"required": ["tiers"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"tiers": {
+			"description": "The growth ladder of GAME-DESIGN 5.4: dive -> renovated bar -> VIP floor -> second floor -> underground casino. Position in the array is the tier; EndingsCore reads the same 1..5 span.",
+			"type": "array",
+			"minItems": 5,
+			"items": { "$ref": "#/$defs/tier" }
+		}
+	},
+	"$defs": {
+		"id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+		"localized": {
+			"type": "object",
+			"required": ["en", "ru"],
+			"additionalProperties": false,
+			"properties": {
+				"en": { "type": "string", "minLength": 1 },
+				"ru": { "type": "string", "minLength": 1 }
+			}
+		},
+		"tier": {
+			"type": "object",
+			"required": ["index", "id", "name", "upgrade_cost", "layout", "capacity", "risk", "music_set"],
+			"additionalProperties": false,
+			"properties": {
+				"index": { "type": "integer", "minimum": 1 },
+				"id": { "$ref": "#/$defs/id" },
+				"name": { "$ref": "#/$defs/localized" },
+				"upgrade_cost": {
+					"description": "Price to reach this tier; tier 1 is where the game starts and costs nothing.",
+					"type": "integer",
+					"minimum": 0
+				},
+				"layout": { "$ref": "#/$defs/id" },
+				"capacity": { "type": "integer", "minimum": 1 },
+				"risk": { "description": "Multiplier the tier carries - a bigger room is a bigger target.", "type": "number", "exclusiveMinimum": 0 },
+				"music_set": { "$ref": "#/$defs/id" }
+			}
+		}
+	}
+}

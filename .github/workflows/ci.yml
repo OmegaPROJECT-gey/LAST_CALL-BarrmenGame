@@ -110,3 +110,6 @@ jobs:
 
       - name: Endings unit tests (standing x information x tier)
         run: ./scripts/test-endings.sh
+
+      - name: Venue progression unit tests (ladder -> upgrade plan)
+        run: ./scripts/test-venue.sh

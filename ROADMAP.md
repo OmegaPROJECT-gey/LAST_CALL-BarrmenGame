@@ -43,7 +43,7 @@ A milestone is closed only when its **user path runs end to end** — a scenario
 
 ## Track D: growth and co-op
 
-- [ ] **D1. Venue progression.** Dive → upgraded bar → VIP floor(s) → underground casino; layout data, not hardcoded rooms.
+- [~] **D1. Venue progression.** Dive → upgraded bar → VIP floor(s) → underground casino; layout data, not hardcoded rooms. **First batch (2026-10-15):** the ladder as data — `Data/Venue/venue.json` (schema + `lc-data-lint` mapping) lists the five tiers with the price to reach each (0 → 1500 → 5000 → 12000 → 25000 against the 2000 starting treasury), the room's layout id, capacity, risk multiplier and music set; `Source/LastCall/Venue/VenueCore` plans the climb engine-free (`plan_advance(tier, money)` — what the next rung costs, whether the treasury can pay it; money only, no story gates, per GDD 5.4). 66 checks via `scripts/test-venue.sh` (incl. the span cross-check with the six endings) + a CI step. **Open:** buying upgrades from the morning screen, the venue tier in the save, layout/music content on the UE side.
 - [ ] **D2. Co-op 2–4.** Roles (bartender, waiter, bouncer, DJ), listen server, reconnect-as-pause, crowd load.
 - [ ] **D3. Dynamic events pool.** Raids, celebrity visits, rival openings, blackouts — weighted by faction standing.
 

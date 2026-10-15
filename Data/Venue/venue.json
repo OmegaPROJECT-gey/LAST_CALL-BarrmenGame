@@ -1,0 +1,55 @@
+{
+	"$schema": "../schemas/venue.schema.json",
+	"tiers": [
+		{
+			"index": 1,
+			"id": "dive",
+			"name": { "en": "The Dive", "ru": "Подвал" },
+			"upgrade_cost": 0,
+			"layout": "layout_dive",
+			"capacity": 12,
+			"risk": 1.0,
+			"music_set": "music_dive"
+		},
+		{
+			"index": 2,
+			"id": "renovated",
+			"name": { "en": "Renovated Bar", "ru": "Обновлённый бар" },
+			"upgrade_cost": 1500,
+			"layout": "layout_renovated",
+			"capacity": 18,
+			"risk": 1.15,
+			"music_set": "music_lounge"
+		},
+		{
+			"index": 3,
+			"id": "vip_floor",
+			"name": { "en": "VIP Floor", "ru": "VIP-этаж" },
+			"upgrade_cost": 5000,
+			"layout": "layout_vip",
+			"capacity": 24,
+			"risk": 1.35,
+			"music_set": "music_vip"
+		},
+		{
+			"index": 4,
+			"id": "second_floor",
+			"name": { "en": "Second Floor", "ru": "Второй этаж" },
+			"upgrade_cost": 12000,
+			"layout": "layout_second",
+			"capacity": 32,
+			"risk": 1.6,
+			"music_set": "music_upstairs"
+		},
+		{
+			"index": 5,
+			"id": "casino",
+			"name": { "en": "Underground Casino", "ru": "Подпольное казино" },
+			"upgrade_cost": 25000,
+			"layout": "layout_casino",
+			"capacity": 48,
+			"risk": 2.0,
+			"music_set": "music_casino"
+		}
+	]
+}
