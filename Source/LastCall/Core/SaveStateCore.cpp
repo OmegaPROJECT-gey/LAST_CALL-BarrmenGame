@@ -20,10 +20,12 @@ namespace lc {
 			bool has_phase = false;
 			bool has_money = false;
 			bool has_heat = false;
+			bool has_venue_tier = false;
 			int day = 1;
 			int phase = 0;
 			int money = 0;
 			double heat = 0.0;
+			int venue_tier = kMinVenueTier;
 		};
 
 		// strtol/strtod instead of std::stoi/std::stod: the Game target
@@ -75,7 +77,8 @@ namespace lc {
 		out << "day=" << state.day << '\n';
 		out << "phase=" << static_cast<int>(state.phase) << '\n';
 		out << "money=" << state.money << '\n';
-		out << "heat=" << state.heat;
+		out << "heat=" << state.heat << '\n';
+		out << "venue_tier=" << state.venue_tier;
 		return out.str();
 	}
 
@@ -134,17 +137,24 @@ namespace lc {
 				if (fields.has_heat || !parse_double(value, fields.heat)) { return false; }
 				fields.has_heat = true;
 			}
+			else if (key == "venue_tier")
+			{
+				if (fields.has_venue_tier || !parse_int(value, fields.venue_tier)) { return false; }
+				fields.has_venue_tier = true;
+			}
 			else
 			{
 				return false; // unknown field: same version must mean the same shape
 			}
 		}
 
-		if (!fields.has_day || !fields.has_phase || !fields.has_money || !fields.has_heat)
+		if (!fields.has_day || !fields.has_phase || !fields.has_money
+			|| !fields.has_heat || !fields.has_venue_tier)
 		{
 			return false; // missing fields
 		}
-		if (fields.day < 1 || fields.phase < 0 || fields.phase > 3 || fields.heat < 0.0)
+		if (fields.day < 1 || fields.phase < 0 || fields.phase > 3 || fields.heat < 0.0
+			|| fields.venue_tier < kMinVenueTier || fields.venue_tier > kMaxVenueTier)
 		{
 			return false; // out of range
 		}
@@ -155,6 +165,7 @@ namespace lc {
 		result.phase = static_cast<Phase>(fields.phase);
 		result.money = fields.money;
 		result.heat = fields.heat;
+		result.venue_tier = fields.venue_tier;
 		out = result;
 		return true;
 	}

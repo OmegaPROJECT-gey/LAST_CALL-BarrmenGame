@@ -6,8 +6,10 @@ cd "$(dirname "$0")/.."
 mkdir -p build
 g++ -std=c++17 -Wall -Wextra -Werror -O1 \
 	-I Source/LastCall -I tools/tests \
+	Source/LastCall/Core/JsonCore.cpp \
 	Source/LastCall/Core/DayScheduleCore.cpp \
 	Source/LastCall/Core/SaveStateCore.cpp \
+	Source/LastCall/Venue/VenueCore.cpp \
 	tools/tests/save/save_state_test.cpp \
 	-o build/save_state_test
 

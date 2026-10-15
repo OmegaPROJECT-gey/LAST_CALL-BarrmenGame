@@ -20,7 +20,13 @@ namespace lc {
 
 	// Bump when the payload shape changes; older saves are refused, not
 	// silently migrated (a lost run is honest, a corrupted one is not).
-	constexpr int kSaveVersion = 1;
+	// v2 adds venue_tier (D1: the growth ladder position).
+	constexpr int kSaveVersion = 2;
+
+	// The growth ladder of Data/Venue/venue.json spans these bounds; the
+	// save test cross-checks kMaxVenueTier against the real file.
+	constexpr int kMinVenueTier = 1;
+	constexpr int kMaxVenueTier = 5;
 
 	struct SaveState
 	{
@@ -29,6 +35,7 @@ namespace lc {
 		Phase phase = Phase::Morning;
 		int money = 2000;         // balance: starting_money; loans can push it below zero
 		double heat = 0.0;        // police attention, only grows
+		int venue_tier = kMinVenueTier; // growth ladder position (Data/Venue)
 	};
 
 	// Deterministic text payload ("lc-save <version>" header + key=value

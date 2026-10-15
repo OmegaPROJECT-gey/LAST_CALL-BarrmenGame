@@ -7,9 +7,9 @@
 // at phase boundaries, when ULCPhaseManager asks (the core's
 // save_requested flag, consumed at the boundary).
 //
-// Money and heat live here as interim state until their real owners (the
-// wallet UI and the heat meter) wrap their cores - the save format does
-// not change when they bind.
+// Money, heat and the venue tier live here as interim state until their
+// real owners (the wallet UI, the heat meter, the upgrade screen) wrap
+// their cores - the save format does not change when they bind.
 //
 // License: MIT (LICENSE).
 
@@ -88,9 +88,17 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Save|Interim")
 	float GetHeat() const;
 
+	/** Growth ladder position (1..5, Data/Venue) - the upgrade screen moves it. */
+	UFUNCTION(BlueprintCallable, Category = "Save|Interim")
+	void SetVenueTier(int32 InVenueTier);
+
+	UFUNCTION(BlueprintPure, Category = "Save|Interim")
+	int32 GetVenueTier() const;
+
 private:
 	int32 Money = 2000; // SaveState default: balance starting_money
 	float Heat = 0.0f;
+	int32 VenueTier = lc::kMinVenueTier; // SaveState default: the dive
 
 	/** Lazily fetched: subsystem init order between the two is not fixed. */
 	class ULCPhaseManager* PhaseManager() const;

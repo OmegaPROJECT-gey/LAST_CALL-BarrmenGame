@@ -61,6 +61,7 @@ bool ULCSaveSystem::WriteSave()
 	State.phase = ULCPhaseManager::ToCore(Clock->GetPhase());
 	State.money = Money;
 	State.heat = static_cast<double>(Heat);
+	State.venue_tier = VenueTier;
 
 	ULCSaveGame* Save = Cast<ULCSaveGame>(
 		UGameplayStatics::CreateSaveGameObject(ULCSaveGame::StaticClass()));
@@ -106,6 +107,7 @@ bool ULCSaveSystem::LoadSave()
 	// Parse first, mutate second: a refused load must change nothing.
 	Money = State.money;
 	Heat = static_cast<float>(State.heat);
+	VenueTier = State.venue_tier;
 
 	if (ULCPhaseManager* Clock = PhaseManager())
 	{
@@ -156,6 +158,16 @@ void ULCSaveSystem::AddHeat(float Delta)
 float ULCSaveSystem::GetHeat() const
 {
 	return Heat;
+}
+
+void ULCSaveSystem::SetVenueTier(int32 InVenueTier)
+{
+	VenueTier = FMath::Clamp(InVenueTier, lc::kMinVenueTier, lc::kMaxVenueTier);
+}
+
+int32 ULCSaveSystem::GetVenueTier() const
+{
+	return VenueTier;
 }
 
 ULCPhaseManager* ULCSaveSystem::PhaseManager() const
