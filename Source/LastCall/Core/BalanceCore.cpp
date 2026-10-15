@@ -104,9 +104,35 @@ namespace lc {
 			return refuse(error, "`economy.starting_money` must be >= 0");
 		}
 
+		// --- raid: the search's check, heat and fines ---
+		const JsonValue* raid = doc.find("raid");
+		if (!raid || raid->kind != JsonValue::Kind::Object)
+		{
+			return refuse(error, "missing `raid` section");
+		}
+		RaidTuning Raid;
+		if (!raid->get_number("distraction_threshold", Raid.distraction_threshold)
+			|| !raid->get_number("fail_heat", Raid.fail_heat)
+			|| !raid->get_number("per_item_heat", Raid.per_item_heat)
+			|| !raid->get_number("fail_fine", Raid.fail_fine))
+		{
+			return refuse(error,
+				"`raid` needs distraction_threshold, fail_heat, per_item_heat "
+				"and fail_fine as numbers");
+		}
+		if (Raid.distraction_threshold < 0.0 || Raid.distraction_threshold > 1.0)
+		{
+			return refuse(error, "`raid.distraction_threshold` must be within 0..1");
+		}
+		if (Raid.fail_heat < 0.0 || Raid.per_item_heat < 0.0 || Raid.fail_fine < 0.0)
+		{
+			return refuse(error, "`raid` heat and fines must be >= 0");
+		}
+
 		out.phases = Spec;
 		out.pour = Tuning;
 		out.starting_money = starting_money;
+		out.raid = Raid;
 		return true;
 	}
 

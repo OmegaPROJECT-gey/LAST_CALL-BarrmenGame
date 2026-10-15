@@ -21,7 +21,9 @@ namespace
 		"\"summary_seconds\":2},"
 		"\"pour\":{\"flow_ml_per_s\":50,\"overflow_spill_threshold\":1.0,"
 		"\"flow_curve\":{\"min_angle_deg\":5,\"max_angle_deg\":60,\"viscosity_default\":1.0}},"
-		"\"economy\":{\"starting_money\":500}}";
+		"\"economy\":{\"starting_money\":500},"
+		"\"raid\":{\"distraction_threshold\":0.5,\"fail_heat\":2.0,"
+		"\"per_item_heat\":1.0,\"fail_fine\":25.0}}";
 
 	// Swap one substring of the minimal document; a miss leaves it intact,
 	// which the refusal checks would notice as an unexpected success.
@@ -88,6 +90,21 @@ int main()
 		expect_near(static_cast<double>(data.starting_money),
 			lc_test::balance_number("starting_money"), 1e-9,
 			"economy: starting money matches the raw file");
+
+		const lc::RaidTuning raid;
+		expect_near(data.raid.distraction_threshold, raid.distraction_threshold, 1e-9,
+			"raid: distraction threshold matches the code default");
+		expect_near(data.raid.fail_heat, raid.fail_heat, 1e-9,
+			"raid: fail heat matches the code default");
+		expect_near(data.raid.per_item_heat, raid.per_item_heat, 1e-9,
+			"raid: per-item heat matches the code default");
+		expect_near(data.raid.fail_fine, raid.fail_fine, 1e-9,
+			"raid: fine matches the code default");
+		expect_near(data.raid.distraction_threshold,
+			lc_test::balance_number("distraction_threshold"), 1e-9,
+			"raid: threshold matches the raw file");
+		expect_near(data.raid.fail_fine, lc_test::balance_number("fail_fine"), 1e-9,
+			"raid: fine matches the raw file");
 	}
 
 	// --- a minimal document ---------------------------------------------
@@ -101,6 +118,9 @@ int main()
 		expect_near(data.pour.min_angle_deg, 5.0, 1e-9, "minimal: pour angle parsed");
 		expect_near(data.pour.base_flow_ml_per_s, 50.0, 1e-9, "minimal: pour flow parsed");
 		expect(data.starting_money == 500, "minimal: starting money parsed");
+		expect_near(data.raid.distraction_threshold, 0.5, 1e-9,
+			"minimal: raid threshold parsed");
+		expect_near(data.raid.fail_fine, 25.0, 1e-9, "minimal: raid fine parsed");
 
 		// Unknown sections are the schema's business, not the loader's.
 		expect(lc::load_balance(variant("{\"phases",
@@ -127,6 +147,8 @@ int main()
 			"a missing flow rate is refused");
 		expect(refused(variant("\"starting_money\":500", "")),
 			"a missing starting money is refused");
+		expect(refused(variant("\"raid\":", "\"search\":")),
+			"a missing raid section is refused");
 
 		expect(refused(variant("morning_seconds\":1.5", "morning_seconds\":-1")),
 			"a negative duration is refused");
@@ -138,6 +160,13 @@ int main()
 			"negative starting money is refused");
 		expect(refused(variant("starting_money\":500", "starting_money\":\"lots\"")),
 			"a non-integer starting money is refused");
+		expect(refused(variant("distraction_threshold\":0.5",
+			"distraction_threshold\":1.5")),
+			"an unreachable distraction threshold is refused");
+		expect(refused(variant("fail_heat\":2.0", "fail_heat\":-1")),
+			"negative raid heat is refused");
+		expect(refused(variant("fail_fine\":25.0", "fail_fine\":\"lots\"")),
+			"a non-numeric fine is refused");
 	}
 
 	return lc_test::report("balance core");
