@@ -4,6 +4,7 @@
 
 #include "Core/BalanceCore.h"
 #include "Core/LCPhaseManager.h"
+#include "Dialogue/ULCDialogueRunner.h"
 #include "Kismet/GameplayStatics.h"
 #include "LastCall.h"
 #include "Misc/Paths.h"
@@ -79,6 +80,15 @@ bool ULCSaveSystem::WriteSave()
 	State.venue_tier = VenueTier;
 	State.hospital_days = Clock->GetHospitalDays(); // B1: the stay rides out
 	State.standing = StandingRows(Standing);
+	if (ULCDialogueRunner* Runner = DialogueRunner())
+	{
+		State.flags = Runner->StoryFlags(); // C2: the dialogue consequences
+	}
+	else
+	{
+		UE_LOG(LogLastCall, Warning,
+			TEXT("WriteSave: no dialogue runner - story flags written empty"));
+	}
 
 	ULCSaveGame* Save = Cast<ULCSaveGame>(
 		UGameplayStatics::CreateSaveGameObject(ULCSaveGame::StaticClass()));
@@ -129,6 +139,15 @@ bool ULCSaveSystem::LoadSave()
 	for (const std::pair<std::string, double>& Row : State.standing)
 	{
 		Standing.Add(FString(UTF8_TO_TCHAR(Row.first.c_str())), Row.second);
+	}
+	if (ULCDialogueRunner* Runner = DialogueRunner())
+	{
+		Runner->SetStoryFlags(State.flags); // C2: a load replaces the story
+	}
+	else
+	{
+		UE_LOG(LogLastCall, Warning,
+			TEXT("LoadSave: no dialogue runner - story flags not applied"));
 	}
 
 	if (ULCPhaseManager* Clock = PhaseManager())
@@ -212,4 +231,10 @@ ULCPhaseManager* ULCSaveSystem::PhaseManager() const
 {
 	UGameInstance* GameInstance = GetGameInstance();
 	return GameInstance ? GameInstance->GetSubsystem<ULCPhaseManager>() : nullptr;
+}
+
+ULCDialogueRunner* ULCSaveSystem::DialogueRunner() const
+{
+	UGameInstance* GameInstance = GetGameInstance();
+	return GameInstance ? GameInstance->GetSubsystem<ULCDialogueRunner>() : nullptr;
 }

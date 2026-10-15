@@ -136,6 +136,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Dialogue|World")
 	void GrantItem(const FString& ItemId);
 
+	/**
+	 * The story flags as the save payload carries them (C2: dialogue
+	 * consequences survive a restart) - plain C++, ULCSaveSystem reads
+	 * them at a boundary and replaces them on a load.
+	 */
+	const std::vector<std::pair<std::string, bool>>& StoryFlags() const;
+
+	/** Replace every story flag - a load is a replacement, never a merge. */
+	void SetStoryFlags(std::vector<std::pair<std::string, bool>> InFlags);
+
 	/** Fired for every routed effect produced by Start/Advance/Choose. */
 	UPROPERTY(BlueprintAssignable, Category = "Dialogue")
 	FOnLCDialogueEffect OnDialogueEffect;

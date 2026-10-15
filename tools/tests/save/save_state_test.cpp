@@ -49,6 +49,25 @@ namespace {
 				return false;
 			}
 		}
+		// The story flags are a set of rows too: written sorted,
+		// compared as a set.
+		if (a.flags.size() != b.flags.size())
+		{
+			return false;
+		}
+		auto flags_sorted = [](std::vector<std::pair<std::string, bool>> rows) {
+			std::sort(rows.begin(), rows.end());
+			return rows;
+		};
+		const auto left_flags = flags_sorted(a.flags);
+		const auto right_flags = flags_sorted(b.flags);
+		for (std::size_t index = 0; index < left_flags.size(); ++index)
+		{
+			if (left_flags[index] != right_flags[index])
+			{
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -81,6 +100,7 @@ int main()
 		state.venue_tier = 3;
 		state.hospital_days = 2; // died on day 5, the stay rides along
 		state.standing = { { "ring", -0.5 }, { "bureau", 1.0 }, { "syndicate", 2.0 } };
+		state.flags = { { "read_uncle_wall", true }, { "kane_trust", false } };
 
 		const std::string text = lc::serialize(state);
 		SaveState loaded;
@@ -95,6 +115,12 @@ int main()
 			&& loaded.standing[2].first == "syndicate"
 			&& loaded.standing[2].second == 2.0,
 			"the standing ledger survives, sorted by faction id");
+		expect(loaded.flags.size() == 2
+			&& loaded.flags[0].first == "kane_trust"
+			&& !loaded.flags[0].second
+			&& loaded.flags[1].first == "read_uncle_wall"
+			&& loaded.flags[1].second,
+			"the story flags survive, sorted by flag id");
 		expect(lc::serialize(loaded) == text, "serialization is deterministic");
 	}
 	{
@@ -106,11 +132,14 @@ int main()
 		expect(fresh.venue_tier == lc::kMinVenueTier, "a new game starts in the dive");
 		expect(fresh.hospital_days == 0, "a new game never sat in hospital");
 		expect(fresh.standing.empty(), "a new game remembers nobody yet");
+		expect(fresh.flags.empty(), "a new game has recorded no story yet");
 		SaveState loaded;
 		expect(lc::deserialize(lc::serialize(fresh), loaded) && same_state(fresh, loaded),
 			"the default state round trips");
 		expect(lc::serialize(fresh).find("standing=") != std::string::npos,
 			"the ledger is always written, even when empty");
+		expect(lc::serialize(fresh).find("\nflags=") != std::string::npos,
+			"the story flags are always written, even when empty");
 	}
 	{
 		// Same rows, different insertion order: same bytes (A5's
@@ -121,6 +150,12 @@ int main()
 		b.standing = { { "bureau", 0.5 }, { "ring", -1.0 } };
 		expect(lc::serialize(a) == lc::serialize(b),
 			"the ledger serializes sorted, whatever order it was filled in");
+		SaveState flags_a;
+		flags_a.flags = { { "zulu", true }, { "alpha", false } };
+		SaveState flags_b;
+		flags_b.flags = { { "alpha", false }, { "zulu", true } };
+		expect(lc::serialize(flags_a) == lc::serialize(flags_b),
+			"story flags serialize sorted, whatever order they were set in");
 	}
 	{
 		// Negative standing is legal - cooling is a real outcome.
@@ -174,121 +209,148 @@ int main()
 			"an old payload (v2) is refused, not migrated");
 		expect(refuses("lc-save 3\nday=2\nphase=1\nmoney=100\nheat=0\nvenue_tier=1"
 			"\nhospital=0\nstanding="),
-			"the previous payload (v3) is refused, not migrated");
+			"an old payload (v3) is refused, not migrated");
+		expect(refuses("lc-save 4\nday=2\nphase=1\nmoney=100\nheat=0\nvenue_tier=1"
+			"\nhospital=0\nstanding="),
+			"the previous payload (v4) is refused, not migrated");
 	}
-	expect(refuses("lc-save 4\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
-		"\nstanding="),
-		"a missing hospital line is refused - v4 always writes it");
+	expect(refuses("lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
+		"\nstanding=\nflags="),
+		"a missing hospital line is refused");
 	{
 		const std::string negative_hospital =
-			"lc-save 4\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
-			"\nhospital=-1\nstanding=";
+			"lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
+			"\nhospital=-1\nstanding=\nflags=";
 		expect(refuses(negative_hospital),
 			"a negative stay is refused - days cannot run backwards");
 	}
 	{
 		const std::string duplicate_hospital =
-			"lc-save 4\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
-			"\nhospital=0\nhospital=2\nstanding=";
+			"lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
+			"\nhospital=0\nhospital=2\nstanding=\nflags=";
 		expect(refuses(duplicate_hospital),
 			"a stay stored twice is refused");
 	}
-	expect(refuses("lc-save 4\nday=2\nphase=1\nmoney=100\nheat=0\nhospital=0"),
+	expect(refuses("lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
+		"\nhospital=0\nstanding="),
+		"a missing flags line is refused - v5 always writes it");
+	{
+		const std::string bad_flag_value =
+			"lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
+			"\nhospital=0\nstanding=\nflags=read_uncle_wall:maybe";
+		expect(refuses(bad_flag_value),
+			"a flag without true/false is refused");
+	}
+	{
+		const std::string duplicate_flag =
+			"lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
+			"\nhospital=0\nstanding=\nflags=kane_trust:true,kane_trust:false";
+		expect(refuses(duplicate_flag),
+			"a flag stored twice is refused");
+	}
+	{
+		const std::string bad_flag_id =
+			"lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
+			"\nhospital=0\nstanding=\nflags=KaneTrust:true";
+		expect(refuses(bad_flag_id),
+			"a malformed flag id is refused");
+	}
+	expect(refuses("lc-save 5\nday=2\nphase=1\nmoney=100\nheat=0\nhospital=0\nflags="),
 		"a missing venue_tier is refused");
 	{
 		const std::string missing_heat =
-			"lc-save 4\nday=2\nphase=1\nmoney=100\nvenue_tier=1\nhospital=0\nstanding=";
+			"lc-save 5\nday=2\nphase=1\nmoney=100\nvenue_tier=1\nhospital=0\nstanding=\nflags=";
 		expect(refuses(missing_heat),
 			"a missing field is refused");
 	}
 	{
 		const std::string missing_standing =
-			"lc-save 4\nday=2\nphase=1\nmoney=100\nheat=0\nvenue_tier=1\nhospital=0";
+			"lc-save 5\nday=2\nphase=1\nmoney=100\nheat=0\nvenue_tier=1\nhospital=0\nflags=";
 		expect(refuses(missing_standing),
 			"a missing standing line is refused - the ledger line is always written");
 	}
 	{
 		const std::string unknown_field =
-			"lc-save 4\nday=2\nphase=1\nmoney=100\nheat=0\nvenue_tier=1"
-			"\nhospital=0\nstanding=\nmood=0.5";
+			"lc-save 5\nday=2\nphase=1\nmoney=100\nheat=0\nvenue_tier=1"
+			"\nhospital=0\nstanding=\nflags=\nmood=0.5";
 		expect(refuses(unknown_field),
 			"an unknown field is refused - same version, same shape");
 	}
 	{
 		const std::string day_zero =
-			"lc-save 4\nday=0\nphase=0\nmoney=0\nheat=0\nvenue_tier=1\nhospital=0\nstanding=";
+			"lc-save 5\nday=0\nphase=0\nmoney=0\nheat=0\nvenue_tier=1\nhospital=0\nstanding=\nflags=";
 		expect(refuses(day_zero),
 			"day 0 is refused - days are 1-based");
 	}
 	{
 		const std::string phase_seven =
-			"lc-save 4\nday=1\nphase=7\nmoney=0\nheat=0\nvenue_tier=1\nhospital=0\nstanding=";
+			"lc-save 5\nday=1\nphase=7\nmoney=0\nheat=0\nvenue_tier=1\nhospital=0\nstanding=\nflags=";
 		expect(refuses(phase_seven),
 			"an unknown phase is refused");
 	}
 	{
 		const std::string negative_heat =
-			"lc-save 4\nday=1\nphase=0\nmoney=0\nheat=-0.1\nvenue_tier=1\nhospital=0\nstanding=";
+			"lc-save 5\nday=1\nphase=0\nmoney=0\nheat=-0.1\nvenue_tier=1\nhospital=0\nstanding=\nflags=";
 		expect(refuses(negative_heat),
 			"negative heat is refused");
 	}
 	{
 		const std::string tier_zero =
-			"lc-save 4\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=0\nhospital=0\nstanding=";
+			"lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=0\nhospital=0\nstanding=\nflags=";
 		expect(refuses(tier_zero),
 			"venue tier 0 is refused - ladders are 1-based");
 	}
 	{
 		const std::string tier_six =
-			"lc-save 4\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=6\nhospital=0\nstanding=";
+			"lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=6\nhospital=0\nstanding=\nflags=";
 		expect(refuses(tier_six),
 			"a tier above the ladder is refused");
 	}
 	{
 		const std::string no_numbers =
-			"lc-save 4\nday=two\nphase=0\nmoney=0\nheat=0\nvenue_tier=1\nhospital=0\nstanding=";
+			"lc-save 5\nday=two\nphase=0\nmoney=0\nheat=0\nvenue_tier=1\nhospital=0\nstanding=\nflags=";
 		expect(refuses(no_numbers),
 			"non-numeric values are refused");
 	}
 	{
 		const std::string no_header =
-			"day=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1\nhospital=0\nstanding=";
+			"day=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1\nhospital=0\nstanding=\nflags=";
 		expect(refuses(no_header),
 			"a payload without the header is refused");
 	}
 	// The ledger's own rules: ids, numbers, duplicates.
 	{
 		const std::string duplicate_faction =
-			"lc-save 4\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
-			"\nhospital=0\nstanding=bureau:1,bureau:2";
+			"lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
+			"\nhospital=0\nstanding=bureau:1,bureau:2\nflags=";
 		expect(refuses(duplicate_faction),
 			"a faction stored twice is refused");
 	}
 	{
 		const std::string bad_id =
-			"lc-save 4\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
-			"\nhospital=0\nstanding=Bureau:1";
+			"lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
+			"\nhospital=0\nstanding=Bureau:1\nflags=";
 		expect(refuses(bad_id),
 			"a malformed faction id is refused");
 	}
 	{
 		const std::string no_number =
-			"lc-save 4\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
-			"\nhospital=0\nstanding=bureau:";
+			"lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
+			"\nhospital=0\nstanding=bureau:\nflags=";
 		expect(refuses(no_number),
 			"a standing without a value is refused");
 	}
 	{
 		const std::string not_a_pair =
-			"lc-save 4\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
-			"\nhospital=0\nstanding=bureau";
+			"lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
+			"\nhospital=0\nstanding=bureau\nflags=";
 		expect(refuses(not_a_pair),
 			"a standing entry without `id:value` is refused");
 	}
 	{
 		const std::string bad_value =
-			"lc-save 4\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
-			"\nhospital=0\nstanding=bureau:friendly";
+			"lc-save 5\nday=1\nphase=0\nmoney=0\nheat=0\nvenue_tier=1"
+			"\nhospital=0\nstanding=bureau:friendly\nflags=";
 		expect(refuses(bad_value),
 			"a non-numeric standing is refused");
 	}

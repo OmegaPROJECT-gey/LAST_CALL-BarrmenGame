@@ -24,6 +24,7 @@ namespace lc {
 			bool has_venue_tier = false;
 			bool has_hospital = false;
 			bool has_standing = false;
+			bool has_flags = false;
 			int day = 1;
 			int phase = 0;
 			int money = 0;
@@ -31,6 +32,7 @@ namespace lc {
 			int venue_tier = kMinVenueTier;
 			int hospital_days = 0;
 			std::vector<std::pair<std::string, double>> standing;
+			std::vector<std::pair<std::string, bool>> flags;
 		};
 
 		// strtol/strtod instead of std::stoi/std::stod: the Game target
@@ -137,6 +139,55 @@ namespace lc {
 			return true;
 		}
 
+		// `flags=` -> rows; "" is a run that recorded nothing. Refuses a
+		// malformed flag id, anything but `true`/`false` and a duplicate.
+		bool parse_flags(const std::string& text,
+			std::vector<std::pair<std::string, bool>>& out)
+		{
+			if (text.empty())
+			{
+				return true;
+			}
+			std::vector<std::pair<std::string, bool>> rows;
+			std::size_t at = 0;
+			while (at <= text.size())
+			{
+				const std::size_t comma = text.find(',', at);
+				const std::string token =
+					text.substr(at, comma == std::string::npos ? std::string::npos : comma - at);
+				const std::size_t colon = token.find(':');
+				if (colon == std::string::npos || colon == 0
+					|| colon + 1 >= token.size())
+				{
+					return false;
+				}
+				std::pair<std::string, bool> row;
+				row.first = token.substr(0, colon);
+				const std::string value = token.substr(colon + 1);
+				if (!is_id(row.first)
+					|| (value != "true" && value != "false"))
+				{
+					return false;
+				}
+				row.second = value == "true";
+				for (const std::pair<std::string, bool>& previous : rows)
+				{
+					if (previous.first == row.first)
+					{
+						return false;
+					}
+				}
+				rows.push_back(std::move(row));
+				if (comma == std::string::npos)
+				{
+					break;
+				}
+				at = comma + 1;
+			}
+			out = std::move(rows);
+			return true;
+		}
+
 	} // namespace
 
 	std::string serialize(const SaveState& state)
@@ -146,6 +197,11 @@ namespace lc {
 		std::sort(standing.begin(), standing.end(),
 			[](const std::pair<std::string, double>& a,
 				const std::pair<std::string, double>& b) { return a.first < b.first; });
+		// Sorted by flag id: same story -> same bytes.
+		std::vector<std::pair<std::string, bool>> flags = state.flags;
+		std::sort(flags.begin(), flags.end(),
+			[](const std::pair<std::string, bool>& a,
+				const std::pair<std::string, bool>& b) { return a.first < b.first; });
 
 		std::ostringstream out;
 		out << kHeaderPrefix << kSaveVersion << '\n';
@@ -163,6 +219,15 @@ namespace lc {
 				out << ',';
 			}
 			out << standing[index].first << ':' << standing[index].second;
+		}
+		out << '\n' << "flags=";
+		for (std::size_t index = 0; index < flags.size(); ++index)
+		{
+			if (index > 0)
+			{
+				out << ',';
+			}
+			out << flags[index].first << ':' << (flags[index].second ? "true" : "false");
 		}
 		return out.str();
 	}
@@ -238,6 +303,12 @@ namespace lc {
 					|| !parse_standing(value, fields.standing)) { return false; }
 				fields.has_standing = true;
 			}
+			else if (key == "flags")
+			{
+				if (fields.has_flags
+					|| !parse_flags(value, fields.flags)) { return false; }
+				fields.has_flags = true;
+			}
 			else
 			{
 				return false; // unknown field: same version must mean the same shape
@@ -246,7 +317,8 @@ namespace lc {
 
 		if (!fields.has_day || !fields.has_phase || !fields.has_money
 			|| !fields.has_heat || !fields.has_venue_tier
-			|| !fields.has_hospital || !fields.has_standing)
+			|| !fields.has_hospital || !fields.has_standing
+			|| !fields.has_flags)
 		{
 			return false; // missing fields
 		}
@@ -266,6 +338,7 @@ namespace lc {
 		result.venue_tier = fields.venue_tier;
 		result.hospital_days = fields.hospital_days;
 		result.standing = std::move(fields.standing);
+		result.flags = std::move(fields.flags);
 		out = result;
 		return true;
 	}

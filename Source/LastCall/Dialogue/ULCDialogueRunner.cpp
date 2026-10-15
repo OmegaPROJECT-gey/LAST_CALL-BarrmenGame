@@ -211,6 +211,16 @@ void ULCDialogueRunner::GrantItem(const FString& ItemId)
 	World.items.push_back(ToUtf8(ItemId));
 }
 
+const std::vector<std::pair<std::string, bool>>& ULCDialogueRunner::StoryFlags() const
+{
+	return World.flags;
+}
+
+void ULCDialogueRunner::SetStoryFlags(std::vector<std::pair<std::string, bool>> InFlags)
+{
+	World.flags = std::move(InFlags);
+}
+
 void ULCDialogueRunner::DrainEffects()
 {
 	const std::vector<lc::AppliedEffect>& All = Runner.applied();

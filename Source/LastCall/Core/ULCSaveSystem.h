@@ -121,4 +121,7 @@ private:
 
 	/** Lazily fetched: subsystem init order between the two is not fixed. */
 	class ULCPhaseManager* PhaseManager() const;
+
+	/** Same lazy fetch for the dialogue runner, which owns the flags. */
+	class ULCDialogueRunner* DialogueRunner() const;
 };
