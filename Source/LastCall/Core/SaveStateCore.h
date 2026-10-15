@@ -1,11 +1,12 @@
 // LAST CALL - save state core (ARCHITECTURE.md, section 9).
 //
 // What a save file actually contains: the day, the phase the clock is in,
-// money, heat and the faction standing the city remembers (A5). Written
-// as a small versioned text block so it is debuggable and testable
-// without Unreal; ULCSaveSystem (milestone F2) stores this payload in
-// the engine's SaveGame slot and writes it only at phase boundaries -
-// the DayClock's save_requested flag.
+// money, heat, the faction standing the city remembers (A5) and the
+// hospital stay the story sits out (B1). Written as a small versioned
+// text block so it is debuggable and testable without Unreal;
+// ULCSaveSystem (milestone F2) stores this payload in the engine's
+// SaveGame slot and writes it only at phase boundaries - the DayClock's
+// save_requested flag.
 //
 // One slot, day granularity, undo-free: consequences stick (PHILOSOPHY 3.2).
 //
@@ -25,7 +26,8 @@ namespace lc {
 	// silently migrated (a lost run is honest, a corrupted one is not).
 	// v2 adds venue_tier (D1: the growth ladder position).
 	// v3 adds standing (A5: the faction ledger the city reacts with).
-	constexpr int kSaveVersion = 3;
+	// v4 adds hospital_days (B1: the stay the story sits out survives).
+	constexpr int kSaveVersion = 4;
 
 	// The growth ladder of Data/Venue/venue.json spans these bounds; the
 	// save test cross-checks kMaxVenueTier against the real file.
@@ -40,6 +42,10 @@ namespace lc {
 		int money = 2000;         // balance: starting_money; loans can push it below zero
 		double heat = 0.0;        // police attention, only grows
 		int venue_tier = kMinVenueTier; // growth ladder position (Data/Venue)
+		// Hospital days still to sit out (B1); spent in one jump at the
+		// Summary -> Morning boundary, so a save taken while the story
+		// is in the hospital keeps the stay.
+		int hospital_days = 0;
 		// Faction id -> standing, the ledger's rows; sorted by id on
 		// write, refused with duplicates or malformed ids on read.
 		std::vector<std::pair<std::string, double>> standing;

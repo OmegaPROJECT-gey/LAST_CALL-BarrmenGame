@@ -22,12 +22,14 @@ namespace lc {
 			bool has_money = false;
 			bool has_heat = false;
 			bool has_venue_tier = false;
+			bool has_hospital = false;
 			bool has_standing = false;
 			int day = 1;
 			int phase = 0;
 			int money = 0;
 			double heat = 0.0;
 			int venue_tier = kMinVenueTier;
+			int hospital_days = 0;
 			std::vector<std::pair<std::string, double>> standing;
 		};
 
@@ -152,6 +154,7 @@ namespace lc {
 		out << "money=" << state.money << '\n';
 		out << "heat=" << state.heat << '\n';
 		out << "venue_tier=" << state.venue_tier << '\n';
+		out << "hospital=" << state.hospital_days << '\n';
 		out << "standing=";
 		for (std::size_t index = 0; index < standing.size(); ++index)
 		{
@@ -224,6 +227,11 @@ namespace lc {
 				if (fields.has_venue_tier || !parse_int(value, fields.venue_tier)) { return false; }
 				fields.has_venue_tier = true;
 			}
+			else if (key == "hospital")
+			{
+				if (fields.has_hospital || !parse_int(value, fields.hospital_days)) { return false; }
+				fields.has_hospital = true;
+			}
 			else if (key == "standing")
 			{
 				if (fields.has_standing
@@ -237,12 +245,14 @@ namespace lc {
 		}
 
 		if (!fields.has_day || !fields.has_phase || !fields.has_money
-			|| !fields.has_heat || !fields.has_venue_tier || !fields.has_standing)
+			|| !fields.has_heat || !fields.has_venue_tier
+			|| !fields.has_hospital || !fields.has_standing)
 		{
 			return false; // missing fields
 		}
 		if (fields.day < 1 || fields.phase < 0 || fields.phase > 3 || fields.heat < 0.0
-			|| fields.venue_tier < kMinVenueTier || fields.venue_tier > kMaxVenueTier)
+			|| fields.venue_tier < kMinVenueTier || fields.venue_tier > kMaxVenueTier
+			|| fields.hospital_days < 0)
 		{
 			return false; // out of range
 		}
@@ -254,6 +264,7 @@ namespace lc {
 		result.money = fields.money;
 		result.heat = fields.heat;
 		result.venue_tier = fields.venue_tier;
+		result.hospital_days = fields.hospital_days;
 		result.standing = std::move(fields.standing);
 		out = result;
 		return true;

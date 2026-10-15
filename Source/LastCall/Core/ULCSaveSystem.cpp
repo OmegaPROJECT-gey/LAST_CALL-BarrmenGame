@@ -77,6 +77,7 @@ bool ULCSaveSystem::WriteSave()
 	State.money = Money;
 	State.heat = static_cast<double>(Heat);
 	State.venue_tier = VenueTier;
+	State.hospital_days = Clock->GetHospitalDays(); // B1: the stay rides out
 	State.standing = StandingRows(Standing);
 
 	ULCSaveGame* Save = Cast<ULCSaveGame>(
@@ -132,7 +133,8 @@ bool ULCSaveSystem::LoadSave()
 
 	if (ULCPhaseManager* Clock = PhaseManager())
 	{
-		Clock->ApplyLoadedState(State.day, ULCPhaseManager::ToEngine(State.phase));
+		Clock->ApplyLoadedState(State.day, ULCPhaseManager::ToEngine(State.phase),
+			State.hospital_days);
 	}
 	else
 	{

@@ -129,7 +129,7 @@ Data/
 ## 9. Save and consequences
 
 - One save slot per profile, written at phase boundaries; mid-phase autosave exists but consequences are applied immediately (PHILOSOPHY §5: fail states are stories).
-- Save stores: day, phase, money, stock, faction standing, heat, learned recipes, skill nodes, story flags, venue tier.
+- Save stores: day, phase, money, stock, faction standing, heat, hospital days, learned recipes, skill nodes, story flags, venue tier.
 - Never stored: liquid simulation state (recomputed), cosmetic settings (engine user config).
 
 ## 10. Tests

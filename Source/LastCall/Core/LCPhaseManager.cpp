@@ -59,6 +59,16 @@ int32 ULCPhaseManager::GetDay() const
 	return Clock.day;
 }
 
+int32 ULCPhaseManager::GetHospitalDays() const
+{
+	return Clock.hospital_days_left;
+}
+
+void ULCPhaseManager::AdmitToHospital(int32 Days)
+{
+	lc::admit_to_hospital(Clock, Days);
+}
+
 bool ULCPhaseManager::RequestPhase(ELCPhase NewPhase)
 {
 	const lc::Phase From = Clock.phase;
@@ -108,7 +118,7 @@ float ULCPhaseManager::GetPhaseProgress() const
 	return static_cast<float>(lc::phase_progress(Clock, Spec));
 }
 
-void ULCPhaseManager::ApplyLoadedState(int32 InDay, ELCPhase InPhase)
+void ULCPhaseManager::ApplyLoadedState(int32 InDay, ELCPhase InPhase, int32 InHospitalDaysLeft)
 {
 	const ELCPhase From = GetPhase();
 
@@ -117,9 +127,10 @@ void ULCPhaseManager::ApplyLoadedState(int32 InDay, ELCPhase InPhase)
 	Clock.phase_time_s = 0.0;
 	Clock.day_time_s = 0.0;
 	Clock.save_requested = false; // loading is not a boundary of its own
+	lc::admit_to_hospital(Clock, InHospitalDaysLeft); // B1: the stay rides in
 
-	UE_LOG(LogLastCall, Log, TEXT("State applied: day %d, phase %d"),
-		Clock.day, static_cast<int32>(InPhase));
+	UE_LOG(LogLastCall, Log, TEXT("State applied: day %d, phase %d, hospital days %d"),
+		Clock.day, static_cast<int32>(InPhase), Clock.hospital_days_left);
 
 	if (From != InPhase)
 	{

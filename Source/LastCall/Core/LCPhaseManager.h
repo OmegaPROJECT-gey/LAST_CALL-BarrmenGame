@@ -48,6 +48,22 @@ public:
 	int32 GetDay() const;
 
 	/**
+	 * Hospital days the story still sits out (B1, GAME-DESIGN 4): the
+	 * next Summary -> Morning boundary jumps over all of them at once.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Day")
+	int32 GetHospitalDays() const;
+
+	/**
+	 * Death is consequences (GAME-DESIGN 4): the run lands in the
+	 * hospital for `Days` days and resumes later - the stay is spent in
+	 * one jump at the next day boundary and rides into the save. 0 or
+	 * less clears a stay already set.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Day")
+	void AdmitToHospital(int32 Days);
+
+	/**
 	 * Request a transition. Skipping forward within the day is allowed
 	 * (GAME-DESIGN 2: phases are skippable); backward jumps and no-op
 	 * requests are refused - the day moves forward only, consequences
@@ -86,10 +102,11 @@ public:
 
 	/**
 	 * Apply a loaded save without writing one back (ULCSaveSystem on
-	 * boot): resets the phase timers and broadcasts the change when it is
-	 * one. Plain C++ - the save subsystem calls it, not Blueprint.
+	 * boot): resets the phase timers, restores the hospital stay and
+	 * broadcasts the change when the phase is one. Plain C++ - the save
+	 * subsystem calls it, not Blueprint.
 	 */
-	void ApplyLoadedState(int32 InDay, ELCPhase InPhase);
+	void ApplyLoadedState(int32 InDay, ELCPhase InPhase, int32 InHospitalDaysLeft);
 
 	/** ELCPhase <-> lc::Phase, for code talking to the cores. */
 	static ELCPhase ToEngine(lc::Phase InPhase);
