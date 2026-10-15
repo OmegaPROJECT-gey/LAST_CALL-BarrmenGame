@@ -252,4 +252,22 @@ namespace lc {
 		return plan;
 	}
 
+	VenuePurchase VenueLibrary::buy_advance(int current_index, int money) const
+	{
+		const VenueAdvance plan = plan_advance(current_index, money);
+		if (!plan.possible)
+		{
+			VenuePurchase refused;
+			refused.blocker = plan.blocker;
+			return refused;
+		}
+
+		VenuePurchase purchase;
+		purchase.ok = true;
+		purchase.from_index = current_index;
+		purchase.to_index = plan.to_index;
+		purchase.cost = plan.cost;
+		return purchase;
+	}
+
 } // namespace lc

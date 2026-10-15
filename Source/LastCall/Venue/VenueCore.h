@@ -8,8 +8,10 @@
 // music set - "each tier: new room, new crowd, new risk, new music set",
 // and the same 1..5 span feeds the ending texts (NARRATIVE beat 26).
 //
-// The core answers one question engine-free: can the venue at tier N
-// buy its way to N+1 right now, and at what price. The ladder is money
+// The core answers two questions engine-free: can the venue at tier N
+// buy its way to N+1 right now, and at what price (plan_advance) - and,
+// once yes, what the purchase itself carries: the tier it lands on and
+// the sum to leave in the treasury (buy_advance). The ladder is money
 // only (GDD 5.4: upgrades are a money sink) - no story gates; position
 // in the document defines the tier.
 //
@@ -45,6 +47,16 @@ namespace lc {
 		std::string blocker;       // "" when possible, else why not
 	};
 
+	/** The climb paid for: which tier was bought and for how much. */
+	struct VenuePurchase
+	{
+		bool ok = false;
+		int from_index = -1;       // tier the venue stood on
+		int to_index = -1;         // tier it owns once the money is paid
+		int cost = 0;              // sum to leave in the treasury
+		std::string blocker;       // "" when ok, else why it was refused
+	};
+
 	/** The tiers of Data/Venue/venue.json. */
 	class VenueLibrary
 	{
@@ -76,6 +88,19 @@ namespace lc {
 		 * zero; the arithmetic still holds.
 		 */
 		VenueAdvance plan_advance(int current_index, int money) const;
+
+		/**
+		 * Buy the climb from `current_index` with `money` in the
+		 * treasury: the same refusals as plan_advance (unknown tier,
+		 * top of the ladder, a blocker naming the shortfall), and on
+		 * success the purchase itself - the tier to stand on and the
+		 * sum to deduct; a refusal leaves every field at its default
+		 * except the blocker. The ladder stays sequential: one rung
+		 * per purchase, never a skip. This core only decides - the
+		 * caller moves the wallet and the save's tier (interim:
+		 * ULCSaveSystem).
+		 */
+		VenuePurchase buy_advance(int current_index, int money) const;
 
 	private:
 		std::vector<VenueTier> tiers_;

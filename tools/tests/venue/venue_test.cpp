@@ -133,6 +133,47 @@ int main()
 		expect(fifth != nullptr, "the casino exists to end on");
 	}
 
+	// --- the purchase of the next rung ------------------------------------------------
+	{
+		using lc::VenuePurchase;
+		const lc::VenueTier* second = library.tier(2);
+
+		VenuePurchase paid = library.buy_advance(1, second->upgrade_cost);
+		expect(paid.ok && paid.from_index == 1 && paid.to_index == 2
+			&& paid.cost == second->upgrade_cost,
+			"exact change buys the renovated bar - the purchase names tier and price");
+
+		VenuePurchase skip = library.buy_advance(1, 1000000);
+		expect(skip.ok && skip.to_index == 2,
+			"the ladder moves one rung at a time - no skipping to the casino");
+
+		VenuePurchase mid = library.buy_advance(3, 1000000);
+		expect(mid.ok && mid.from_index == 3 && mid.to_index == 4
+			&& mid.cost == library.tier(4)->upgrade_cost,
+			"the VIP floor buys the second floor for exactly the ladder's price");
+
+		VenuePurchase last = library.buy_advance(4, 1000000);
+		expect(last.ok && last.to_index == 5,
+			"the casino is buyable - the ladder has an end");
+
+		VenuePurchase too_poor = library.buy_advance(1, second->upgrade_cost - 1);
+		expect(!too_poor.ok && too_poor.from_index == -1 && too_poor.to_index == -1
+			&& too_poor.cost == 0 && !too_poor.blocker.empty(),
+			"a treasury one unit short buys nothing and says why");
+
+		VenuePurchase top = library.buy_advance(5, 1000000);
+		expect(!top.ok && !top.blocker.empty(),
+			"the top of the ladder cannot be bought past");
+
+		VenuePurchase unknown = library.buy_advance(0, 1000000);
+		expect(!unknown.ok && !unknown.blocker.empty(),
+			"an unknown tier buys nothing");
+
+		VenuePurchase red = library.buy_advance(1, -100);
+		expect(!red.ok && !red.blocker.empty(),
+			"a wallet below zero cannot buy a rung either");
+	}
+
 	// --- cross-check: the ladder and the ending texts span the same tiers -----------
 	{
 		EndingLibrary endings;
