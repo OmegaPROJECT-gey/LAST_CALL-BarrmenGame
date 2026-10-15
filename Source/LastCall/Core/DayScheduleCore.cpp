@@ -21,7 +21,14 @@ namespace lc {
 			clock.save_requested = true;
 			if (new_day)
 			{
-				++clock.day;
+				// B1: hospital days are sat out here, in one boundary -
+				// the day the story resumes is what the night core
+				// promises (resume_day = died + hospital days); a stay
+				// of 0 keeps the ordinary single-day advance.
+				const int step =
+					clock.hospital_days_left > 0 ? clock.hospital_days_left : 1;
+				clock.hospital_days_left = 0;
+				clock.day += step;
 				clock.day_time_s = 0.0;
 			}
 			return transition;
@@ -39,6 +46,11 @@ namespace lc {
 			case Phase::Summary: return spec.summary_seconds;
 		}
 		return 0.0;
+	}
+
+	void admit_to_hospital(DayClock& clock, int days)
+	{
+		clock.hospital_days_left = days < 0 ? 0 : days;
 	}
 
 	PhaseTransition request_phase(DayClock& clock, Phase target)

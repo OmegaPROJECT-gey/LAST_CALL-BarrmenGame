@@ -44,7 +44,20 @@ namespace lc {
 		double day_time_s = 0.0;   // time since the day started (Morning)
 		bool save_requested = false; // set at every boundary; the save system
 		                             // (milestone F2) consumes and clears it
+		int hospital_days_left = 0; // hospital days the story sits out (B1):
+		                            // the next Summary -> Morning boundary
+		                            // jumps over them in one go
 	};
+
+	/**
+	 * The story lands in the hospital (GAME-DESIGN 4: death is
+	 * consequences - heat, standing, hospital days you sit out, then the
+	 * story resumes on a later day). Sets how many days the next
+	 * Summary -> Morning boundary skips: the clock lands on day + days,
+	 * exactly the resume day `NightCore::resume_day` promises for a
+	 * death today. 0 (or negative) leaves the ordinary one-day advance.
+	 */
+	void admit_to_hospital(DayClock& clock, int days);
 
 	struct PhaseTransition
 	{
@@ -65,6 +78,9 @@ namespace lc {
 
 	/** Advance one phase; Summary wraps into Morning of the next day. */
 	PhaseTransition advance_phase(DayClock& clock);
+
+	// Note: the wrap carries the hospital stay (admit_to_hospital above) -
+	// a timed Summary auto-advancing through tick lands the same way.
 
 	/**
 	 * Accumulate time. A timed phase auto-advances when its duration is
