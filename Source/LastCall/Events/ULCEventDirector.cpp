@@ -177,22 +177,9 @@ FString ULCEventDirector::RunMorning()
 	const ULCSaveSystem* Save = SaveSystem();
 	const int32 Day = Phases ? FMath::Max(Phases->GetDay(), 1) : 1;
 	const double Heat = Save ? FMath::Max(static_cast<double>(Save->GetHeat()), 0.0) : 0.0;
-	return TriggerMorning(StandingState, Heat, Day, Stream.FRand());
-}
-
-void ULCEventDirector::SetStanding(const TMap<FString, double>& InStanding)
-{
-	StandingState = InStanding;
-}
-
-void ULCEventDirector::SetStandingPoint(const FString& FactionId, double Value)
-{
-	StandingState.Add(FactionId, Value);
-}
-
-TMap<FString, double> ULCEventDirector::GetStanding() const
-{
-	return StandingState;
+	const TMap<FString, double> Standing = Save ? Save->GetStanding()
+		: TMap<FString, double>();
+	return TriggerMorning(Standing, Heat, Day, Stream.FRand());
 }
 
 FLCEventInfo ULCEventDirector::GetLastEvent() const

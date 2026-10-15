@@ -118,28 +118,14 @@ public:
 		double Roll);
 
 	/**
-	 * The phase-flow trigger: the day, heat and standing this director
-	 * already knows, rolled against the stream, broadcast on the
-	 * OnMorningEvent above. Bound to ULCPhaseManager's Morning below;
-	 * callable for a manual replay.
+	 * The phase-flow trigger: the day, heat and standing the engine
+	 * already knows (day from the clock, heat and standing from
+	 * ULCSaveSystem's interim state), rolled against the stream,
+	 * broadcast on the OnMorningEvent above. Bound to ULCPhaseManager's
+	 * Morning below; callable for a manual replay.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Events")
 	FString RunMorning();
-
-	/**
-	 * Where the standing comes from while there is no faction system
-	 * yet (interim state in the ULCSaveSystem sense: the owner binds
-	 * later and nothing here changes shape).
-	 */
-	UFUNCTION(BlueprintCallable, Category = "Events|Interim")
-	void SetStanding(const TMap<FString, double>& InStanding);
-
-	/** One faction's standing, for the reaction that just moved it. */
-	UFUNCTION(BlueprintCallable, Category = "Events|Interim")
-	void SetStandingPoint(const FString& FactionId, double Value);
-
-	UFUNCTION(BlueprintPure, Category = "Events|Interim")
-	TMap<FString, double> GetStanding() const;
 
 	/** What the last morning picked (invalid struct = nothing yet). */
 	UFUNCTION(BlueprintPure, Category = "Events")
@@ -165,13 +151,10 @@ private:
 	/** Subsystem the day clock lives in (lazily: init order is free). */
 	class ULCPhaseManager* PhaseManager() const;
 
-	/** Interim heat until the heat meter owns it (ULCSaveSystem). */
+	/** Interim heat and standing until their meters wrap them. */
 	class ULCSaveSystem* SaveSystem() const;
 
 	lc::EventLibrary Library;
-
-	/** Interim standing (see SetStanding). */
-	TMap<FString, double> StandingState;
 
 	/** The event the last morning picked, kept for the summary UI. */
 	FLCEventInfo LastEvent;

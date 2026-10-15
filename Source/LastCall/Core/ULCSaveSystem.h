@@ -7,9 +7,12 @@
 // at phase boundaries, when ULCPhaseManager asks (the core's
 // save_requested flag, consumed at the boundary).
 //
-// Money, heat and the venue tier live here as interim state until their
-// real owners (the wallet UI, the heat meter, the upgrade screen) wrap
-// their cores - the save format does not change when they bind.
+// Money, heat, the venue tier and the faction standing live here as
+// interim state until their real owners (the wallet UI, the heat
+// meter, the upgrade screen, the faction system) wrap their cores -
+// the save format does not change when they bind. Standing is A5's:
+// the ledger the city reacts with must survive a restart, or the
+// consequences did not stick (PHILOSOPHY 3.2/5).
 //
 // License: MIT (LICENSE).
 
@@ -95,10 +98,26 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Save|Interim")
 	int32 GetVenueTier() const;
 
+	/**
+	 * Faction standing ledger (A5) - written into the payload and read
+	 * back on load, so how you treated the city survives a restart.
+	 * Replaced wholesale when the faction system wraps SocialCore.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Save|Interim")
+	void SetStanding(const TMap<FString, double>& InStanding);
+
+	/** One faction's standing, for the reaction that just moved it. */
+	UFUNCTION(BlueprintCallable, Category = "Save|Interim")
+	void SetStandingPoint(const FString& FactionId, double Value);
+
+	UFUNCTION(BlueprintPure, Category = "Save|Interim")
+	TMap<FString, double> GetStanding() const;
+
 private:
 	int32 Money = 2000; // SaveState default: balance starting_money
 	float Heat = 0.0f;
 	int32 VenueTier = lc::kMinVenueTier; // SaveState default: the dive
+	TMap<FString, double> Standing;      // SaveState default: nobody remembered
 
 	/** Lazily fetched: subsystem init order between the two is not fixed. */
 	class ULCPhaseManager* PhaseManager() const;

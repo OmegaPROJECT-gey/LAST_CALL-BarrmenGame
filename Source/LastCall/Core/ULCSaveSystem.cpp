@@ -18,6 +18,21 @@ namespace
 		FTCHARToUTF8 Converter(*Text);
 		return std::string(Converter.Get(), Converter.Length());
 	}
+
+	/** The interim ledger in the shape the payload core writes. */
+	std::vector<std::pair<std::string, double>> StandingRows(
+		const TMap<FString, double>& Rows)
+	{
+		std::vector<std::pair<std::string, double>> Converted;
+		Converted.reserve(Rows.Num());
+		for (const TPair<FString, double>& Entry : Rows)
+		{
+			FTCHARToUTF8 Converter(*Entry.Key);
+			Converted.emplace_back(std::string(Converter.Get(), Converter.Length()),
+				Entry.Value);
+		}
+		return Converted;
+	}
 } // namespace
 
 void ULCSaveSystem::Initialize(FSubsystemCollectionBase& Collection)
@@ -62,6 +77,7 @@ bool ULCSaveSystem::WriteSave()
 	State.money = Money;
 	State.heat = static_cast<double>(Heat);
 	State.venue_tier = VenueTier;
+	State.standing = StandingRows(Standing);
 
 	ULCSaveGame* Save = Cast<ULCSaveGame>(
 		UGameplayStatics::CreateSaveGameObject(ULCSaveGame::StaticClass()));
@@ -108,6 +124,11 @@ bool ULCSaveSystem::LoadSave()
 	Money = State.money;
 	Heat = static_cast<float>(State.heat);
 	VenueTier = State.venue_tier;
+	Standing.Empty();
+	for (const std::pair<std::string, double>& Row : State.standing)
+	{
+		Standing.Add(FString(UTF8_TO_TCHAR(Row.first.c_str())), Row.second);
+	}
 
 	if (ULCPhaseManager* Clock = PhaseManager())
 	{
@@ -168,6 +189,21 @@ void ULCSaveSystem::SetVenueTier(int32 InVenueTier)
 int32 ULCSaveSystem::GetVenueTier() const
 {
 	return VenueTier;
+}
+
+void ULCSaveSystem::SetStanding(const TMap<FString, double>& InStanding)
+{
+	Standing = InStanding;
+}
+
+void ULCSaveSystem::SetStandingPoint(const FString& FactionId, double Value)
+{
+	Standing.Add(FactionId, Value);
+}
+
+TMap<FString, double> ULCSaveSystem::GetStanding() const
+{
+	return Standing;
 }
 
 ULCPhaseManager* ULCSaveSystem::PhaseManager() const

@@ -1,10 +1,11 @@
 // LAST CALL - save state core (ARCHITECTURE.md, section 9).
 //
 // What a save file actually contains: the day, the phase the clock is in,
-// money and heat. Written as a small versioned text block so it is
-// debuggable and testable without Unreal; ULCSaveSystem (milestone F2)
-// stores this payload in the engine's SaveGame slot and writes it only at
-// phase boundaries - the DayClock's save_requested flag.
+// money, heat and the faction standing the city remembers (A5). Written
+// as a small versioned text block so it is debuggable and testable
+// without Unreal; ULCSaveSystem (milestone F2) stores this payload in
+// the engine's SaveGame slot and writes it only at phase boundaries -
+// the DayClock's save_requested flag.
 //
 // One slot, day granularity, undo-free: consequences stick (PHILOSOPHY 3.2).
 //
@@ -13,6 +14,8 @@
 #pragma once
 
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "Core/DayScheduleCore.h"
 
@@ -21,7 +24,8 @@ namespace lc {
 	// Bump when the payload shape changes; older saves are refused, not
 	// silently migrated (a lost run is honest, a corrupted one is not).
 	// v2 adds venue_tier (D1: the growth ladder position).
-	constexpr int kSaveVersion = 2;
+	// v3 adds standing (A5: the faction ledger the city reacts with).
+	constexpr int kSaveVersion = 3;
 
 	// The growth ladder of Data/Venue/venue.json spans these bounds; the
 	// save test cross-checks kMaxVenueTier against the real file.
@@ -36,6 +40,9 @@ namespace lc {
 		int money = 2000;         // balance: starting_money; loans can push it below zero
 		double heat = 0.0;        // police attention, only grows
 		int venue_tier = kMinVenueTier; // growth ladder position (Data/Venue)
+		// Faction id -> standing, the ledger's rows; sorted by id on
+		// write, refused with duplicates or malformed ids on read.
+		std::vector<std::pair<std::string, double>> standing;
 	};
 
 	// Deterministic text payload ("lc-save <version>" header + key=value
