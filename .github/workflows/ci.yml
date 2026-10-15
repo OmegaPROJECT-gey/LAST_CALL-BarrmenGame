@@ -113,3 +113,6 @@ jobs:
 
       - name: Venue progression unit tests (ladder -> upgrade plan)
         run: ./scripts/test-venue.sh
+
+      - name: Co-op role unit tests (assignment -> job split)
+        run: ./scripts/test-coop.sh

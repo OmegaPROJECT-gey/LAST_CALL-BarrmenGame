@@ -1,0 +1,30 @@
+{
+	"$schema": "../schemas/coop.schema.json",
+	"players": { "min": 2, "max": 4 },
+	"roles": [
+		{
+			"id": "bartender",
+			"name": { "en": "Bartender", "ru": "Бармен" },
+			"job": { "en": "Pouring, combos, dialogue (the whole single-player loop)", "ru": "Наливание, комбо, диалоги (весь одиночный цикл)" },
+			"actions": ["pour", "combo", "dialogue"]
+		},
+		{
+			"id": "waiter",
+			"name": { "en": "Waiter", "ru": "Официант" },
+			"job": { "en": "Carrying, seating, clearing, relaying orders", "ru": "Носка, рассаживание, уборка, передача заказов" },
+			"actions": ["carry", "seat", "clear", "relay"]
+		},
+		{
+			"id": "bouncer",
+			"name": { "en": "Bouncer", "ru": "Вышибала" },
+			"job": { "en": "Door, threat, crowd control, night security", "ru": "Дверь, угроза, контроль толпы, ночная охрана" },
+			"actions": ["door", "threat", "crowd", "night_security"]
+		},
+		{
+			"id": "dj",
+			"name": { "en": "DJ", "ru": "Диджей" },
+			"job": { "en": "Music set, mood of the room, event cues", "ru": "Музыкальный сет, настроение зала, подсказки событий" },
+			"actions": ["music", "mood", "cue"]
+		}
+	]
+}

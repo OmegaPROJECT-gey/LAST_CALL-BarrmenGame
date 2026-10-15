@@ -1,0 +1,59 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "coop.schema.json",
+	"title": "LAST CALL co-op roles (2-4 players, GAME-DESIGN 5.5)",
+	"type": "object",
+	"required": ["players", "roles"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"players": {
+			"description": "Co-op bounds: GDD says 2-4, one role per player.",
+			"type": "object",
+			"required": ["min", "max"],
+			"additionalProperties": false,
+			"properties": {
+				"min": { "type": "integer", "minimum": 2 },
+				"max": { "type": "integer", "minimum": 2 }
+			}
+		},
+		"roles": {
+			"type": "array",
+			"minItems": 4,
+			"items": { "$ref": "#/$defs/role" }
+		}
+	},
+	"$defs": {
+		"id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+		"localized": {
+			"type": "object",
+			"required": ["en", "ru"],
+			"additionalProperties": false,
+			"properties": {
+				"en": { "type": "string", "minLength": 1 },
+				"ru": { "type": "string", "minLength": 1 }
+			}
+		},
+		"action": {
+			"description": "The job vocabulary of GDD 5.5 - what an input binding can be gated on.",
+			"enum": ["pour", "combo", "dialogue", "carry", "seat", "clear", "relay", "door", "threat", "crowd", "night_security", "music", "mood", "cue"]
+		},
+		"role": {
+			"type": "object",
+			"required": ["id", "name", "job", "actions"],
+			"additionalProperties": false,
+			"properties": {
+				"id": { "$ref": "#/$defs/id" },
+				"name": { "$ref": "#/$defs/localized" },
+				"job": { "$ref": "#/$defs/localized" },
+				"actions": {
+					"description": "What this role works - the job split the engine gates inputs on.",
+					"type": "array",
+					"minItems": 1,
+					"uniqueItems": true,
+					"items": { "$ref": "#/$defs/action" }
+				}
+			}
+		}
+	}
+}
