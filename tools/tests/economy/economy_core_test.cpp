@@ -192,6 +192,37 @@ int main()
 			"an empty wallet is refused with the shortfall named");
 	}
 
+	// --- the day's standing charges (GDD 5.4: wages are a sink) -------------
+	{
+		const lc::DayCostTuning costs;
+		expect_near(costs.stand_cost, lc_test::balance_number("daily_stand_cost"), 1e-9,
+			"stand cost synced with core.json");
+		expect_near(costs.wages, lc_test::balance_number("bar_staff_wages"), 1e-9,
+			"wages synced with core.json");
+
+		// 2000 (the starting treasury) - 200 - 350 = 1450 to shop with.
+		MorningLedger ledger(2000.0, tuning);
+		ledger.open_day(costs);
+		expect_near(ledger.money(), 1450.0, 1e-9,
+			"the charges land when the morning opens");
+		expect_near(ledger.spent(), 0.0, 1e-9,
+			"charges are not shopping - spent() stays stock-only");
+		const SupplierSpec* metro_spec = library.find("metro_wholesale");
+		expect(ledger.purchase(*metro_spec, "whiskey_rye", 18.0, 1, 1, &error),
+			"shopping against the charged wallet goes through");
+		expect(ledger.money() < 1450.0, "and the purchase spends what is left");
+
+		// A day that opens in the red: the loan the design allows.
+		MorningLedger red(300.0, tuning);
+		red.open_day(costs);
+		expect_near(red.money(), -250.0, 1e-9,
+			"the wallet may open in the red");
+		expect(!red.purchase(*metro_spec, "whiskey_rye", 18.0, 1, 1, &error)
+			&& error.find("wallet") != std::string::npos,
+			"and nothing is sold to a red wallet");
+		expect_near(red.money(), -250.0, 1e-9, "the refused sale changed nothing");
+	}
+
 	// --- strict refusals -------------------------------------------------------------------
 	expect(refuses("{}"), "missing suppliers refused");
 	expect(refuses("{\"suppliers\":{}}"), "empty suppliers refused");

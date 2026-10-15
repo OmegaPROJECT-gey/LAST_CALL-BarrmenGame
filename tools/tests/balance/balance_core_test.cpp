@@ -21,7 +21,8 @@ namespace
 		"\"summary_seconds\":2},"
 		"\"pour\":{\"flow_ml_per_s\":50,\"overflow_spill_threshold\":1.0,"
 		"\"flow_curve\":{\"min_angle_deg\":5,\"max_angle_deg\":60,\"viscosity_default\":1.0}},"
-		"\"economy\":{\"starting_money\":500},"
+		"\"economy\":{\"starting_money\":500,\"daily_stand_cost\":200,"
+		"\"bar_staff_wages\":350},"
 		"\"raid\":{\"distraction_threshold\":0.5,\"fail_heat\":2.0,"
 		"\"per_item_heat\":1.0,\"fail_fine\":25.0}}";
 
@@ -91,6 +92,18 @@ int main()
 			lc_test::balance_number("starting_money"), 1e-9,
 			"economy: starting money matches the raw file");
 
+		const lc::BalanceData costs;
+		expect(data.daily_stand_cost == costs.daily_stand_cost,
+			"economy: stand cost matches the code default");
+		expect(data.bar_staff_wages == costs.bar_staff_wages,
+			"economy: wages match the code default");
+		expect_near(static_cast<double>(data.daily_stand_cost),
+			lc_test::balance_number("daily_stand_cost"), 1e-9,
+			"economy: stand cost matches the raw file");
+		expect_near(static_cast<double>(data.bar_staff_wages),
+			lc_test::balance_number("bar_staff_wages"), 1e-9,
+			"economy: wages match the raw file");
+
 		const lc::RaidTuning raid;
 		expect_near(data.raid.distraction_threshold, raid.distraction_threshold, 1e-9,
 			"raid: distraction threshold matches the code default");
@@ -147,6 +160,10 @@ int main()
 			"a missing flow rate is refused");
 		expect(refused(variant("\"starting_money\":500", "")),
 			"a missing starting money is refused");
+		expect(refused(variant(",\"daily_stand_cost\":200", "")),
+			"a missing stand cost is refused");
+		expect(refused(variant(",\"bar_staff_wages\":350", "")),
+			"a missing wages line is refused");
 		expect(refused(variant("\"raid\":", "\"search\":")),
 			"a missing raid section is refused");
 
@@ -160,6 +177,12 @@ int main()
 			"negative starting money is refused");
 		expect(refused(variant("starting_money\":500", "starting_money\":\"lots\"")),
 			"a non-integer starting money is refused");
+		expect(refused(variant("daily_stand_cost\":200", "daily_stand_cost\":-1")),
+			"negative stand cost is refused");
+		expect(refused(variant("daily_stand_cost\":200", "daily_stand_cost\":\"lots\"")),
+			"a non-integer stand cost is refused");
+		expect(refused(variant("bar_staff_wages\":350", "bar_staff_wages\":-1")),
+			"negative wages are refused");
 		expect(refused(variant("distraction_threshold\":0.5",
 			"distraction_threshold\":1.5")),
 			"an unreachable distraction threshold is refused");

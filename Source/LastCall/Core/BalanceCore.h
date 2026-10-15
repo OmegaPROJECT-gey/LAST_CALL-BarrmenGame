@@ -28,11 +28,16 @@ namespace lc {
 		DayScheduleSpec phases;
 		PourTuning pour;
 		int starting_money = 2000; // economy.starting_money == SaveState default
+		// economy.*: the day's standing charges (GAME-DESIGN 5.4 money
+		// sinks, A3) - paid once when a new day opens; the wallet may go
+		// red, a run in the red is the loan the design allows.
+		int daily_stand_cost = 200; // the pitch, per day
+		int bar_staff_wages = 350;  // the staff, per day
 		RaidTuning raid;            // raid.*: the search's heat, fines and check
 	};
 
 	/**
-	 * Strict parse: `phases`, `pour`, `economy.starting_money` and
+	 * Strict parse: `phases`, `pour`, the three `economy.*` numbers and
 	 * `raid` must be present and sane - a balance file missing a
 	 * section is a broken install, not a license to run on silently
 	 * wrong numbers. Unknown sections are ignored (schema +

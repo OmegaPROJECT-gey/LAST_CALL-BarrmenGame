@@ -103,6 +103,24 @@ namespace lc {
 		{
 			return refuse(error, "`economy.starting_money` must be >= 0");
 		}
+		int daily_stand_cost = 0;
+		if (!economy->get_int("daily_stand_cost", daily_stand_cost))
+		{
+			return refuse(error, "`economy.daily_stand_cost` must be an integer");
+		}
+		if (daily_stand_cost < 0)
+		{
+			return refuse(error, "`economy.daily_stand_cost` must be >= 0");
+		}
+		int bar_staff_wages = 0;
+		if (!economy->get_int("bar_staff_wages", bar_staff_wages))
+		{
+			return refuse(error, "`economy.bar_staff_wages` must be an integer");
+		}
+		if (bar_staff_wages < 0)
+		{
+			return refuse(error, "`economy.bar_staff_wages` must be >= 0");
+		}
 
 		// --- raid: the search's check, heat and fines ---
 		const JsonValue* raid = doc.find("raid");
@@ -132,6 +150,8 @@ namespace lc {
 		out.phases = Spec;
 		out.pour = Tuning;
 		out.starting_money = starting_money;
+		out.daily_stand_cost = daily_stand_cost;
+		out.bar_staff_wages = bar_staff_wages;
 		out.raid = Raid;
 		return true;
 	}

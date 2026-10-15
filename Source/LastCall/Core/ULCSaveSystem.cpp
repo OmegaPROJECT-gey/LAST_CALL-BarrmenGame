@@ -41,8 +41,9 @@ void ULCSaveSystem::Initialize(FSubsystemCollectionBase& Collection)
 	Super::Initialize(Collection);
 
 	// Where a run starts comes from the balance file (economy.starting_
-	// money); a refusal keeps the compiled default, which the unit tests
-	// pin to the same file.
+	// money) and so do the day's standing charges (economy.daily_stand_
+	// cost, economy.bar_staff_wages - GDD 5.4); a refusal keeps the
+	// compiled defaults, which the unit tests pin to the same file.
 	lc::BalanceData Balance;
 	const FString BalancePath = FPaths::Combine(
 		FPaths::ProjectDir(), TEXT("Data"), TEXT("Balance"), TEXT("core.json"));
@@ -52,15 +53,40 @@ void ULCSaveSystem::Initialize(FSubsystemCollectionBase& Collection)
 		Balance, &BalanceError))
 	{
 		Money = Balance.starting_money;
+		DayStandCost = Balance.daily_stand_cost;
+		DayWages = Balance.bar_staff_wages;
 	}
 	else
 	{
-		UE_LOG(LogLastCall, Warning, TEXT("Balance refused (%s) - starting money stays %d"),
-			UTF8_TO_TCHAR(BalanceError.c_str()), Money);
+		UE_LOG(LogLastCall, Warning,
+			TEXT("Balance refused (%s) - starting money %d, day costs %d + %d"),
+			UTF8_TO_TCHAR(BalanceError.c_str()), Money, DayStandCost, DayWages);
+	}
+
+	// A3: the standing charges land when the day turns into a new one.
+	// The dependency is declared so the clock exists before this hook.
+	if (ULCPhaseManager* Clock = Collection.InitializeDependency<ULCPhaseManager>())
+	{
+		Clock->OnDayAdvanced.AddDynamic(this, &ULCSaveSystem::HandleDayAdvanced);
 	}
 
 	UE_LOG(LogLastCall, Verbose, TEXT("SaveSystem initialized (%s a slot, money %d)"),
 		HasSave() ? TEXT("with") : TEXT("without"), Money);
+}
+
+void ULCSaveSystem::HandleDayAdvanced(int32 NewDay)
+{
+	// Interim: the morning screen owns the ledger when it lands (A3);
+	// until then the sink bites here so wages and the stand are real.
+	const int32 Charge = DayStandCost + DayWages;
+	if (Charge <= 0)
+	{
+		return;
+	}
+	Money -= Charge;
+	UE_LOG(LogLastCall, Log,
+		TEXT("Day %d opened: stand cost + wages = -%d, money %d"),
+		NewDay, Charge, Money);
 }
 
 bool ULCSaveSystem::WriteSave()

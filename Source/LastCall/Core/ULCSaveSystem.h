@@ -119,6 +119,16 @@ private:
 	int32 VenueTier = lc::kMinVenueTier; // SaveState default: the dive
 	TMap<FString, double> Standing;      // SaveState default: nobody remembered
 
+	// A3: the day's standing charges (balance "economy"), paid once when
+	// a new day opens; the wallet may go red - a run in the red is the
+	// loan. Interim here until the morning screen owns the ledger.
+	int32 DayStandCost = 200;
+	int32 DayWages = 350;
+
+	/** Morning opens: charge stand cost + wages into the wallet. */
+	UFUNCTION()
+	void HandleDayAdvanced(int32 NewDay);
+
 	/** Lazily fetched: subsystem init order between the two is not fixed. */
 	class ULCPhaseManager* PhaseManager() const;
 

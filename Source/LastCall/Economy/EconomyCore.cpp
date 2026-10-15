@@ -200,6 +200,13 @@ namespace lc {
 	{
 	}
 
+	void MorningLedger::open_day(const DayCostTuning& costs)
+	{
+		// One charge per morning, before the shopping decisions; no
+		// refusal here by design - the sinks bite (GDD 5.4).
+		money_ -= costs.stand_cost + costs.wages;
+	}
+
 	int MorningLedger::stock_used(const std::string& supplier_id) const
 	{
 		for (const auto& entry : stock_)
