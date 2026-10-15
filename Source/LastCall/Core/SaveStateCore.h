@@ -2,9 +2,10 @@
 //
 // What a save file actually contains: the day, the phase the clock is in,
 // money, heat, the faction standing the city remembers (A5), the
-// hospital stay the story sits out (B1) and the story flags the
-// dialogues recorded (C2 - consequences stick, PHILOSOPHY 3.2). Written
-// as a small versioned text block so it is debuggable and testable
+// hospital stay the story sits out (B1), the story flags the
+// dialogues recorded (C2 - consequences stick, PHILOSOPHY 3.2) and
+// the bar upgrades the morning bought (A3). Written as a small
+// versioned text block so it is debuggable and testable
 // without Unreal; ULCSaveSystem (milestone F2) stores this payload in
 // the engine's SaveGame slot and writes it only at phase boundaries -
 // the DayClock's save_requested flag.
@@ -29,7 +30,8 @@ namespace lc {
 	// v3 adds standing (A5: the faction ledger the city reacts with).
 	// v4 adds hospital_days (B1: the stay the story sits out survives).
 	// v5 adds flags (C2: the dialogue consequences survive a save).
-	constexpr int kSaveVersion = 5;
+	// v6 adds upgrades (A3: the bought bar upgrades survive a save).
+	constexpr int kSaveVersion = 6;
 
 	// The growth ladder of Data/Venue/venue.json spans these bounds; the
 	// save test cross-checks kMaxVenueTier against the real file.
@@ -55,6 +57,10 @@ namespace lc {
 		// sorted by id on write, refused with duplicates or malformed
 		// ids on read - the conditions read this after a load.
 		std::vector<std::pair<std::string, bool>> flags;
+		// Bar upgrade ids the morning bought (A3); sorted by id on
+		// write, refused with duplicates or malformed ids on read -
+		// buy_upgrade() refuses these, so the shop stays one-time.
+		std::vector<std::string> upgrades;
 	};
 
 	// Deterministic text payload ("lc-save <version>" header + key=value

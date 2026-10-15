@@ -113,11 +113,24 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Save|Interim")
 	TMap<FString, double> GetStanding() const;
 
+	/**
+	 * The bar upgrades the morning bought (A3) - ids written into the
+	 * payload so the shop stays one-time across a restart. Refuses ids
+	 * outside `[a-z0-9_]` (the payload's own rule): a bad id would make
+	 * the next load refuse the run.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Save|Interim")
+	void AddPurchasedUpgrade(const FString& UpgradeId);
+
+	UFUNCTION(BlueprintPure, Category = "Save|Interim")
+	TArray<FString> GetPurchasedUpgrades() const;
+
 private:
 	int32 Money = 2000; // SaveState default: balance starting_money
 	float Heat = 0.0f;
 	int32 VenueTier = lc::kMinVenueTier; // SaveState default: the dive
 	TMap<FString, double> Standing;      // SaveState default: nobody remembered
+	TArray<FString> PurchasedUpgrades;   // SaveState default: nothing bought yet
 
 	// A3: the day's standing charges (balance "economy"), paid once when
 	// a new day opens; the wallet may go red - a run in the red is the

@@ -25,6 +25,7 @@ namespace lc {
 			bool has_hospital = false;
 			bool has_standing = false;
 			bool has_flags = false;
+			bool has_upgrades = false;
 			int day = 1;
 			int phase = 0;
 			int money = 0;
@@ -33,6 +34,7 @@ namespace lc {
 			int hospital_days = 0;
 			std::vector<std::pair<std::string, double>> standing;
 			std::vector<std::pair<std::string, bool>> flags;
+			std::vector<std::string> upgrades;
 		};
 
 		// strtol/strtod instead of std::stoi/std::stod: the Game target
@@ -188,6 +190,43 @@ namespace lc {
 			return true;
 		}
 
+		// `upgrades=` -> ids; "" is a run that bought nothing yet.
+		// Refuses a malformed id and a duplicate.
+		bool parse_id_list(const std::string& text, std::vector<std::string>& out)
+		{
+			if (text.empty())
+			{
+				return true;
+			}
+			std::vector<std::string> rows;
+			std::size_t at = 0;
+			while (at <= text.size())
+			{
+				const std::size_t comma = text.find(',', at);
+				std::string id =
+					text.substr(at, comma == std::string::npos ? std::string::npos : comma - at);
+				if (id.empty() || !is_id(id))
+				{
+					return false;
+				}
+				for (const std::string& previous : rows)
+				{
+					if (previous == id)
+					{
+						return false;
+					}
+				}
+				rows.push_back(std::move(id));
+				if (comma == std::string::npos)
+				{
+					break;
+				}
+				at = comma + 1;
+			}
+			out = std::move(rows);
+			return true;
+		}
+
 	} // namespace
 
 	std::string serialize(const SaveState& state)
@@ -202,6 +241,9 @@ namespace lc {
 		std::sort(flags.begin(), flags.end(),
 			[](const std::pair<std::string, bool>& a,
 				const std::pair<std::string, bool>& b) { return a.first < b.first; });
+		// Sorted by upgrade id: same bar -> same bytes.
+		std::vector<std::string> upgrades = state.upgrades;
+		std::sort(upgrades.begin(), upgrades.end());
 
 		std::ostringstream out;
 		out << kHeaderPrefix << kSaveVersion << '\n';
@@ -228,6 +270,15 @@ namespace lc {
 				out << ',';
 			}
 			out << flags[index].first << ':' << (flags[index].second ? "true" : "false");
+		}
+		out << '\n' << "upgrades=";
+		for (std::size_t index = 0; index < upgrades.size(); ++index)
+		{
+			if (index > 0)
+			{
+				out << ',';
+			}
+			out << upgrades[index];
 		}
 		return out.str();
 	}
@@ -309,6 +360,12 @@ namespace lc {
 					|| !parse_flags(value, fields.flags)) { return false; }
 				fields.has_flags = true;
 			}
+			else if (key == "upgrades")
+			{
+				if (fields.has_upgrades
+					|| !parse_id_list(value, fields.upgrades)) { return false; }
+				fields.has_upgrades = true;
+			}
 			else
 			{
 				return false; // unknown field: same version must mean the same shape
@@ -318,7 +375,7 @@ namespace lc {
 		if (!fields.has_day || !fields.has_phase || !fields.has_money
 			|| !fields.has_heat || !fields.has_venue_tier
 			|| !fields.has_hospital || !fields.has_standing
-			|| !fields.has_flags)
+			|| !fields.has_flags || !fields.has_upgrades)
 		{
 			return false; // missing fields
 		}
@@ -339,6 +396,7 @@ namespace lc {
 		result.hospital_days = fields.hospital_days;
 		result.standing = std::move(fields.standing);
 		result.flags = std::move(fields.flags);
+		result.upgrades = std::move(fields.upgrades);
 		out = result;
 		return true;
 	}

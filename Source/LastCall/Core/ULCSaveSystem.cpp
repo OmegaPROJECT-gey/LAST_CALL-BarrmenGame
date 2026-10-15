@@ -34,6 +34,18 @@ namespace
 		}
 		return Converted;
 	}
+
+	std::vector<std::string> IdRows(const TArray<FString>& Rows)
+	{
+		std::vector<std::string> Converted;
+		Converted.reserve(static_cast<std::size_t>(Rows.Num()));
+		for (const FString& Id : Rows)
+		{
+			FTCHARToUTF8 Converter(*Id);
+			Converted.emplace_back(Converter.Get(), Converter.Length());
+		}
+		return Converted;
+	}
 } // namespace
 
 void ULCSaveSystem::Initialize(FSubsystemCollectionBase& Collection)
@@ -115,6 +127,7 @@ bool ULCSaveSystem::WriteSave()
 		UE_LOG(LogLastCall, Warning,
 			TEXT("WriteSave: no dialogue runner - story flags written empty"));
 	}
+	State.upgrades = IdRows(PurchasedUpgrades); // A3: bought once, kept forever
 
 	ULCSaveGame* Save = Cast<ULCSaveGame>(
 		UGameplayStatics::CreateSaveGameObject(ULCSaveGame::StaticClass()));
@@ -174,6 +187,11 @@ bool ULCSaveSystem::LoadSave()
 	{
 		UE_LOG(LogLastCall, Warning,
 			TEXT("LoadSave: no dialogue runner - story flags not applied"));
+	}
+	PurchasedUpgrades.Empty(); // A3: ids already passed the strict parse
+	for (const std::string& Id : State.upgrades)
+	{
+		PurchasedUpgrades.Add(FString(UTF8_TO_TCHAR(Id.c_str())));
 	}
 
 	if (ULCPhaseManager* Clock = PhaseManager())
@@ -251,6 +269,34 @@ void ULCSaveSystem::SetStandingPoint(const FString& FactionId, double Value)
 TMap<FString, double> ULCSaveSystem::GetStanding() const
 {
 	return Standing;
+}
+
+void ULCSaveSystem::AddPurchasedUpgrade(const FString& UpgradeId)
+{
+	// The payload refuses malformed ids on load; refuse them here too so
+	// a stray Blueprint call cannot poison the next save.
+	if (UpgradeId.IsEmpty() || PurchasedUpgrades.Contains(UpgradeId))
+	{
+		return;
+	}
+	for (const TCHAR Character : UpgradeId)
+	{
+		const bool Lower = Character >= TEXT('a') && Character <= TEXT('z');
+		const bool Digit = Character >= TEXT('0') && Character <= TEXT('9');
+		if (!Lower && !Digit && Character != TEXT('_'))
+		{
+			UE_LOG(LogLastCall, Warning,
+				TEXT("AddPurchasedUpgrade refused: '%s' is not a payload id"),
+				*UpgradeId);
+			return;
+		}
+	}
+	PurchasedUpgrades.Add(UpgradeId);
+}
+
+TArray<FString> ULCSaveSystem::GetPurchasedUpgrades() const
+{
+	return PurchasedUpgrades;
 }
 
 ULCPhaseManager* ULCSaveSystem::PhaseManager() const
