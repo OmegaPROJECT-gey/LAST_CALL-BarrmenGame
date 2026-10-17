@@ -60,6 +60,7 @@ Phase transitions are **the only loading points** in the game (see PHILOSOPHY §
 | Crafting | `ULCInfusionSystem` | Player-created syrups/infusions as new data rows |
 | Customers | `ULCCustomerComponent` | Mood, patience, order, body-language tells |
 | Dialogue | `ULCDialogueRunner` | Data-driven trees, conditions, eavesdrop flags |
+| Localization | `ULCLocalizationSystem` | EN/RU lookup over `Data/Localization`; system-culture default, player switch |
 | Factions | `ULCFactionSystem` | Standing with the three gangs + police heat |
 | Skills | `ULCSkillTree` | Flair, Psychology, Steady hands, Alchemy |
 | Threat / sixth sense | `ULCThreatSensor` | Aggression scoring, "who is here to kill whom" |
