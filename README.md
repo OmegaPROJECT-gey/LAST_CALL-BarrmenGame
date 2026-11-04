@@ -1,6 +1,6 @@
 <div align="center">
 
-# LAST CALL
+# LAST CALL                The project has been abandoned, possibly temporarily.
 
 **A story-driven bar-management sim with action and RPG elements.** You are Alex, a bartender who inherited an old bar in the center of a metropolis — neutral territory for three criminal gangs and a secret communication hub.
 
